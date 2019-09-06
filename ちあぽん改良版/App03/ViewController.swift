@@ -34,7 +34,7 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
         TimerLabel2.text = displayStr
     }
     
-    var mmc = myNotificationClass()
+    var mnc = myNotificationClass()
     var mtcc = myTimeCalculationClass()
     
     var MorningComments: [String] = ["早起きは三文の徳だよ！ちあぽんもあなたの為に早起きしたよ！！","今日は朝から体を動かしてみたらどうかな？","まだ眠い？ちあぽんも眠たいよ〜ちあぽんのこと起こしに来て〜🛌","寒くて朝起きるの大変だけど、今日も1日頑張ろう！","スマホを使わない1日を作ってみない〜？"]
@@ -73,48 +73,119 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
     @objc func update3() {
         countNum3 += 1
         
-        //ここから定時バッジ
+        //テスト用
+        //print(mtcc.getNowDate())
+        //print(mtcc.getNowTime())
+        //if(mtcc.getNowTime()=="144600"){
+        //    print("now")
+        //}else{
+        //    print("bad")
+        //}
+        //ここから定時処理
         
         //7:00
         if(mtcc.isMorning() == true){
+            //バッジ表示
             UIApplication.shared.applicationIconBadgeNumber = 1
+            //通知メッセージのセット
+            let message = (Int)(arc4random_uniform(5))
+            mnc.title = NSString.localizedUserNotificationString(forKey: "今日もちあぽんを開いてね！", arguments: nil)
+            mnc.body = NSString.localizedUserNotificationString(forKey: MorningComments[message], arguments: nil)
+            mnc.sendMessage()
+        }
+        
+        //8:00
+        if(mtcc.getNowTime() == "080000"){
+            //バッジ表示
+            UIApplication.shared.applicationIconBadgeNumber = 1
+            //通知メッセージのセット
+            let message = (Int)(arc4random_uniform(5))
+            mnc.title = NSString.localizedUserNotificationString(forKey: "おはよう☀️今日も1日頑張ろう！", arguments: nil)
+            mnc.body = NSString.localizedUserNotificationString(forKey: Morning2Comments[message], arguments: nil)
+            mnc.sendMessage()
         }
         
         //正午
         if(mtcc.isNoon() == true){
+            //バッジ表示
             UIApplication.shared.applicationIconBadgeNumber = 1
+            //通知メッセージのセット
+            let message = (Int)(arc4random_uniform(5))
+            mnc.title = NSString.localizedUserNotificationString(forKey: "お昼の時間だね🕛", arguments: nil)
+            mnc.body = NSString.localizedUserNotificationString(forKey: NoonComments[message], arguments: nil)
+            mnc.sendMessage()
+        }
+        
+        //15:00
+        if(mtcc.getNowTime() == "150000"){
+            //バッジ表示
+            UIApplication.shared.applicationIconBadgeNumber = 1
+            //通知メッセージのセット
+            let message = (Int)(arc4random_uniform(5))
+            mnc.title = NSString.localizedUserNotificationString(forKey: "おやつの時間だ🍩", arguments: nil)
+            mnc.body = NSString.localizedUserNotificationString(forKey: OyatuComments[message], arguments: nil)
+            mnc.sendMessage()
         }
         
         //18:48
         if(mtcc.isAfterNoon() == true){
+            //バッジ表示
             UIApplication.shared.applicationIconBadgeNumber = 1
+            //通知メッセージのセット
+            let message = (Int)(arc4random_uniform(5))
+            mnc.title = NSString.localizedUserNotificationString(forKey: "もうこんな時間💦", arguments: nil)
+            mnc.body = NSString.localizedUserNotificationString(forKey: AfterNoonComments[message], arguments: nil)
+            mnc.sendMessage()
+        }
+        
+        //22:00
+        if(mtcc.getNowTime() == "220000"){
+            //バッジ表示
+            UIApplication.shared.applicationIconBadgeNumber = 1
+            //通知メッセージのセット
+            //let message = (Int)(arc4random_uniform(5))
+            mnc.title = NSString.localizedUserNotificationString(forKey: "22時になったね🌙", arguments: nil)
+            mnc.body = NSString.localizedUserNotificationString(forKey: "0時に今日の使用状況がリセットされちゃうからチェックしてみてね〜😆", arguments: nil)
+            mnc.sendMessage()
         }
         
         //23:50
         if(mtcc.isMidNight() == true){
+            //バッジ表示
             UIApplication.shared.applicationIconBadgeNumber = 1
+            //通知メッセージのセット
+            let message = (Int)(arc4random_uniform(5))
+            mnc.title = NSString.localizedUserNotificationString(forKey: "0時で使用状況をリセットするよ！", arguments: nil)
+            mnc.body = NSString.localizedUserNotificationString(forKey: MidNightComments[message], arguments: nil)
+            mnc.sendMessage()
         }
         
         
         //00:00 定時リセット
         if(mtcc.isMidNight2() == true){
+            mtcc.oncounter = 0
+            countNum2 = 0
+            countNum02 = 0
                 
-                mtcc.oncounter = 0
-                countNum2 = 0
-                countNum02 = 0
+            startTime = Date().timeIntervalSince1970
+            elapsedTime = 0
                 
-                startTime = Date().timeIntervalSince1970
-                elapsedTime = 0
+            let s3 = countNum02 % 60
+            let m3 = (countNum02 % 3600) / 60
+            let h3 =  countNum02 / 3600
                 
-                let s3 = countNum02 % 60
-                let m3 = (countNum02 % 3600) / 60
-                let h3 =  countNum02 / 3600
+            time2 = Date().timeIntervalSince1970 - startTime + elapsedTime
                 
-                time2 = Date().timeIntervalSince1970 - startTime + elapsedTime
-                
-                let displayStr = NSString(format: "%02d時間%02d分%02d秒", h3,m3,s3 ) as String
-                TimerLabel2.text = displayStr
-            }
+            let displayStr = NSString(format: "%02d時間%02d分%02d秒", h3,m3,s3 ) as String
+            TimerLabel2.text = displayStr
+            
+            //メッセージ通知
+            //通知メッセージのセット
+            //let message = (Int)(arc4random_uniform(5))
+            mnc.title = NSString.localizedUserNotificationString(forKey: "0時になったよ", arguments: nil)
+            mnc.body = NSString.localizedUserNotificationString(forKey: "使用状況がリセットされたよ。スマホの画面を開き直して、ちあぽんで確認してね😴", arguments: nil)
+            mnc.sendMessage()
+        }
         
     }
     
@@ -148,9 +219,9 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
         //30分連続使用通知
         if(countNum2 % 1800 == 0){
             
-            mmc.title = "\((countNum2 / 60))分間使ってるよ！"
-            mmc.body = "そんなに使ったら電池減っちゃうよ😣使わないように頑張って！"
-            mmc.sendMessage()
+            mnc.title = "\((countNum2 / 60))分間使ってるよ！"
+            mnc.body = "そんなに使ったら電池減っちゃうよ😣使わないように頑張って！"
+            mnc.sendMessage()
             
         }
         
@@ -208,7 +279,7 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
         
         
         //ここから定時OS通知
-        
+        /*
         //7:00
         //通知内容の設定
         let morning = UNMutableNotificationContent()
@@ -469,7 +540,7 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
             // サウンドを再生。
             completionHandler(UNNotificationPresentationOptions.sound)
         }
-        
+        */
         
 
         //タスクキル後のタイマー誤作動防止用
@@ -626,24 +697,24 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
                 
                 if(mtcc.oncounter % 5 == 0)&&(mtcc.oncounter != 0){
                     let random10 = (Int)(arc4random_uniform(5))
-                    mmc.title = "今日は\(mtcc.oncounter)回開いてるよ😵"
-                    mmc.body = CounterComments[random10]
-                    mmc.sendMessage()
+                    mnc.title = "今日は\(mtcc.oncounter)回開いてるよ😵"
+                    mnc.body = CounterComments[random10]
+                    mnc.sendMessage()
                     
                 }else{
                     //22時〜24時通知
                     if(mtcc.isJuujiTime() == true)&&(mtcc.oncounter % 3 == 0){
                         let random = (Int)(arc4random_uniform(5))
-                        mmc.title = "おつかれさま🍵"
-                        mmc.body = JuujiComments[random]
-                        mmc.sendMessage()
+                        mnc.title = "おつかれさま🍵"
+                        mnc.body = JuujiComments[random]
+                        mnc.sendMessage()
                     }
                     //0時〜4時
                     if(mtcc.isNightTime() == true)&&(mtcc.oncounter % 3 == 0){
                         let random = (Int)(arc4random_uniform(5))
-                        mmc.title = "日にちが変わっちゃったよ！"
-                        mmc.body = NightTimeComments[random]
-                        mmc.sendMessage()
+                        mnc.title = "日にちが変わっちゃったよ！"
+                        mnc.body = NightTimeComments[random]
+                        mnc.sendMessage()
                     }
                 }
                 

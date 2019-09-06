@@ -74,10 +74,18 @@ class myTimeCalculationClass {
     
     
     //現在時刻
-    func getNowTime() -> String {
+    func getNowDate() -> String {
         nowtime = Date()
         //let nowseconds = nowtime.timeIntervalSince1970
         let nowtimestring = formatDate(seconds: nowtime) //現在時刻を文字列に直す
+        return nowtimestring
+    }
+    
+    //現在時刻(時間だけ)
+    func getNowTime() -> String {
+        nowtime = Date()
+        //let nowseconds = nowtime.timeIntervalSince1970
+        let nowtimestring = formatTime(seconds: nowtime) //現在時刻を文字列に直す
         return nowtimestring
     }
     
@@ -235,6 +243,16 @@ class myTimeCalculationClass {
         //フォーマット形式を設定
         let format = DateFormatter()
         format.dateFormat = "yyyy/MM/dd HH:mm:ss"
+        //引数secondsをフォーマットして戻す
+        return format.string(from: seconds)
+    }
+    
+    func formatTime(seconds: Date) -> String{
+        //フォーマット形式を設定
+        let format = DateFormatter()
+        //format.dateStyle = .none
+        //format.timeStyle = .medium
+        format.dateFormat = "HHmmss"
         //引数secondsをフォーマットして戻す
         return format.string(from: seconds)
     }
