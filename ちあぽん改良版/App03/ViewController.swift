@@ -70,9 +70,9 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
     // 1秒ごとに呼び出される処理 現在の時刻との比較
     //ライトが消えてもずっと動いてる方
     @objc func update_always() {
-        print(mtcc.getNowTime())    //現在時刻の表示（デバッグよう）
+        //print(mtcc.getNowTime())    //現在時刻の表示（デバッグよう）
 
-
+       
         //ここから定時処理
         
         //7:00
@@ -186,7 +186,7 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
     @objc func update_lighton() {
         counter_lighton += 1
         //test
-        print("counter_lighton: \(counter_lighton)")
+        //print("counter_lighton: \(counter_lighton)")
         // (現在の時刻 - Startボタンを押した時刻) + Stopボタンを押した時点で経過していた時刻
         total_time = Date().timeIntervalSince1970 - start_time + elapsed_time
         
