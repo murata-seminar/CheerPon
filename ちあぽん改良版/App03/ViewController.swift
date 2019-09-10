@@ -442,5 +442,4 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
         }
     }
     /* ここまで */
-    
 }
