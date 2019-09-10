@@ -64,7 +64,7 @@ class myTimeCalculationClass {
             offcounter = 0     //使ってない
             lightontimeseconds = 0      //使ってない
             lightofftimeseconds = 0     //使ってない
-            elapsedTime = 0     //累積時間
+            elapsed_time = 0     //累積時間
             
             //基準時刻を更新する
             standardtime = getStandardTime(sdate: now)

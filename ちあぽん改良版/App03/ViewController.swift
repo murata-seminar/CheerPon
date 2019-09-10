@@ -11,32 +11,18 @@ import UIKit
 import UserNotifications
 import CoreLocation
 
-var elapsedTime: Double = 0        // Stopボタンした時点で経過していた時間
+var elapsed_time: Double = 0        // Stopボタンした時点で経過していた時間
 
 class ViewController: UIViewController, CLLocationManagerDelegate {
     
     @IBOutlet weak var resetButton: UIButton!
-    @IBAction func tapReset(_ sender: Any) {
-        mtcc.oncounter = 0
-        countNum2 = 0
-        countNum02 = 0
-        
-        startTime = Date().timeIntervalSince1970
-        elapsedTime = 0
-        
-        let s3 = countNum02 % 60
-        let m3 = (countNum02 % 3600) / 60
-        let h3 =  countNum02 / 3600
-        
-        time2 = Date().timeIntervalSince1970 - startTime + elapsedTime
-        
-        let displayStr = NSString(format: "%02d時間%02d分%02d秒", h3,m3,s3 ) as String
-        TimerLabel2.text = displayStr
-    }
-    
+
+    //通知処理用
     var mnc = myNotificationClass()
+    //時刻処理用
     var mtcc = myTimeCalculationClass()
     
+    //ちあぽんのセリフ
     var MorningComments: [String] = ["早起きは三文の徳だよ！ちあぽんもあなたの為に早起きしたよ！！","今日は朝から体を動かしてみたらどうかな？","まだ眠い？ちあぽんも眠たいよ〜ちあぽんのこと起こしに来て〜🛌","寒くて朝起きるの大変だけど、今日も1日頑張ろう！","スマホを使わない1日を作ってみない〜？"]
     var Morning2Comments: [String] = ["スマホを使いすぎないように、ちあぽんが応援してるよ！","ちあぽんがスマホの使いすぎの抑制のお手伝いをするよ😊","ちあぽんを開いてから今日も1日スタートさせよう！","今日も1日頑張って！たまにはちあぽんに会いに来てね🎀","ちあぽんに会いに来たらスマホをどれだけ使っているかわかるよ！"]
     var NoonComments: [String] = ["午前中スマホ使いすぎてない〜？","午後もスマホ使いすぎないように頑張ってね！","今日の昼食は何かな？スマホを離れてゆっくり食べてね🍽","家族や友達とコミュニケーションしながらお昼を楽しんでね！","お昼の時はスマホを見ないようにしよう🍳"]
@@ -49,38 +35,44 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
     var CounterComments: [String] = ["また開いちゃった❓使わないように気をつけよう☺️","こんなに呼ばれてちあぽんびっくり！","スマホの使い過ぎを減らすには、まず開く回数から減らしてみよう🐾","スマホ開いてるのちあぽん見てるよ👀","スマホを使う前に、先に他のことしておこう🚗"]
     
     
-    //    var timerRunning = false //これはタイマーが動いているかどうかのフラグ？
-    //    var timer = Timer()
-    var timer2 = Timer()                 // Timerクラス ライトが消えると止まるタイマー
-    var startTime: TimeInterval = 0     // Startした時刻
-    //var elapsedTime: Double = 0        // Stopボタンした時点で経過していた時間
-    var time2 : Double = 0             // ラベルに表示する時間
-    var timer3 = Timer()            //ライトが消えてもずっと動いてるタイマー
+    var timer_lighton = Timer()                 // Timerクラス ライトが消えると止まるタイマー
+    var start_time: TimeInterval = 0     // Startした時刻
+    var total_time : Double = 0             // ラベルに表示する時間
+    var timer_always = Timer()            //ライトが消えてもずっと動いてるタイマー
     
     @IBOutlet var TimerLabel2: UILabel!
     @IBOutlet weak var CountLabel: UILabel!
     
     
-    //var countNum = 0    //ここにタイマーの値を保存
-    var countNum2 = 0
-    var countNum3 = 0
-    var countNum02 = 0
+    var counter_lighton = 0 //画面点灯時間の計測用
+    var time_display = 0    //画面に表示する時間の一時置き
     
     var userDefaults = UserDefaults.standard //データ保存用のuserDefaults
     
+    @IBAction func tapReset(_ sender: Any) {
+        mtcc.oncounter = 0
+        counter_lighton = 0
+        time_display = 0
+        
+        start_time = Date().timeIntervalSince1970
+        elapsed_time = 0
+        
+        let s3 = time_display % 60
+        let m3 = (time_display % 3600) / 60
+        let h3 =  time_display / 3600
+        
+        total_time = Date().timeIntervalSince1970 - start_time + elapsed_time
+        
+        let displayStr = NSString(format: "%02d時間%02d分%02d秒", h3,m3,s3 ) as String
+        TimerLabel2.text = displayStr
+    }
+    
     // 1秒ごとに呼び出される処理 現在の時刻との比較
     //ライトが消えてもずっと動いてる方
-    @objc func update3() {
-        countNum3 += 1
-        
-        //テスト用
-        //print(mtcc.getNowDate())
-        //print(mtcc.getNowTime())
-        //if(mtcc.getNowTime()=="144600"){
-        //    print("now")
-        //}else{
-        //    print("bad")
-        //}
+    @objc func update_always() {
+        print(mtcc.getNowTime())    //現在時刻の表示（デバッグよう）
+
+
         //ここから定時処理
         
         //7:00
@@ -164,17 +156,17 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
         //00:00 定時リセット
         if(mtcc.isMidNight2() == true){
             mtcc.oncounter = 0
-            countNum2 = 0
-            countNum02 = 0
+            counter_lighton = 0
+            time_display = 0
                 
-            startTime = Date().timeIntervalSince1970
-            elapsedTime = 0
+            start_time = Date().timeIntervalSince1970
+            elapsed_time = 0
                 
-            let s3 = countNum02 % 60
-            let m3 = (countNum02 % 3600) / 60
-            let h3 =  countNum02 / 3600
+            let s3 = time_display % 60
+            let m3 = (time_display % 3600) / 60
+            let h3 =  time_display / 3600
                 
-            time2 = Date().timeIntervalSince1970 - startTime + elapsedTime
+            total_time = Date().timeIntervalSince1970 - start_time + elapsed_time
                 
             let displayStr = NSString(format: "%02d時間%02d分%02d秒", h3,m3,s3 ) as String
             TimerLabel2.text = displayStr
@@ -191,18 +183,19 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
     
     // 1秒ごとに呼び出される処理 累積表示は現在時刻との比較
     //ライトが消えると止まる方
-    @objc func update2() {
-        countNum2 += 1
-        
+    @objc func update_lighton() {
+        counter_lighton += 1
+        //test
+        print("counter_lighton: \(counter_lighton)")
         // (現在の時刻 - Startボタンを押した時刻) + Stopボタンを押した時点で経過していた時刻
-        time2 = Date().timeIntervalSince1970 - startTime + elapsedTime
+        total_time = Date().timeIntervalSince1970 - start_time + elapsed_time
         
         userDefaults.set(Date().timeIntervalSince1970, forKey: "interval")
-        userDefaults.set(startTime, forKey: "starttime")
-        userDefaults.set(elapsedTime, forKey: "elapsedtime")
+        userDefaults.set(start_time, forKey: "starttime")
+        userDefaults.set(elapsed_time, forKey: "elapsedtime")
         
         
-        let countNum02 = Int(time2)
+        let countNum02 = Int(total_time)
         let s2 = countNum02 % 60
         let m2 = (countNum02 % 3600) / 60
         let h2 =  countNum02 / 3600
@@ -213,13 +206,13 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
         CountLabel.text = String(mtcc.oncounter) + "回"
         
         
-        userDefaults.set(countNum2, forKey: "KeyName2")
+        userDefaults.set(counter_lighton, forKey: "KeyName2")
         userDefaults.set(mtcc.oncounter, forKey: "KeyName3")
         
         //30分連続使用通知
-        if(countNum2 % 1800 == 0){
+        if(counter_lighton % 1800 == 0){
             
-            mnc.title = "\((countNum2 / 60))分間使ってるよ！"
+            mnc.title = "\((counter_lighton / 60))分間使ってるよ！"
             mnc.body = "そんなに使ったら電池減っちゃうよ😣使わないように頑張って！"
             mnc.sendMessage()
             
@@ -267,289 +260,24 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
         
         //startTimer()
         
-        startTime = Date().timeIntervalSince1970
+        start_time = Date().timeIntervalSince1970
         
         // 1秒おきに関数「update2」を呼び出す
         //ライトが消えたらタイマー止まる
-        timer2 = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(self.update2), userInfo: nil, repeats: true)
+        timer_lighton = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(self.update_lighton), userInfo: nil, repeats: true)
         
-        // 1秒おきに関数「update3」を呼び出す
+        // 1秒おきに関数「update_always」を呼び出す
         //ライトが消えてもタイマーずっと動いてる
-        timer3 = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(self.update3), userInfo: nil, repeats: true)
-        
-        
-        //ここから定時OS通知
-        /*
-        //7:00
-        //通知内容の設定
-        let morning = UNMutableNotificationContent()
-        //通知のメッセージセット
-        let random1 = (Int)(arc4random_uniform(5))
-        //↓タイトルはこんなに長く表示できない
-        //morning.title = NSString.localizedUserNotificationString(forKey: "おはよう☀️今日も記録のためにちあぽんを開いてね！", arguments: nil)
-        morning.title = NSString.localizedUserNotificationString(forKey: "今日もちあぽんを開いてね！", arguments: nil)
-        morning.body = NSString.localizedUserNotificationString(forKey: MorningComments[random1], arguments: nil)
-        // トリガーを設定
-        var morninginfo = DateComponents()
-        morninginfo.hour = 7
-        morninginfo.minute = 0
-        let morningtrigger = UNCalendarNotificationTrigger(dateMatching: morninginfo, repeats: true)
-        // リクエストオブジェクトを生成
-        let morningrequest = UNNotificationRequest(identifier: "Morning", content: morning, trigger: morningtrigger)
-        //サウンドの追加
-        morning.sound = UNNotificationSound.default
-        
-        // リクエストのスケジュールを設定
-        let center1 = UNUserNotificationCenter.current()
-        center1.add(morningrequest) { (error : Error?)in
-            if let theError = error {
-                print(theError.localizedDescription)
-            }
-        }
-        func userNotificationCenter1(_ center1: UNUserNotificationCenter,
-                                     willPresent notification: UNNotification,
-                                     withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
-            // アプリケーションのインターフェイスを直接更新。
-            // サウンドを再生。
-            completionHandler(UNNotificationPresentationOptions.sound)
-        }
-
-        //8:00
-        //通知内容の設定
-        let morning2 = UNMutableNotificationContent()
-        //通知のメッセージセット
-        let random2 = (Int)(arc4random_uniform(5))
-        //7:00の影響でおはよう☀️を追加
-        morning2.title = NSString.localizedUserNotificationString(forKey: "おはよう☀️今日も1日頑張ろう！", arguments: nil)
-        morning2.body = NSString.localizedUserNotificationString(forKey: Morning2Comments[random2], arguments: nil)
-        // トリガーを設定
-        var morning2info = DateComponents()
-        morning2info.hour = 8
-        morning2info.minute = 0
-        let morning2trigger = UNCalendarNotificationTrigger(dateMatching: morning2info, repeats: true)
-        // リクエストオブジェクトを生成
-        let morning2request = UNNotificationRequest(identifier: "Morning2", content: morning2, trigger: morning2trigger)
-        //サウンドの追加
-        morning2.sound = UNNotificationSound.default
-        
-        // リクエストのスケジュールを設定
-        let center2 = UNUserNotificationCenter.current()
-        center2.add(morning2request) { (error : Error?)in
-            if let theError = error {
-                print(theError.localizedDescription)
-            }
-        }
-        func userNotificationCenter2(_ center2: UNUserNotificationCenter,
-                                     willPresent notification: UNNotification,
-                                     withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
-            // アプリケーションのインターフェイスを直接更新。
-            // サウンドを再生。
-            completionHandler(UNNotificationPresentationOptions.sound)
-        }
-        
-        //正午
-        //通知内容の設定
-        let noon = UNMutableNotificationContent()
-        //通知のメッセージセット
-        let random3 = (Int)(arc4random_uniform(5))
-        noon.title = NSString.localizedUserNotificationString(forKey: "お昼の時間だね🕛", arguments: nil)
-        noon.body = NSString.localizedUserNotificationString(forKey: NoonComments[random3], arguments: nil)
-        // トリガーを設定
-        var nooninfo = DateComponents()
-        nooninfo.hour = 12
-        nooninfo.minute = 0
-        let noontrigger = UNCalendarNotificationTrigger(dateMatching: nooninfo, repeats: true)
-        // リクエストオブジェクトを生成
-        let noonrequest = UNNotificationRequest(identifier: "Noon", content: noon, trigger: noontrigger)
-        //サウンドの追加
-        noon.sound = UNNotificationSound.default
-        
-        // リクエストのスケジュールを設定
-        let center3 = UNUserNotificationCenter.current()
-        center3.add(noonrequest) { (error : Error?)in
-            if let theError = error {
-                print(theError.localizedDescription)
-            }
-        }
-        func userNotificationCenter3(_ center3: UNUserNotificationCenter,
-                                     willPresent notification: UNNotification,
-                                     withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
-            // アプリケーションのインターフェイスを直接更新。
-            // サウンドを再生。
-            completionHandler(UNNotificationPresentationOptions.sound)
-        }
-        
-        //15:00
-        //通知内容の設定
-        let oyatu = UNMutableNotificationContent()
-        //通知のメッセージセット
-        let random4 = (Int)(arc4random_uniform(5))
-        oyatu.title = NSString.localizedUserNotificationString(forKey: "おやつの時間だ🍩", arguments: nil)
-        oyatu.body = NSString.localizedUserNotificationString(forKey: OyatuComments[random4], arguments: nil)
-        // トリガーを設定
-        var oyatuinfo = DateComponents()
-        oyatuinfo.hour = 15
-        oyatuinfo.minute = 00
-        let oyatutrigger = UNCalendarNotificationTrigger(dateMatching: oyatuinfo, repeats: true)
-        // リクエストオブジェクトを生成
-        let oyaturequest = UNNotificationRequest(identifier: "Oyatu", content: oyatu, trigger: oyatutrigger)
-        //サウンドの追加
-        oyatu.sound = UNNotificationSound.default
-        
-        // リクエストのスケジュールを設定
-        let center4 = UNUserNotificationCenter.current()
-        center4.add(oyaturequest) { (error : Error?)in
-            if let theError = error {
-                print(theError.localizedDescription)
-            }
-        }
-        func userNotificationCenter4(_ center4: UNUserNotificationCenter,
-                                     willPresent notification: UNNotification,
-                                     withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
-            // アプリケーションのインターフェイスを直接更新。
-            // サウンドを再生。
-            completionHandler(UNNotificationPresentationOptions.sound)
-        }
-        
-        //18:48
-        //通知内容の設定
-        let afterNonn = UNMutableNotificationContent()
-        //通知のメッセージセット
-        let random5 = (Int)(arc4random_uniform(5))
-        afterNonn.title = NSString.localizedUserNotificationString(forKey: "もうこんな時間💦", arguments: nil)
-        afterNonn.body = NSString.localizedUserNotificationString(forKey: AfterNoonComments[random5], arguments: nil)
-        // トリガーを設定
-        var afterNonninfo = DateComponents()
-        afterNonninfo.hour = 18
-        afterNonninfo.minute = 48
-        let afterNonntrigger = UNCalendarNotificationTrigger(dateMatching: afterNonninfo, repeats: true)
-        // リクエストオブジェクトを生成
-        let afterNonnrequest = UNNotificationRequest(identifier: "AfterNoon", content: afterNonn, trigger: afterNonntrigger)
-        //サウンドの追加
-        afterNonn.sound = UNNotificationSound.default
-        
-        // リクエストのスケジュールを設定
-        let center5 = UNUserNotificationCenter.current()
-        center5.add(afterNonnrequest) { (error : Error?)in
-            if let theError = error {
-                print(theError.localizedDescription)
-            }
-        }
-        func userNotificationCenter5(_ center5: UNUserNotificationCenter,
-                                     willPresent notification: UNNotification,
-                                     withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
-            // アプリケーションのインターフェイスを直接更新。
-            // サウンドを再生。
-            completionHandler(UNNotificationPresentationOptions.sound)
-        }
-        
-        //22:00
-        //通知内容の設定
-        let night = UNMutableNotificationContent()
-        //通知のメッセージセット
-        //let random6 = (Int)(arc4random_uniform(5))
-        night.title = NSString.localizedUserNotificationString(forKey: "22時になったね🌙", arguments: nil)
-        night.body = NSString.localizedUserNotificationString(forKey: "0時に今日の使用状況がリセットされちゃうからチェックしてみてね〜😆" , arguments: nil)
-        // トリガーを設定
-        var nightinfo = DateComponents()
-        nightinfo.hour = 22
-        nightinfo.minute = 00
-        let nighttrigger = UNCalendarNotificationTrigger(dateMatching: nightinfo, repeats: true)
-        // リクエストオブジェクトを生成
-        let nightrequest = UNNotificationRequest(identifier: "Night", content: night, trigger: nighttrigger)
-        //サウンドの追加
-        night.sound = UNNotificationSound.default
-        
-        // リクエストのスケジュールを設定
-        let center6 = UNUserNotificationCenter.current()
-        center6.add(nightrequest) { (error : Error?)in
-            if let theError = error {
-                print(theError.localizedDescription)
-            }
-        }
-        func userNotificationCenter6(_ center6: UNUserNotificationCenter,
-                                     willPresent notification: UNNotification,
-                                     withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
-            // アプリケーションのインターフェイスを直接更新。
-            // サウンドを再生。
-            completionHandler(UNNotificationPresentationOptions.sound)
-        }
-        
-        //23:50
-        //通知内容の設定
-        let midNight = UNMutableNotificationContent()
-        //通知のメッセージセット
-        let random7 = (Int)(arc4random_uniform(5))
-        //↓タイトルはこんなに長く表示できない
-        //midNight.title = NSString.localizedUserNotificationString(forKey: "もうすぐ0時で今日の使用状況がリセットされちゃうよ！", arguments: nil)
-        midNight.title = NSString.localizedUserNotificationString(forKey: "0時で使用状況をリセットするよ！", arguments: nil)
-        midNight.body = NSString.localizedUserNotificationString(forKey: MidNightComments[random7], arguments: nil)
-        // トリガーを設定
-        var midNightinfo = DateComponents()
-        midNightinfo.hour = 23
-        midNightinfo.minute = 50
-        let midNighttrigger = UNCalendarNotificationTrigger(dateMatching: midNightinfo, repeats: true)
-        // リクエストオブジェクトを生成
-        let midNightrequest = UNNotificationRequest(identifier: "MidNight", content: midNight, trigger: midNighttrigger)
-        //サウンドの追加
-        midNight.sound = UNNotificationSound.default
-        
-        // リクエストのスケジュールを設定
-        let center7 = UNUserNotificationCenter.current()
-        center7.add(midNightrequest) { (error : Error?)in
-            if let theError = error {
-                print(theError.localizedDescription)
-            }
-        }
-        func userNotificationCenter7(_ center7: UNUserNotificationCenter,
-                                     willPresent notification: UNNotification,
-                                     withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
-            // アプリケーションのインターフェイスを直接更新。
-            // サウンドを再生。
-            completionHandler(UNNotificationPresentationOptions.sound)
-        }
-        
-        //00:00
-        //通知内容の設定
-        let midNight2 = UNMutableNotificationContent()
-        //通知のメッセージセット
-        //let random7 = (Int)(arc4random_uniform(5))
-        midNight2.title = NSString.localizedUserNotificationString(forKey: "0時になったよ", arguments: nil)
-        midNight2.body = NSString.localizedUserNotificationString(forKey: "使用状況がリセットされたよ。スマホの画面を開き直して、ちあぽんで確認してね😴", arguments: nil)
-        // トリガーを設定
-        var midNight2info = DateComponents()
-        midNight2info.hour = 0
-        midNight2info.minute = 0
-        let midNight2trigger = UNCalendarNotificationTrigger(dateMatching: midNight2info, repeats: true)
-        // リクエストオブジェクトを生成
-        let midNight2request = UNNotificationRequest(identifier: "MidNight2", content: midNight2, trigger: midNight2trigger)
-        //サウンドの追加
-        midNight2.sound = UNNotificationSound.default
-        
-        // リクエストのスケジュールを設定
-        let center8 = UNUserNotificationCenter.current()
-        center8.add(midNight2request) { (error : Error?)in
-            if let theError = error {
-                print(theError.localizedDescription)
-            }
-        }
-        func userNotificationCenter8(_ center8: UNUserNotificationCenter,
-                                      willPresent notification: UNNotification,
-                                      withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
-            // アプリケーションのインターフェイスを直接更新。
-            // サウンドを再生。
-            completionHandler(UNNotificationPresentationOptions.sound)
-        }
-        */
+        timer_always = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(self.update_always), userInfo: nil, repeats: true)
         
 
         //タスクキル後のタイマー誤作動防止用
-        countNum2 = 0
+        counter_lighton = 0
         
-        
+        //アプリ起動時に、前回終了時に保存していた各種値を戻す
         if let value2 = UserDefaults.standard.string(forKey: "KeyName2"){
             
-            countNum2 = Int(value2)!
+            counter_lighton = Int(value2)!
             
         }
         
@@ -561,32 +289,15 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
         
         if let value4 = UserDefaults.standard.string(forKey: "starttime"){
             
-            startTime = Double(value4)!
+            start_time = Double(value4)!
             
         }
         if let value5 = UserDefaults.standard.string(forKey: "elapsedtime"){
             
-            elapsedTime = Double(value5)!
+            elapsed_time = Double(value5)!
             
         }
         
-        
-        
-        /* ここから非公式な方法 */
-        //Observe開始
-        registerforDeviceLockNotification()
-        //Observerの無効化
-        CFNotificationCenterRemoveObserver(CFNotificationCenterGetLocalCenter(),
-                                           Unmanaged.passUnretained(self).toOpaque(),
-                                           nil,
-                                           nil)
-        /* ここまで */
-        
-        
-        //Timer
-        //        if(timerRunning == false){
-        //            startTimer()
-        //        }
         //位置情報取得用
         let status = CLLocationManager.authorizationStatus()
         if status == CLAuthorizationStatus.restricted || status == CLAuthorizationStatus.denied {
@@ -620,9 +331,21 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
         }
         
         
+        
+        /* ここから非公式な方法 */
+        //Observe開始
+        registerforDeviceLockNotification()
+        //Observerの無効化
+        CFNotificationCenterRemoveObserver(CFNotificationCenterGetLocalCenter(),
+                                           Unmanaged.passUnretained(self).toOpaque(),
+                                           nil,
+                                           nil)
+        /* ここまで */
+        
     }
     
     /* ここから非公式API */
+    // デバイスのロック、画面点灯を検出する　→ この処理をしているとAppStoreの審査に通りません
     func registerforDeviceLockNotification(){
         //Screen lock notification
         CFNotificationCenterAddObserver(CFNotificationCenterGetDarwinNotifyCenter(),
@@ -644,9 +367,6 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
                                         nil,
                                         .deliverImmediately)
     }
-    
-    
-    
     
     private let displayStatusChangedCallback: CFNotificationCallback = {_, cfObserver, cfName, _, _ in
         guard let lockState = cfName?.rawValue as String? else{
@@ -674,24 +394,24 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
                 self.screenlight = false
                 print("ライトが消えました")
                 
-                countNum2 = 0
+                counter_lighton = 0
                 
                 //ライトが消えると止まるタイマー
-                timer2.invalidate()
+                timer_lighton.invalidate()
                 
                 // 再度Startした時に加算するため、これまでに計測した経過時間を保存
-                elapsedTime = time2
+                elapsed_time = total_time
                 
                 
             }else{
                 self.screenlight = true
                 print("ライトがつきました")
                 
-                startTime = Date().timeIntervalSince1970
+                start_time = Date().timeIntervalSince1970
                 userDefaults.set(Date().timeIntervalSince1970, forKey: "interval")
                 
-                // 1秒おきに関数「update2」を呼び出す
-                timer2 = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(self.update2), userInfo: nil, repeats: true)
+                // 1秒おきに関数「update_lighton」を呼び出す
+                timer_lighton = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(self.update_lighton), userInfo: nil, repeats: true)
                 
                 mtcc.setLightOn()
                 
@@ -720,30 +440,7 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
                 
             }
         }
-        //        else if(lockState == "com.apple.springboard.lockstate"){
-        //
-        //
-        ////            print("ロック状態が変わりました")
-        ////            if(screenlock == false && lockcompleteNotification == false){
-        ////                self.screenlock = false
-        ////                print("ロックが解除されました")
-        ////
-        ////
-        ////            }else{
-        ////                self.screenlock = true
-        ////            }
-        //        }
     }
-    /* ここまで */
-    
-    //    func formatDate(seconds: Date) -> String {
-    //        //フォーマット形式を設定
-    //        let format = DateFormatter()
-    //        format.dateFormat = "yyyy/MM/dd HH:mm:ss"
-    //        //引数secondsをフォーマットして戻す
-    //        return format.string(from: seconds)
-    //    }
-    //
     /* ここまで */
     
 }
