@@ -29,12 +29,16 @@ class myNotificationClass{
         content.title = self.title
         content.body = self.body
         content.sound = self.sound
+        //identifierを作る
+        //UNIXタイムを使う
+        let current = "\(Date().timeIntervalSince1970)"
+        
         //通知スタイルを指定
-        let request = UNNotificationRequest(identifier: "tapNotificationButton", content: content, trigger: trigger)
+        let request = UNNotificationRequest(identifier: current, content: content, trigger: trigger)
         print("設定")
         //通知をセット
         UNUserNotificationCenter.current().add(request, withCompletionHandler: nil)
-        print("送信")
+        print("送信:" + current)
     }
     
     

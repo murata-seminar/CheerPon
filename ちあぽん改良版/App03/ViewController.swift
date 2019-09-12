@@ -70,9 +70,25 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
     // 1秒ごとに呼び出される処理 現在の時刻との比較
     //ライトが消えてもずっと動いてる方
     @objc func update_always() {
-        //print(mtcc.getNowTime())    //現在時刻の表示（デバッグよう）
-
-       
+        
+        //for test
+        //１分ごとに通知する
+        /*
+        print(mtcc.getNowTime())    //現在時刻の表示（デバッグよう）
+        let second = mtcc.getNowTime().suffix(2)
+        //
+        //
+        if(second == "00"){
+            //バッジ表示
+            UIApplication.shared.applicationIconBadgeNumber = 1
+            //通知メッセージのセット
+            let message = "light on: \(mtcc.total_ontime) \nlight off: \(mtcc.total_offtime)"
+            mnc.title = NSString.localizedUserNotificationString(forKey: "毎分00秒にメッセージ", arguments: nil)
+            mnc.body = NSString.localizedUserNotificationString(forKey: message, arguments: nil)
+            mnc.sendMessage()
+        }
+        */
+        
         //ここから定時処理
         
         //7:00

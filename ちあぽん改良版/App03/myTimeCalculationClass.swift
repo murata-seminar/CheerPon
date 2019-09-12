@@ -21,8 +21,8 @@ class myTimeCalculationClass {
     
     var lightofftimeseconds:Double = 0
     var lightontimeseconds:Double = 0
-    var offduration:Double = 0
-    var onduration:Double = 0
+    var offduration:Double = 0  //直近の消えていた時間
+    var onduration:Double = 0   //直近の付いていた時間
     
     //カウンター
     var oncounter:Int = 0
