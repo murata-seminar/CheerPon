@@ -278,7 +278,7 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
         
         start_time = Date().timeIntervalSince1970
         
-        // 1秒おきに関数「update2」を呼び出す
+        // 1秒おきに関数「update_lighton」を呼び出す
         //ライトが消えたらタイマー止まる
         timer_lighton = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(self.update_lighton), userInfo: nil, repeats: true)
         
