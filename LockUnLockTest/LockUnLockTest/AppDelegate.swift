@@ -14,6 +14,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     var window: UIWindow?
     var backgroundTaskID: UIBackgroundTaskIdentifier = UIBackgroundTaskIdentifier(rawValue: 0)
     var mnc = myNotificationClass()
+    
+    var viewController: ViewController! //ViewControllerにアクセスするための変数
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
@@ -87,8 +89,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         //print("フリックしてアプリを終了させた時に呼ばれる")
         
         mnc.title = "アプリが終了されたよ"
-        mnc.body = "時間が正しく記録されないからちあぽんを開き直してね"
+        mnc.body = "時間が正しく記録されないからアプリを開き直してね"
         mnc.sendMessage()
+        
+        let appDelegate = UIApplication.shared.delegate as! AppDelegate
+        appDelegate.viewController.serializeMTCC()
         
         DispatchQueue.main.asyncAfter(deadline: .now() + 1.0){
             // your code here

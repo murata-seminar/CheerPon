@@ -36,10 +36,31 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
     
     //制御用
     var flag_unlocked: Bool = true
-    var timer_counter: Int = 0
+    //var timer_counter: Int = 0
+    
+    //シリアライズ用
+    var userDefaultsData = UserDefaults.standard
     
     
-        var elapsed_time: Int = 0
+    //var elapsed_time: Int = 0
+    
+    //セーブボタン
+    //本の内容だと古いので以下を参考にする
+    //https://qiita.com/rcftdbeu/items/2de95d1bc8f520f590ef
+    @IBAction func buttonSave(_ sender: Any) {
+        serializeMTCC()
+    }
+    
+    //ロードボタン
+    //古いのを直したのはセーブと同じ
+    @IBAction func buttnLoad(_ sender: Any) {
+        unserializeMTCC()
+    }
+    
+    //リセットボタン
+    @IBAction func buttonReset(_ sender: Any) {
+        resetVariables()
+    }
     
     //----------------------------------------------------------------
     // viewDidLoad
@@ -49,8 +70,16 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
         
+        //AppDelegateからViewControllerにアクセスするためのコード
+        // https://watchcontents.com/swift-appdelegate-method/
+        let appDelegate: AppDelegate = UIApplication.shared.delegate as! AppDelegate
+        appDelegate.viewController = self
+        
         // initialize variables
         initSettings()
+        
+        // unserialize mtcc if exist.
+        unserializeMTCC()
         
         // start scheduled timer
         timerAlways = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(self.updateAlways), userInfo: nil, repeats: true)
@@ -62,12 +91,50 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
     //----------------------------------------------------------------
     
     //----------------------------------------------------------------
+    //  シリアライズ処理のためのコード
+    //----------------------------------------------------------------
+    func serializeMTCC(){
+        guard let archiveData = try? NSKeyedArchiver.archivedData(withRootObject: mtcc, requiringSecureCoding: true) else {
+            fatalError("Archive dailed")
+        }
+        userDefaultsData.set(archiveData, forKey: "mtcc_data")
+        userDefaultsData.synchronize()
+    }
+    
+    func unserializeMTCC(){
+        if let storedData = userDefaultsData.object(forKey: "mtcc_data") as? Data{
+            if let unarchivedData = try! NSKeyedUnarchiver.unarchiveTopLevelObjectWithData(storedData) as? myTimeCalculationClass {
+                mtcc = unarchivedData
+            }
+            
+            //if let unarchivedData = try? NSKeyedUnarchiver.unarchivedObject(ofClass: myTimeCalculationClass.self, from: storedData){
+            //    mtcc = unarchivedData
+            //}
+        }
+    }
+    
+    //----------------------------------------------------------------
     // reset variable
     //----------------------------------------------------------------
     func resetVariables(){
-        lockcounter = 0
-        elapsed_time = 0
-        timer_counter = 0;
+        //mtccの各値をリセットする
+        mtcc.starttime = Date()
+        mtcc.nowtime = Date()
+        mtcc.time_unlocked = Date()
+        mtcc.time_locked = Date()
+        mtcc.total_unlocked = 0.0
+        mtcc.total_locked = 0.0
+        mtcc.today_unlocked = 0.0
+        mtcc.today_locked = 0.0
+        mtcc.lockedtimeseconds  = 0.0
+        mtcc.unlockedtimeseconds = 0.0
+        mtcc.lockedduration = 0.0
+        mtcc.unlockedduration = 0.0
+        mtcc.unlockedcounter = 0
+        mtcc.lockedcounter = 0
+        mtcc.total_unlockedcounter = 0
+        mtcc.total_lockedcounter = 0
+        mtcc.timer_counter = 0
     }
     
     //----------------------------------------------------------------
@@ -75,7 +142,10 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
     //----------------------------------------------------------------
     func initSettings(){
         
-        resetVariables()
+        //resetVariables()    //特にリセットする値がないけど、一応将来のためにおいておく
+        
+        //基準日時を作成する
+        mtcc.standardtime = mtcc.getStandardTime(sdate: mtcc.starttime)
         
         // *************************************
         //  BackgroundTask (using GPS) start
@@ -141,20 +211,20 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
         
         //現在のアンロック時間の処理
         if flag_unlocked {
-            timer_counter += 1
-            labelNowUnLockedTime.text = mtcc.formatSecToTime(seconds: Double(timer_counter))
+            mtcc.timer_counter += 1
+            labelNowUnLockedTime.text = mtcc.formatSecToTime(seconds: Double(mtcc.timer_counter))
             
             //30分以内であれば15分ごとにちあポン通知
-            if timer_counter <= 1800 {
+            if mtcc.timer_counter <= 1800 {
                 //15分ごとに通知
-                if timer_counter % 900 == 0 {
-                    mnc.title = "\((timer_counter / 60))分間使ってるよ！"
+                if mtcc.timer_counter % 900 == 0 {
+                    mnc.title = "\((mtcc.timer_counter / 60))分間使ってるよ！"
                     mnc.body = "そんなに使ったら電池減っちゃうよ😣使わないように頑張って！"
                     mnc.sendMessage()
                 }
             }else{
                 //5分ごとに通知
-                if timer_counter % 300 == 0 {
+                if mtcc.timer_counter % 300 == 0 {
                     //コメント生成
                     var message: String = ""
                     if mtcc.checkTime(from: 5, to: 11) {    //午前
@@ -168,7 +238,7 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
                     }else{  //深夜（上記以外）
                         message = mnm.getCommnet(comments: mnm.aori_MidNight)
                     }
-                    mnc.title = "\(timer_counter / 60)分も経ったぞ！"
+                    mnc.title = "\(mtcc.timer_counter / 60)分も経ったぞ！"
                     mnc.body = message
                     mnc.sendMessage()
                 }
@@ -176,7 +246,7 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
             
             //回数による処理
             //アンロック時ではうまくいかないので、アンロックした後1秒経過後に出す（多分確実に見るタイミング）
-            if timer_counter == 2 {
+            if mtcc.timer_counter == 2 {
                 //回数メッセージの送信：５０回が平均？
                 //https://www.countand1.com/2017/05/smartphone-usage-48-and-apps-usage-90-per-day.html
                 if self.mtcc.unlockedcounter != 0 && self.mtcc.unlockedcounter % 10 == 0 && self.mtcc.unlockedcounter <= 50 {
@@ -358,7 +428,7 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
         //ロックをセット
         mtcc.setLocked()
         flag_unlocked = false
-        timer_counter = 0
+        mtcc.timer_counter = 0
     }
 
     // When we received lockState notification, refresh lock status.

@@ -7,9 +7,9 @@
 	<key>CFBundleExecutable</key>
 	<string>$(EXECUTABLE_NAME)</string>
 	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
-	<string>位置情報の取得を常に許可しても良いですか？</string>
+	<string>（実験用）位置情報の取得を常に許可にしてください</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
-	<string>アプリ使用時に位置情報の取得を許可しても良いですか？</string>
+	<string>（実験用）アプリ使用時に位置情報の取得を常に許可にしてください</string>
 	<key>CFBundleIdentifier</key>
 	<string>$(PRODUCT_BUNDLE_IDENTIFIER)</string>
 	<key>CFBundleInfoDictionaryVersion</key>

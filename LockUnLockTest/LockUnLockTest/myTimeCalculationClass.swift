@@ -8,27 +8,30 @@
 
 import Foundation
 
-class myTimeCalculationClass {
+class myTimeCalculationClass: NSObject, NSSecureCoding {
+    static var supportsSecureCoding: Bool = true
+    
     //時刻関係の変数
-    let starttime: Date = Date()  //起動時刻
+    var starttime: Date = Date()  //起動時刻
     var nowtime: Date = Date() //現在時刻（とりあえず起動時刻を入れておく）
     var time_unlocked: Date = Date() //アンロックされた時刻（とりあえず起動時刻を入れておく）
     var time_locked: Date = Date()  //ロックされた時刻（とりあえず起動時刻を入れておく）
-    var total_unlocked = 0.0 //アプリ起動後、アンロックされていた（使っていた）累積時間
-    var total_locked = 0.0 //アプリ起動後、ロックされていた（使っていなかった）累積時間
-    var today_unlocked = 0.0    //当日のアンロック時間
-    var today_locked = 0.0      //当日のロック時間
+    var total_unlocked: Double = 0.0 //アプリ起動後、アンロックされていた（使っていた）累積時間
+    var total_locked: Double = 0.0 //アプリ起動後、ロックされていた（使っていなかった）累積時間
+    var today_unlocked: Double = 0.0    //当日のアンロック時間
+    var today_locked: Double = 0.0      //当日のロック時間
     
     var lockedtimeseconds:Double = 0
     var unlockedtimeseconds:Double = 0
-    var lockduration:Double = 0  //直近のロックされていた時間
-    var unlockduration:Double = 0   //直近のアンロックされていた時間
+    var lockedduration:Double = 0  //直近のロックされていた時間
+    var unlockedduration:Double = 0   //直近のアンロックされていた時間
     
     //カウンター
     var unlockedcounter:Int = 0
     var lockedcounter:Int = 0
     var total_unlockedcounter:Int = 0   //前日までの累積アンロック回数
     var total_lockedcounter:Int = 0     //前日までの累積ロック回数
+    var timer_counter: Int = 0
     
 
     
@@ -37,9 +40,54 @@ class myTimeCalculationClass {
     var standardtime: Date = Date()
     
     //イニシャライザ（コンストラクタ）
-    init(){
-        //基準日時を作る
-        standardtime = self.getStandardTime(sdate: starttime)
+    override init(){
+        //基準日時を作る ←これはViewDidLoadで呼び出すinitSettingsで行う
+        //standardtime = self.getStandardTime(sdate: starttime)
+    }
+    
+    //シリアライズ用
+    required init?(coder: NSCoder) {
+        //デコードするときはそれぞれ型専用のデコードメソッドを使う
+        starttime = (coder.decodeObject(forKey: "starttime") as? Date)!
+        nowtime = (coder.decodeObject(forKey: "nowtime") as? Date)!
+        time_unlocked = (coder.decodeObject(forKey: "time_unlocked") as? Date)!
+        time_locked = (coder.decodeObject(forKey: "time_locked") as? Date)!
+        total_unlocked = coder.decodeDouble(forKey: "total_unlocked") as Double
+        total_locked = coder.decodeDouble(forKey: "total_locked") as Double
+        today_unlocked = coder.decodeDouble(forKey: "today_unlocked") as Double
+        today_locked = coder.decodeDouble(forKey: "today_locked") as Double
+        lockedtimeseconds = coder.decodeDouble(forKey: "lockedtimeseconds") as Double
+        unlockedtimeseconds = coder.decodeDouble(forKey: "unlockedtimeseconds") as Double
+        lockedduration = coder.decodeDouble(forKey: "lockedduration") as Double
+        unlockedduration = coder.decodeDouble(forKey: "unlockedduration") as Double
+        unlockedcounter = coder.decodeInteger(forKey: "unlockedcounter") as Int
+        lockedcounter = coder.decodeInteger(forKey: "lockedcounter") as Int
+        total_unlockedcounter = coder.decodeInteger(forKey: "total_unlockedcounter") as Int
+        total_lockedcounter = coder.decodeInteger(forKey: "total_lockedcounter") as Int
+        timer_counter = coder.decodeInteger(forKey: "timer_counter") as Int
+
+    }
+    
+    func encode(with coder: NSCoder) {
+        coder.encode(starttime, forKey: "starttime")
+        coder.encode(nowtime, forKey: "nowtime")
+        coder.encode(time_unlocked, forKey: "time_unlocked")
+        coder.encode(time_locked, forKey: "time_locked")
+        coder.encode(total_unlocked, forKey: "total_unlocked")
+        coder.encode(total_locked, forKey: "total_locked")
+        coder.encode(today_unlocked, forKey: "today_unlocked")
+        coder.encode(today_locked, forKey: "today_locked")
+        coder.encode(lockedtimeseconds, forKey: "lockedtimeseconds")
+        coder.encode(unlockedtimeseconds, forKey: "unlockedtimeseconds")
+        coder.encode(lockedduration, forKey: "lockedduration")
+        coder.encode(unlockedduration, forKey: "unlockedduration")
+        coder.encode(unlockedcounter, forKey: "unlockedcounter")
+        coder.encode(lockedcounter, forKey: "lockedcounter")
+        coder.encode(total_unlockedcounter, forKey: "total_unlockedcounter")
+        coder.encode(total_lockedcounter, forKey: "total_lockedcounter")
+        coder.encode(timer_counter, forKey: "timer_counter")
+        
+        print("finish encode.")
     }
 
     //基準日時を作る
@@ -64,8 +112,8 @@ class myTimeCalculationClass {
         if(elapsedtime >= 86400){
             unlockedcounter = 0       //ロック回数
             lockedcounter = 0     //アンロック回数
-            unlockedtimeseconds = 0      //使ってない
-            lockedtimeseconds = 0     //使ってない
+            unlockedtimeseconds = 0
+            lockedtimeseconds = 0
             //elapsed_time = 0     //累積時間
             while elapsedtime >= 86400 {
                 elapsedtime -= 86400
@@ -162,10 +210,10 @@ class myTimeCalculationClass {
         //今使っていなかった時間（ロックされていた時間＝直近のロックされた時間から何秒たったか）を計算する
         lockedtimeseconds = time_unlocked.timeIntervalSince1970
         unlockedtimeseconds = time_locked.timeIntervalSince1970
-        lockduration = lockedtimeseconds - unlockedtimeseconds
+        lockedduration = lockedtimeseconds - unlockedtimeseconds
         //ロックされていた時間を累積ロック時間に追加
-        total_locked = total_locked + lockduration
-        today_locked = today_locked + lockduration
+        total_locked = total_locked + lockedduration
+        today_locked = today_locked + lockedduration
         //アンロックされた回数を増やす
         unlockedcounter = unlockedcounter + 1
         total_unlockedcounter = total_unlockedcounter + 1
@@ -180,10 +228,10 @@ class myTimeCalculationClass {
         //今使っていた時間（アンロックされていた時間＝直近のアンロックされた時間から何秒たったか）を計算する
         unlockedtimeseconds = time_unlocked.timeIntervalSince1970
         lockedtimeseconds = time_locked.timeIntervalSince1970
-        unlockduration = lockedtimeseconds - unlockedtimeseconds
+        unlockedduration = lockedtimeseconds - unlockedtimeseconds
         //アンロックされていた時間を累積アンロック時間に追加_
-        total_unlocked = total_unlocked + unlockduration
-        today_unlocked = today_unlocked + unlockduration
+        total_unlocked = total_unlocked + unlockedduration
+        today_unlocked = today_unlocked + unlockedduration
         //ロックされた回数を増やす
         lockedcounter = lockedcounter + 1
         total_lockedcounter = total_lockedcounter + 1
