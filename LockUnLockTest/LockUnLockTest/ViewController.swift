@@ -75,11 +75,13 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
         let appDelegate: AppDelegate = UIApplication.shared.delegate as! AppDelegate
         appDelegate.viewController = self
         
+        // unserialize mtcc if exist.
+        unserializeMTCC()
+        
         // initialize variables
         initSettings()
         
-        // unserialize mtcc if exist.
-        unserializeMTCC()
+
         
         // start scheduled timer
         timerAlways = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(self.updateAlways), userInfo: nil, repeats: true)
@@ -319,6 +321,8 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
         //print("lock: " + String(mtcc.lockcounter))
         //print("unlock: " + String(mtcc.unlockcounter))
         
+        //実験のため、毎秒シリアライズして保存する
+        serializeMTCC()
         
         
     }

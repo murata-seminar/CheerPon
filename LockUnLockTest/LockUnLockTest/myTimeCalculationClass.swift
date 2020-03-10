@@ -48,6 +48,7 @@ class myTimeCalculationClass: NSObject, NSSecureCoding {
     //シリアライズ用
     required init?(coder: NSCoder) {
         //デコードするときはそれぞれ型専用のデコードメソッドを使う
+
         starttime = (coder.decodeObject(forKey: "starttime") as? Date)!
         nowtime = (coder.decodeObject(forKey: "nowtime") as? Date)!
         time_unlocked = (coder.decodeObject(forKey: "time_unlocked") as? Date)!
@@ -65,7 +66,6 @@ class myTimeCalculationClass: NSObject, NSSecureCoding {
         total_unlockedcounter = coder.decodeInteger(forKey: "total_unlockedcounter") as Int
         total_lockedcounter = coder.decodeInteger(forKey: "total_lockedcounter") as Int
         timer_counter = coder.decodeInteger(forKey: "timer_counter") as Int
-
     }
     
     func encode(with coder: NSCoder) {
@@ -87,7 +87,7 @@ class myTimeCalculationClass: NSObject, NSSecureCoding {
         coder.encode(total_lockedcounter, forKey: "total_lockedcounter")
         coder.encode(timer_counter, forKey: "timer_counter")
         
-        print("finish encode.")
+        //print("finish encode.")
     }
 
     //基準日時を作る
@@ -97,10 +97,10 @@ class myTimeCalculationClass: NSObject, NSSecureCoding {
         let year: Int = calendar.component(.year, from: sdate)
         let month: Int = calendar.component(.month, from: sdate)
         let day: Int = calendar.component(.day, from: sdate)
-        let d = calendar.date(from: DateComponents(year: year, month: month, day: day, hour: 0, minute: 0, second: 0))
+        let d = calendar.date(from: DateComponents(year: year, month: month, day: day, hour: 0, minute: 0, second: 0)) ?? sdate
         //let d = calendar.date(from: DateComponents(year: year, month: month, day: day - 1, hour: 14, minute: 50, second: 0))    //テスト用
         
-        return d!
+        return d
     }
     
     //カウンターと累積時間をリセットする
