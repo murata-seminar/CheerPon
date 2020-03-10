@@ -14,6 +14,7 @@
 		75298B3D23EBDD4C0071407E /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 75298B3C23EBDD4C0071407E /* Assets.xcassets */; };
 		75298B4023EBDD4C0071407E /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 75298B3E23EBDD4C0071407E /* LaunchScreen.storyboard */; };
 		753181A1241730D700F01686 /* UsageModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 753181A0241730D700F01686 /* UsageModel.swift */; };
+		753181A32417667200F01686 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 753181A22417667200F01686 /* GoogleService-Info.plist */; };
 		757B7DE423ED311D005422DA /* myNotificationClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 757B7DE323ED311D005422DA /* myNotificationClass.swift */; };
 		757B7DE623ED3178005422DA /* myTimeCalculationClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 757B7DE523ED3178005422DA /* myTimeCalculationClass.swift */; };
 		757B7DE823F500C1005422DA /* myNoificationMessages.swift in Sources */ = {isa = PBXBuildFile; fileRef = 757B7DE723F500C1005422DA /* myNoificationMessages.swift */; };
@@ -30,6 +31,7 @@
 		75298B3F23EBDD4C0071407E /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		75298B4123EBDD4C0071407E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		753181A0241730D700F01686 /* UsageModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UsageModel.swift; sourceTree = "<group>"; };
+		753181A22417667200F01686 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		757B7DE323ED311D005422DA /* myNotificationClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = myNotificationClass.swift; sourceTree = "<group>"; };
 		757B7DE523ED3178005422DA /* myTimeCalculationClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = myTimeCalculationClass.swift; sourceTree = "<group>"; };
 		757B7DE723F500C1005422DA /* myNoificationMessages.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = myNoificationMessages.swift; sourceTree = "<group>"; };
@@ -98,6 +100,7 @@
 				75298B3C23EBDD4C0071407E /* Assets.xcassets */,
 				75298B3E23EBDD4C0071407E /* LaunchScreen.storyboard */,
 				75298B4123EBDD4C0071407E /* Info.plist */,
+				753181A22417667200F01686 /* GoogleService-Info.plist */,
 				753181A0241730D700F01686 /* UsageModel.swift */,
 			);
 			path = LockUnLockTest;
@@ -164,6 +167,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				75298B4023EBDD4C0071407E /* LaunchScreen.storyboard in Resources */,
+				753181A32417667200F01686 /* GoogleService-Info.plist in Resources */,
 				75298B3D23EBDD4C0071407E /* Assets.xcassets in Resources */,
 				75298B3B23EBDD490071407E /* Main.storyboard in Resources */,
 			);

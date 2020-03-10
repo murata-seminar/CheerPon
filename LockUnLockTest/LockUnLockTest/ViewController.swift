@@ -9,6 +9,8 @@
 import UIKit
 import CoreLocation // for GPS
 import RealmSwift //Realm
+import FirebaseCore
+import FirebaseFirestore
 
 class ViewController: UIViewController, CLLocationManagerDelegate {
 
@@ -46,6 +48,8 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
     private var realmInstance: Realm? = nil
     var usageDataInstance: Results<UsageModel>? = nil
     
+    //FireStore用
+    var db: Firestore!
     
     //var elapsed_time: Int = 0
     
@@ -56,6 +60,7 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
     @IBAction func buttonSave(_ sender: Any) {
         //serializeMTCC()
         addDataToRealm()
+        addDataToFirestore()
     }
     
     //ロードボタン
@@ -64,6 +69,7 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
     @IBAction func buttnLoad(_ sender: Any) {
         //unserializeMTCC()
         loadDataFromRealm()
+        loadDataFromFirestore()
     }
     
     //リセットボタン
@@ -99,6 +105,11 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
         //print(usageDataInstance?.count ?? "no data")
         initRelam() //Realmデータの初期化（削除）
         
+        //Firestoreの処理
+        let settings = FirestoreSettings()
+        Firestore.firestore().settings = settings
+        db = Firestore.firestore()
+        
         // start scheduled timer
         timerAlways = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(self.updateAlways), userInfo: nil, repeats: true)
         
@@ -107,6 +118,57 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
     //----------------------------------------------------------------
     // functions
     //----------------------------------------------------------------
+    
+    //----------------------------------------------------------------
+    // FireStore用のコード
+    //----------------------------------------------------------------
+    private func addDataToFirestore(){
+        // Add a new document with a generated ID
+        var ref: DocumentReference? = nil
+        
+        ref = db.collection("cheerpontest").addDocument(data: [
+            "createDate": mtcc.getNowDate(),
+            "unlocked_num": mtcc.unlockedcounter,
+            "total_unlocked_num": mtcc.total_unlockedcounter,
+            "unlocked_time": mtcc.today_unlocked,
+            "total_unlicked_time": mtcc.total_unlocked
+        ]) { err in
+            if let err = err {
+                print("Firestoreのエラー Error adding document: \(err)")
+            }else{
+                print("Firestore :  Document added with ID: \(ref!.documentID)")
+            }
+        }
+        
+        
+        /*
+        db.collection("cheerpontest").document("testid").setData([
+            "createDate": mtcc.getNowDate(),
+            "unlocked_num": mtcc.unlockedcounter,
+            "total_unlocked_num": mtcc.total_unlockedcounter,
+            "unlocked_time": mtcc.today_unlocked,
+            "total_unlicked_time": mtcc.total_unlocked
+        ]) { err in
+            if let err = err {
+                print("Firestoreのエラー Error adding document: \(err)")
+            }else{
+                print("Firestoreのエラー Document added ")
+            }
+        }
+        */
+    }
+    
+    private func loadDataFromFirestore(){
+        db.collection("cheerpontest").getDocuments(){ (QuerySnapshot, err) in
+            if let err = err{
+                print("Firestoreのエラー Error getting documents: \(err)")
+            }else{
+                for document in QuerySnapshot!.documents{
+                    print("\(document.documentID) => \(document.data())")
+                }
+            }
+        }
+    }
     
     //----------------------------------------------------------------
     // Realm関係のためのコード
