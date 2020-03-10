@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import RealmSwift
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -44,6 +45,18 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             let settings = UIUserNotificationSettings(types: [.badge, .sound, .alert], categories: nil)
             UIApplication.shared.registerUserNotificationSettings(settings)
         }
+        
+        //Realmのマイグレーション処理
+        let config = Realm.Configuration(
+            schemaVersion: 1,
+            migrationBlock: { migration, oldschemaVersion in
+                if(oldschemaVersion < 1){
+                    
+                }
+        })
+        Realm.Configuration.defaultConfiguration = config
+        let realm = try! Realm()
+        
         return true
     }
 

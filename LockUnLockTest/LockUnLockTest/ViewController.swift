@@ -8,6 +8,7 @@
 
 import UIKit
 import CoreLocation // for GPS
+import RealmSwift //Realm
 
 class ViewController: UIViewController, CLLocationManagerDelegate {
 
@@ -41,20 +42,28 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
     //シリアライズ用
     var userDefaultsData = UserDefaults.standard
     
+    //realm用
+    private var realmInstance: Realm? = nil
+    var usageDataInstance: Results<UsageModel>? = nil
+    
     
     //var elapsed_time: Int = 0
     
     //セーブボタン
     //本の内容だと古いので以下を参考にする
     //https://qiita.com/rcftdbeu/items/2de95d1bc8f520f590ef
+    //Realmに追加するボタンに変更
     @IBAction func buttonSave(_ sender: Any) {
-        serializeMTCC()
+        //serializeMTCC()
+        addDataToRealm()
     }
     
     //ロードボタン
     //古いのを直したのはセーブと同じ
+    //Realmから読み込むボタンに変更
     @IBAction func buttnLoad(_ sender: Any) {
-        unserializeMTCC()
+        //unserializeMTCC()
+        loadDataFromRealm()
     }
     
     //リセットボタン
@@ -81,7 +90,14 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
         // initialize variables
         initSettings()
         
-
+        //Realmの処理
+        //Realmのインスタンスを取得
+        //realmInstance = try! Realm()
+        //Realmデータベースに登録されているデータを取得
+        //usageDataInstance = realmInstance?.objects(UsageModel.self)
+        //ここで一旦保存されているデータの数を出してみる
+        //print(usageDataInstance?.count ?? "no data")
+        initRelam() //Realmデータの初期化（削除）
         
         // start scheduled timer
         timerAlways = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(self.updateAlways), userInfo: nil, repeats: true)
@@ -91,6 +107,55 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
     //----------------------------------------------------------------
     // functions
     //----------------------------------------------------------------
+    
+    //----------------------------------------------------------------
+    // Realm関係のためのコード
+    //----------------------------------------------------------------
+    func addDataToRealm(){
+        // mtccから各種データを取り出して保存
+        // createDate: これは実行タイミングの日時
+        // unlocked_num
+        // total_unlocked_num
+        // unlocked_time
+        // total_unlocked_time
+        
+        //モデルのインスタンス化
+        let usageModel: UsageModel = UsageModel()
+        //日時の取得
+        //各項目をセット
+        usageModel.createDate = mtcc.getNowDate()
+        usageModel.unlocked_num = mtcc.unlockedcounter
+        usageModel.total_unlocked_num = mtcc.total_unlockedcounter
+        usageModel.unlocked_time = mtcc.today_unlocked
+        usageModel.total_unlocked_time = mtcc.total_unlocked
+        //Realmデータベースを取得
+        realmInstance = try! Realm()
+        //データベースに追加
+        try! realmInstance?.write{
+            realmInstance?.add(usageModel)
+        }
+    }
+    
+    func loadDataFromRealm(){
+        //Realmからデータをロードする
+        realmInstance = try! Realm()
+        usageDataInstance = realmInstance?.objects(UsageModel.self)
+        //ログを出す
+        print("アイテム数：" + String(usageDataInstance!.count))
+        var tmpstr: String = "createDate,unlocked_num,total_unlocked_num,unlocked_time,total_unlocked_time\n"
+        for item in usageDataInstance!{
+            tmpstr += item.createDate + "," + String(item.unlocked_num) + "," + String(item.total_unlocked_num) + "," + String(item.unlocked_time) + "," + String(item.total_unlocked_time) + "\n"
+        }
+        print(tmpstr)
+    }
+    
+    func initRelam(){
+        //初期化
+        realmInstance = try! Realm()
+        try! realmInstance?.write{
+            realmInstance?.deleteAll()
+        }
+    }
     
     //----------------------------------------------------------------
     //  シリアライズ処理のためのコード
@@ -360,6 +425,7 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
     
     // *************************************
     //  Lock/UnLock start
+    // 次のURLを参照   https://stackoverflow.com/questions/7888490/how-can-i-detect-screen-lock-unlock-events-on-the-iphone/57967050#57967050
 
 
     struct NotificationName {
