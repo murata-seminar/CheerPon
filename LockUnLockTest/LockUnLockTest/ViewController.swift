@@ -14,6 +14,8 @@ import FirebaseFirestore
 
 class ViewController: UIViewController, CLLocationManagerDelegate {
 
+    //デバイスのID(UUID)
+    let deviceid = UIDevice.current.identifierForVendor!.uuidString
     //時間計算用
     var mtcc = myTimeCalculationClass()
     //メッセージ通知用
@@ -60,7 +62,7 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
     @IBAction func buttonSave(_ sender: Any) {
         //serializeMTCC()
         addDataToRealm()
-        addDataToFirestore()
+        addDataToFirestore(deviceid: deviceid, messageid: 0)
     }
     
     //ロードボタン
@@ -122,10 +124,10 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
     //----------------------------------------------------------------
     // FireStore用のコード
     //----------------------------------------------------------------
-    private func addDataToFirestore(){
+    private func addDataToFirestore(deviceid: String, messageid: Int){
         // Add a new document with a generated ID
-        var ref: DocumentReference? = nil
-        
+        //var ref: DocumentReference? = nil
+        /*
         ref = db.collection("cheerpontest").addDocument(data: [
             "createDate": mtcc.getNowDate(),
             "unlocked_num": mtcc.unlockedcounter,
@@ -139,10 +141,31 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
                 print("Firestore :  Document added with ID: \(ref!.documentID)")
             }
         }
+        */
         
+        let documentname = deviceid + "-" + String(mtcc.getNowSeconds())
+        var message: String = ""
         
-        /*
-        db.collection("cheerpontest").document("testid").setData([
+        switch messageid{
+        case 0:
+            message = "test"
+        case 1:
+            message = "regular"
+        case 2:
+            message = "unlocked-ouen"
+        case 3:
+            message = "unlocked-aori"
+        case 4:
+            message = "continue-ouen"
+        case 5:
+            message = "continue-aori"
+        default:
+            message = ""
+        }
+        
+        db.collection("cheerpontest").document(documentname).setData([
+            "deviceid": deviceid,
+            "messagedi": message,
             "createDate": mtcc.getNowDate(),
             "unlocked_num": mtcc.unlockedcounter,
             "total_unlocked_num": mtcc.total_unlockedcounter,
@@ -152,11 +175,12 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
             if let err = err {
                 print("Firestoreのエラー Error adding document: \(err)")
             }else{
-                print("Firestoreのエラー Document added ")
+                //print("Firestoreのエラー Document added ")
             }
         }
-        */
+        
     }
+    
     
     private func loadDataFromFirestore(){
         db.collection("cheerpontest").getDocuments(){ (QuerySnapshot, err) in
@@ -350,6 +374,8 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
                     mnc.title = "\((mtcc.timer_counter / 60))分間使ってるよ！"
                     mnc.body = "そんなに使ったら電池減っちゃうよ😣使わないように頑張って！"
                     mnc.sendMessage()
+                    
+                    addDataToFirestore(deviceid: deviceid, messageid: 4)
                 }
             }else{
                 //5分ごとに通知
@@ -370,6 +396,8 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
                     mnc.title = "\(mtcc.timer_counter / 60)分も経ったぞ！"
                     mnc.body = message
                     mnc.sendMessage()
+                    
+                    addDataToFirestore(deviceid: deviceid, messageid: 5)
                 }
             }
             
@@ -391,6 +419,8 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
                     self.mnc.body = message
                     self.mnc.sendMessage()
                     
+                    addDataToFirestore(deviceid: deviceid, messageid: 2)
+                    
                 } else if self.mtcc.unlockedcounter % 5 == 0 && self.mtcc.unlockedcounter > 50 {
                     var message: String = ""
                     if self.mtcc.checkTime(from: 5, to: 11) {    //午前
@@ -407,6 +437,8 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
                     self.mnc.title = "これでもう\(self.mtcc.unlockedcounter)回目だぞ！"
                     self.mnc.body = message
                     self.mnc.sendMessage()
+                    
+                    addDataToFirestore(deviceid: deviceid, messageid: 3)
                 }
             }
         }
@@ -421,6 +453,8 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
             mnc.title = NSString.localizedUserNotificationString(forKey: "おはよう☀️今日も1日頑張ろう！", arguments: nil)
             mnc.body = NSString.localizedUserNotificationString(forKey: message, arguments: nil)
             mnc.sendMessage()
+            
+            addDataToFirestore(deviceid: deviceid, messageid: 1)
         }
         
         //12:00
@@ -432,6 +466,8 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
             mnc.title = NSString.localizedUserNotificationString(forKey: "お昼の時間だね🕛", arguments: nil)
             mnc.body = NSString.localizedUserNotificationString(forKey: message, arguments: nil)
             mnc.sendMessage()
+            
+            addDataToFirestore(deviceid: deviceid, messageid: 1)
         }
         
         //22:00
@@ -443,6 +479,8 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
             mnc.title = NSString.localizedUserNotificationString(forKey: "もうこんな時間💦", arguments: nil)
             mnc.body = NSString.localizedUserNotificationString(forKey: message, arguments: nil)
             mnc.sendMessage()
+            
+            addDataToFirestore(deviceid: deviceid, messageid: 1)
         }
         
         //print("lock: " + String(mtcc.lockcounter))
