@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		751FC9AA241B5680005E1FCB /* NameInputViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 751FC9A9241B5680005E1FCB /* NameInputViewController.swift */; };
 		75298B3423EBDD490071407E /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75298B3323EBDD490071407E /* AppDelegate.swift */; };
 		75298B3623EBDD490071407E /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75298B3523EBDD490071407E /* SceneDelegate.swift */; };
 		75298B3823EBDD490071407E /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75298B3723EBDD490071407E /* ViewController.swift */; };
@@ -22,6 +23,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		751FC9A9241B5680005E1FCB /* NameInputViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NameInputViewController.swift; sourceTree = "<group>"; };
 		75298B3023EBDD490071407E /* LockUnLockTest.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = LockUnLockTest.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		75298B3323EBDD490071407E /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		75298B3523EBDD490071407E /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -97,6 +99,7 @@
 				75298B3523EBDD490071407E /* SceneDelegate.swift */,
 				75298B3723EBDD490071407E /* ViewController.swift */,
 				75298B3923EBDD490071407E /* Main.storyboard */,
+				751FC9A9241B5680005E1FCB /* NameInputViewController.swift */,
 				75298B3C23EBDD4C0071407E /* Assets.xcassets */,
 				75298B3E23EBDD4C0071407E /* LaunchScreen.storyboard */,
 				75298B4123EBDD4C0071407E /* Info.plist */,
@@ -222,6 +225,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				751FC9AA241B5680005E1FCB /* NameInputViewController.swift in Sources */,
 				75298B3823EBDD490071407E /* ViewController.swift in Sources */,
 				757B7DE823F500C1005422DA /* myNoificationMessages.swift in Sources */,
 				75298B3423EBDD490071407E /* AppDelegate.swift in Sources */,
