@@ -16,6 +16,12 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
 
     //デバイスのID(UUID)
     let deviceid = UIDevice.current.identifierForVendor!.uuidString
+    
+    //定時メッセージの表示時刻
+    var morning: String = "070000"
+    var afternoon: String = "120000"
+    var night: String = "220000"
+    
     //時間計算用
     var mtcc = myTimeCalculationClass()
     //メッセージ通知用
@@ -62,7 +68,7 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
     @IBAction func buttonSave(_ sender: Any) {
         //serializeMTCC()
         addDataToRealm()
-        addDataToFirestore(deviceid: deviceid, messageid: 0)
+        addDataToFirestore(deviceid: deviceid, messageid: 0, message: mnc.body)
     }
     
     //ロードボタン
@@ -124,7 +130,7 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
     //----------------------------------------------------------------
     // FireStore用のコード
     //----------------------------------------------------------------
-    private func addDataToFirestore(deviceid: String, messageid: Int){
+    private func addDataToFirestore(deviceid: String, messageid: Int, message: String){
         // Add a new document with a generated ID
         //var ref: DocumentReference? = nil
         /*
@@ -143,34 +149,40 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
         }
         */
         
-        let documentname = deviceid + "-" + String(mtcc.getNowSeconds())
-        var message: String = ""
+        let documentname = deviceid + "_" + String(mtcc.getNowSeconds())
+        var messagetype: String = ""
         
         switch messageid{
         case 0:
-            message = "test"
+            messagetype = "test"
         case 1:
-            message = "regular"
+            messagetype = "regular"
         case 2:
-            message = "unlocked-ouen"
+            messagetype = "unlocked-ouen"
         case 3:
-            message = "unlocked-aori"
+            messagetype = "unlocked-aori"
         case 4:
-            message = "continue-ouen"
+            messagetype = "continue-ouen"
         case 5:
-            message = "continue-aori"
+            messagetype = "continue-aori"
+        case 6:
+            messagetype = "dailycheck"
         default:
-            message = ""
+            messagetype = ""
         }
         
         db.collection("cheerpontest").document(documentname).setData([
             "deviceid": deviceid,
-            "messagedi": message,
+            "messagetype": messagetype,
+            "message": message,
             "createDate": mtcc.getNowDate(),
             "unlocked_num": mtcc.unlockedcounter,
+            "today_unlocked_num": mtcc.unlockedcounter,
             "total_unlocked_num": mtcc.total_unlockedcounter,
             "unlocked_time": mtcc.today_unlocked,
-            "total_unlicked_time": mtcc.total_unlocked
+            // アンロック時間は、本日のアンロック時間＋現在のアンロック時間
+            "today_unlocked_time": (mtcc.today_unlocked + Double(mtcc.timer_counter)),
+            "total_unlocked_time": mtcc.total_unlocked
         ]) { err in
             if let err = err {
                 print("Firestoreのエラー Error adding document: \(err)")
@@ -375,7 +387,7 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
                     mnc.body = "そんなに使ったら電池減っちゃうよ😣使わないように頑張って！"
                     mnc.sendMessage()
                     
-                    addDataToFirestore(deviceid: deviceid, messageid: 4)
+                    addDataToFirestore(deviceid: deviceid, messageid: 4, message: mnc.body)
                 }
             }else{
                 //5分ごとに通知
@@ -397,7 +409,7 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
                     mnc.body = message
                     mnc.sendMessage()
                     
-                    addDataToFirestore(deviceid: deviceid, messageid: 5)
+                    addDataToFirestore(deviceid: deviceid, messageid: 5, message: mnc.body)
                 }
             }
             
@@ -419,7 +431,7 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
                     self.mnc.body = message
                     self.mnc.sendMessage()
                     
-                    addDataToFirestore(deviceid: deviceid, messageid: 2)
+                    addDataToFirestore(deviceid: deviceid, messageid: 2, message: mnc.body)
                     
                 } else if self.mtcc.unlockedcounter % 5 == 0 && self.mtcc.unlockedcounter > 50 {
                     var message: String = ""
@@ -438,14 +450,14 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
                     self.mnc.body = message
                     self.mnc.sendMessage()
                     
-                    addDataToFirestore(deviceid: deviceid, messageid: 3)
+                    addDataToFirestore(deviceid: deviceid, messageid: 3, message: mnc.body)
                 }
             }
         }
         
         //定時コメントの処理
         //7:00
-        if(mtcc.getNowTime() == "070000"){
+        if(mtcc.getNowTime() == morning){
             //バッジ表示
             UIApplication.shared.applicationIconBadgeNumber = 1
             //通知メッセージのセット
@@ -454,11 +466,11 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
             mnc.body = NSString.localizedUserNotificationString(forKey: message, arguments: nil)
             mnc.sendMessage()
             
-            addDataToFirestore(deviceid: deviceid, messageid: 1)
+            addDataToFirestore(deviceid: deviceid, messageid: 1, message: mnc.body)
         }
         
         //12:00
-        if(mtcc.getNowTime() == "120000"){
+        if(mtcc.getNowTime() == afternoon){
             //バッジ表示
             UIApplication.shared.applicationIconBadgeNumber = 1
             //通知メッセージのセット
@@ -467,11 +479,11 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
             mnc.body = NSString.localizedUserNotificationString(forKey: message, arguments: nil)
             mnc.sendMessage()
             
-            addDataToFirestore(deviceid: deviceid, messageid: 1)
+            addDataToFirestore(deviceid: deviceid, messageid: 1, message: mnc.body)
         }
         
         //22:00
-        if(mtcc.getNowTime() == "220000"){
+        if(mtcc.getNowTime() == night){
             //バッジ表示
             UIApplication.shared.applicationIconBadgeNumber = 1
             //通知メッセージのセット
@@ -480,7 +492,55 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
             mnc.body = NSString.localizedUserNotificationString(forKey: message, arguments: nil)
             mnc.sendMessage()
             
-            addDataToFirestore(deviceid: deviceid, messageid: 1)
+            addDataToFirestore(deviceid: deviceid, messageid: 1, message: mnc.body)
+        }
+        
+        //23:59:59
+        if(mtcc.getNowTime() == "235959"){
+            //その日の集計を送る
+            addDataToFirestore(deviceid: deviceid, messageid: 6, message: "本日の集計結果")
+            //翌日の定時メッセージ時刻の決定
+            var hour: Int
+            var minute: Int
+            //morning 7:00 - 8:30
+            hour = Int.random(in: 7...8)
+            morning = "0" + String(hour)
+            if hour == 7 {
+                minute = Int.random(in: 0...59)
+            }else{
+                minute = Int.random(in: 0...30)
+            }
+            if minute < 10 {
+                morning += "0" + String(minute) + "00"
+            }else{
+                morning += String(minute) + "00"
+            }
+            //afternoon 12:00 - 13:30
+            hour = Int.random(in: 12...13)
+            afternoon = String(hour)
+            if hour == 12 {
+                minute = Int.random(in: 0...59)
+            }else{
+                minute = Int.random(in: 0...30)
+            }
+            if minute < 10 {
+                afternoon += "0" + String(minute) + "00"
+            }else{
+                afternoon += String(minute) + "00"
+            }
+            //night  22:00 - 22:30
+            hour = Int.random(in: 22...23)
+            night = String(hour)
+            if hour == 22 {
+                minute = Int.random(in: 0...59)
+            }else{
+                minute = Int.random(in: 0...30)
+            }
+            if minute < 10 {
+                night += "0" + String(minute) + "00"
+            }else{
+                night += String(minute) + "00"
+            }
         }
         
         //print("lock: " + String(mtcc.lockcounter))
