@@ -85,6 +85,46 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
         resetVariables()
     }
     
+    //名前入力ボタン
+    @IBAction func buttonNameInput(_ sender: Any) {
+        //特に何もしない
+        //performSegue(withIdentifier: "toNameInput", sender: nil)
+    }
+    
+    @IBOutlet weak var buttonNameInput: UIButton!
+    
+    //名前入力画面から戻ってきた時の処理
+    var username: String = "no name"
+    @IBAction func restart(_ segue: UIStoryboardSegue){
+        //キャンセルボタンを押した時の処理に使う
+        
+        //特に何もしない
+        //print(username)
+        //let viewController = segue.destination as! NameInputViewController
+        //print(viewController.username)
+    }
+    
+    //設定ボタン（名前入力）を押した時の処理
+    //変数を書き換える処理ごとクロージャで渡す作戦
+    // https://qiita.com/ichikawa7ss/items/df8cd87e66ada42cb560
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == "toNameInput" {
+            //遷移先のVIewControllerを取得
+            let next = segue.destination as? NameInputViewController
+            //遷移先のプロパティに処理後と渡す
+            next?.resultHandler = { text in
+                //引数を使って値を更新する処理
+                if text == "" {
+                    self.username = "no name"
+                }else{
+                    self.username = text
+                    self.buttonNameInput.isEnabled = false
+                    self.buttonNameInput.isHidden = true
+                }
+                print(self.username)
+            }
+        }
+    }
     //----------------------------------------------------------------
     // viewDidLoad
     //----------------------------------------------------------------
@@ -172,6 +212,7 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
         }
         
         db.collection("cheerpontest").document(documentname).setData([
+            "username": username,
             "deviceid": deviceid,
             "messagetype": messagetype,
             "message": message,
