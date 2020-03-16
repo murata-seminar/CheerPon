@@ -265,6 +265,12 @@ class myTimeCalculationClass: NSObject, NSSecureCoding {
     func getTodayUnLockedTime() -> String{
         return formatSecToTime(seconds: today_unlocked)
     }
+    
+    //本日の累積アンロック時間（リアルタイム）をかえす
+    func getTodayUnLockedTimeRealtime() -> String{
+        return formatSecToTime(seconds: (today_unlocked + Double(timer_counter)))
+    }
+    
     //本日のロック時間をかえす
     func getTodayLockedTime() -> String{
         return formatSecToTime(seconds: today_locked)
