@@ -74,7 +74,7 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
     //ロードボタン
     //古いのを直したのはセーブと同じ
     //Realmから読み込むボタンに変更
-    @IBAction func buttnLoad(_ sender: Any) {
+    @IBAction func buttonLoad(_ sender: Any) {
         //unserializeMTCC()
         loadDataFromRealm()
         loadDataFromFirestore()
@@ -91,7 +91,11 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
         //performSegue(withIdentifier: "toNameInput", sender: nil)
     }
     
+    //ボタンの表示/非表示用
     @IBOutlet weak var buttonNameInput: UIButton!
+    @IBOutlet weak var buttonSave: UIButton!
+    @IBOutlet weak var buttonLoad: UIButton!
+    
     
     //名前入力画面から戻ってきた時の処理
     var username: String = "no name"
@@ -349,6 +353,12 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
     func initSettings(){
         
         //resetVariables()    //特にリセットする値がないけど、一応将来のためにおいておく
+        
+        //saveボタンとLoadボタンを隠す
+        buttonSave.isEnabled = false
+        buttonSave.isHidden = true
+        buttonLoad.isEnabled = false
+        buttonLoad.isHidden = true
         
         //基準日時を作成する
         mtcc.standardtime = mtcc.getStandardTime(sdate: mtcc.starttime)
