@@ -16,10 +16,14 @@ class NameInputViewController: UIViewController {
     
     @IBOutlet weak var notice_text: UILabel!
     
+    @IBOutlet weak var Set_button: UIButton!
+    @IBOutlet weak var Cancel_button: UIButton!
+    
+    
     //遷移元から受け取るクロージャのプロパティ
     var resultHandler: ((String) -> Void)?
     
-    @IBAction func cancel_button(_ sender: Any) {
+    @IBAction func Cancel_button(_ sender: Any) {
         //username = name_text.text ?? "no name"
         
     }
@@ -33,6 +37,9 @@ class NameInputViewController: UIViewController {
         if let handler = self.resultHandler{
             handler(username)
         }
+        
+        //設定できないようにする
+       
         
         //元に戻る
         self.dismiss(animated: true, completion: nil)

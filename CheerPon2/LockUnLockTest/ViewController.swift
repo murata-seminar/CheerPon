@@ -34,6 +34,12 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
     // 画面表示用
     //@IBOutlet weak var labelTotalLockNum: UILabel!
     @IBOutlet weak var labelTodayLockNum: UILabel!
+    @IBOutlet weak var buttonSave: UIButton!
+    @IBOutlet weak var buttonLoad: UIButton!
+    @IBOutlet weak var buttonNameInput: UIButton!
+    @IBOutlet weak var buttonReset: UIButton!
+    
+    
     
     var lockcounter: Int = 0
 
@@ -91,7 +97,7 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
         //performSegue(withIdentifier: "toNameInput", sender: nil)
     }
     
-    @IBOutlet weak var buttonNameInput: UIButton!
+
     
     //名前入力画面から戻ってきた時の処理
     var username: String = "no name"
@@ -143,6 +149,14 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
         
         // initialize variables
         initSettings()
+        
+        //ボタンの処理
+        buttonSave.isEnabled = false
+        buttonSave.isHidden = true
+        buttonLoad.isEnabled = false
+        buttonLoad.isHidden = true
+        buttonReset.isEnabled = false
+        buttonReset.isHidden = true
         
         //Realmの処理
         //Realmのインスタンスを取得
@@ -409,7 +423,7 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
     //----------------------------------------------------------------
     func showDisplayStrings(){
         //labelTotalLockNum.text = "lock: " + String(mtcc.total_lockedcounter) + ", unlock: " + String(mtcc.total_unlockedcounter)
-        labelTodayLockNum.text = "lock: " + String(mtcc.lockedcounter) + ", unlock: " + String(mtcc.unlockedcounter)
+        labelTodayLockNum.text = String(mtcc.unlockedcounter) + "回"
         //labelTotalLockedTime.text = mtcc.getTotalLockedTime()
         //labelTotalUnLockedTime.text = mtcc.getTotalUnLockedTime()
         //labelTodayLockedTime.text = mtcc.getTodayLockedTime()
