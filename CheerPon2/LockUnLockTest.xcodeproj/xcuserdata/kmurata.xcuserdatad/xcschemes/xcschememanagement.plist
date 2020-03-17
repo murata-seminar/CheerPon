@@ -4,18 +4,10 @@
 <dict>
 	<key>SchemeUserState</key>
 	<dict>
-		<key>CheerPon2.xcscheme_^#shared#^_</key>
+		<key>LockUnLockTest.xcscheme_^#shared#^_</key>
 		<dict>
 			<key>orderHint</key>
-			<integer>26</integer>
-		</dict>
-	</dict>
-	<key>SuppressBuildableAutocreation</key>
-	<dict>
-		<key>75298B2F23EBDD490071407E</key>
-		<dict>
-			<key>primary</key>
-			<true/>
+			<integer>25</integer>
 		</dict>
 	</dict>
 </dict>

@@ -11,6 +11,6 @@
 #endif
 
 
-FOUNDATION_EXPORT double Pods_CheerPon2VersionNumber;
-FOUNDATION_EXPORT const unsigned char Pods_CheerPon2VersionString[];
+FOUNDATION_EXPORT double Pods_LockUnLockTestVersionNumber;
+FOUNDATION_EXPORT const unsigned char Pods_LockUnLockTestVersionString[];
 

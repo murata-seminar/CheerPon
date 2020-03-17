@@ -32,18 +32,18 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
     var timerAlways = Timer()
     
     // 画面表示用
-    //@IBOutlet weak var labelTotalLockNum: UILabel!
+    @IBOutlet weak var labelTotalLockNum: UILabel!
     @IBOutlet weak var labelTodayLockNum: UILabel!
     
     var lockcounter: Int = 0
 
     // 経過時間
-    //@IBOutlet weak var labelTotalTime: UILabel!
-    //@IBOutlet weak var labelTotalLockedTime: UILabel!
-    //@IBOutlet weak var labelTotalUnLockedTime: UILabel!
-    //@IBOutlet weak var labelTodayLockedTime: UILabel!
+    @IBOutlet weak var labelTotalTime: UILabel!
+    @IBOutlet weak var labelTotalLockedTime: UILabel!
+    @IBOutlet weak var labelTotalUnLockedTime: UILabel!
+    @IBOutlet weak var labelTodayLockedTime: UILabel!
     @IBOutlet weak var labelTodayUnLockedTime: UILabel!
-    //@IBOutlet weak var labelNowUnLockedTime: UILabel!
+    @IBOutlet weak var labelNowUnLockedTime: UILabel!
     
     //制御用
     var flag_unlocked: Bool = true
@@ -74,7 +74,7 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
     //ロードボタン
     //古いのを直したのはセーブと同じ
     //Realmから読み込むボタンに変更
-    @IBAction func buttonLoad(_ sender: Any) {
+    @IBAction func buttnLoad(_ sender: Any) {
         //unserializeMTCC()
         loadDataFromRealm()
         loadDataFromFirestore()
@@ -91,11 +91,7 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
         //performSegue(withIdentifier: "toNameInput", sender: nil)
     }
     
-    //ボタンの表示/非表示用
     @IBOutlet weak var buttonNameInput: UIButton!
-    @IBOutlet weak var buttonSave: UIButton!
-    @IBOutlet weak var buttonLoad: UIButton!
-    
     
     //名前入力画面から戻ってきた時の処理
     var username: String = "no name"
@@ -354,12 +350,6 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
         
         //resetVariables()    //特にリセットする値がないけど、一応将来のためにおいておく
         
-        //saveボタンとLoadボタンを隠す
-        buttonSave.isEnabled = false
-        buttonSave.isHidden = true
-        buttonLoad.isEnabled = false
-        buttonLoad.isHidden = true
-        
         //基準日時を作成する
         mtcc.standardtime = mtcc.getStandardTime(sdate: mtcc.starttime)
         
@@ -415,23 +405,36 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
     }
     
     //----------------------------------------------------------------
+    // 基本的な画面表示
+    //----------------------------------------------------------------
+    func showDisplayStrings(){
+        labelTotalLockNum.text = "lock: " + String(mtcc.total_lockedcounter) + ", unlock: " + String(mtcc.total_unlockedcounter)
+        labelTodayLockNum.text = "lock: " + String(mtcc.lockedcounter) + ", unlock: " + String(mtcc.unlockedcounter)
+        labelTotalLockedTime.text = mtcc.getTotalLockedTime()
+        labelTotalUnLockedTime.text = mtcc.getTotalUnLockedTime()
+        labelTodayLockedTime.text = mtcc.getTodayLockedTime()
+        labelTodayUnLockedTime.text = mtcc.getTodayUnLockedTime()
+        labelNowUnLockedTime.text = mtcc.formatSecToTime(seconds: Double(mtcc.timer_counter))
+    }
+    
+    //----------------------------------------------------------------
     // 1秒ごとに繰り返されるループ
     //----------------------------------------------------------------
     @objc func updateAlways(){
         //labelTotalLockNum.text = "lock: " + String(mtcc.total_lockedcounter) + ", unlock: " + String(mtcc.total_unlockedcounter)
-        
+        //labelTodayLockNum.text = "lock: " + String(mtcc.lockedcounter) + ", unlock: " + String(mtcc.unlockedcounter)
         //labelTotalLockedTime.text = mtcc.getTotalLockedTime()
         //labelTotalUnLockedTime.text = mtcc.getTotalUnLockedTime()
         //labelTodayLockedTime.text = mtcc.getTodayLockedTime()
+        //labelTodayUnLockedTime.text = mtcc.getTodayUnLockedTime()
         
         //現在のアンロック時間の処理
         if flag_unlocked {
             mtcc.timer_counter += 1
             //labelNowUnLockedTime.text = mtcc.formatSecToTime(seconds: Double(mtcc.timer_counter))
-            //今日の使用時間
-            labelTodayUnLockedTime.text = mtcc.getTodayUnLockedTimeRealtime()
-            //今日の起動回数
-            labelTodayLockNum.text = String(mtcc.unlockedcounter) + "回"
+            
+            //表示
+            showDisplayStrings()
             
             //30分以内であれば15分ごとにちあポン通知
             if mtcc.timer_counter <= 1800 {

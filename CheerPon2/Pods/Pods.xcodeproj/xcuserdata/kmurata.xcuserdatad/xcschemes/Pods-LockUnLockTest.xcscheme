@@ -14,9 +14,9 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "0CD226614211359BF12F61090761A687"
-               BuildableName = "Pods_CheerPon2.framework"
-               BlueprintName = "Pods-CheerPon2"
+               BlueprintIdentifier = "1BB09024B8EA5ABC7077A0FFDC7A872E"
+               BuildableName = "Pods_LockUnLockTest.framework"
+               BlueprintName = "Pods-LockUnLockTest"
                ReferencedContainer = "container:Pods.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
