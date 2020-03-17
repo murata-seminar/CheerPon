@@ -32,16 +32,16 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
     var timerAlways = Timer()
     
     // 画面表示用
-    @IBOutlet weak var labelTotalLockNum: UILabel!
+    //@IBOutlet weak var labelTotalLockNum: UILabel!
     @IBOutlet weak var labelTodayLockNum: UILabel!
     
     var lockcounter: Int = 0
 
     // 経過時間
     @IBOutlet weak var labelTotalTime: UILabel!
-    @IBOutlet weak var labelTotalLockedTime: UILabel!
-    @IBOutlet weak var labelTotalUnLockedTime: UILabel!
-    @IBOutlet weak var labelTodayLockedTime: UILabel!
+    //@IBOutlet weak var labelTotalLockedTime: UILabel!
+    //@IBOutlet weak var labelTotalUnLockedTime: UILabel!
+    //@IBOutlet weak var labelTodayLockedTime: UILabel!
     @IBOutlet weak var labelTodayUnLockedTime: UILabel!
     @IBOutlet weak var labelNowUnLockedTime: UILabel!
     
@@ -408,11 +408,11 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
     // 基本的な画面表示
     //----------------------------------------------------------------
     func showDisplayStrings(){
-        labelTotalLockNum.text = "lock: " + String(mtcc.total_lockedcounter) + ", unlock: " + String(mtcc.total_unlockedcounter)
+        //labelTotalLockNum.text = "lock: " + String(mtcc.total_lockedcounter) + ", unlock: " + String(mtcc.total_unlockedcounter)
         labelTodayLockNum.text = "lock: " + String(mtcc.lockedcounter) + ", unlock: " + String(mtcc.unlockedcounter)
-        labelTotalLockedTime.text = mtcc.getTotalLockedTime()
-        labelTotalUnLockedTime.text = mtcc.getTotalUnLockedTime()
-        labelTodayLockedTime.text = mtcc.getTodayLockedTime()
+        //labelTotalLockedTime.text = mtcc.getTotalLockedTime()
+        //labelTotalUnLockedTime.text = mtcc.getTotalUnLockedTime()
+        //labelTodayLockedTime.text = mtcc.getTodayLockedTime()
         labelTodayUnLockedTime.text = mtcc.getTodayUnLockedTime()
         labelNowUnLockedTime.text = mtcc.formatSecToTime(seconds: Double(mtcc.timer_counter))
     }

@@ -263,7 +263,8 @@ class myTimeCalculationClass: NSObject, NSSecureCoding {
     
     //本日のアンロック時間をかえす
     func getTodayUnLockedTime() -> String{
-        return formatSecToTime(seconds: today_unlocked)
+        let today_total_unlockedtime = today_unlocked + Double(timer_counter)
+        return formatSecToTime(seconds: today_total_unlockedtime)
     }
     //本日のロック時間をかえす
     func getTodayLockedTime() -> String{
