@@ -33,7 +33,13 @@ class myTimeCalculationClass: NSObject, NSSecureCoding {
     var total_lockedcounter:Int = 0     //前日までの累積ロック回数
     var timer_counter: Int = 0
     
+    //ユーザ名保存用
+    var username: String = "no name"
 
+    //ユーザ名の保存
+    func setUserName(name: String){
+        username = name
+    }
     
     //ここから基準日の話
     //次の日の0:00用の日付
@@ -66,6 +72,7 @@ class myTimeCalculationClass: NSObject, NSSecureCoding {
         total_unlockedcounter = coder.decodeInteger(forKey: "total_unlockedcounter") as Int
         total_lockedcounter = coder.decodeInteger(forKey: "total_lockedcounter") as Int
         timer_counter = coder.decodeInteger(forKey: "timer_counter") as Int
+        username = coder.decodeObject(forKey: "username") as? String ?? "no name"
     }
     
     func encode(with coder: NSCoder) {
@@ -86,6 +93,7 @@ class myTimeCalculationClass: NSObject, NSSecureCoding {
         coder.encode(total_unlockedcounter, forKey: "total_unlockedcounter")
         coder.encode(total_lockedcounter, forKey: "total_lockedcounter")
         coder.encode(timer_counter, forKey: "timer_counter")
+        coder.encode(username, forKey: "username")
         
         //print("finish encode.")
     }

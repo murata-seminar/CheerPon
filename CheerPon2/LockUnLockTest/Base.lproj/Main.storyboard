@@ -91,7 +91,7 @@
                                     <segue destination="B1F-we-ZTJ" kind="presentation" identifier="toNameInput" id="1fC-Bf-MhE"/>
                                 </connections>
                             </button>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="スマホの使用状況に応じて、 ちあぽんがアドバイスするよ♪ あなたを応援しています💕 時々ちあぽんに会いに来てね😊" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="5" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="vGw-Zc-vMT">
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="スマホの使用状況に応じて、 アドバイスするよ♪ あなたを応援しています💕 時々会いに来てね😊" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="5" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="vGw-Zc-vMT">
                                 <rect key="frame" x="108" y="559" width="288" height="82"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="82" id="IUd-zJ-dS5"/>
@@ -106,8 +106,8 @@
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="cheerpon_penguin" translatesAutoresizingMaskIntoConstraints="NO" id="Oyi-MT-zhs">
-                                <rect key="frame" x="133" y="655" width="334" height="207"/>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="normal" translatesAutoresizingMaskIntoConstraints="NO" id="Oyi-MT-zhs">
+                                <rect key="frame" x="133" y="655" width="261" height="207"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="207" id="XUl-yg-cf4"/>
                                 </constraints>
@@ -132,6 +132,7 @@
                             <constraint firstItem="Oyi-MT-zhs" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="133" id="SRt-gQ-aXA"/>
                             <constraint firstItem="uSW-R9-cTj" firstAttribute="leading" secondItem="EL6-Kj-w6C" secondAttribute="leading" id="SSW-w5-xPT"/>
                             <constraint firstItem="1F3-1s-Dry" firstAttribute="trailing" secondItem="6Tk-OE-BBY" secondAttribute="trailing" id="T0z-ri-SPW"/>
+                            <constraint firstAttribute="trailing" secondItem="Oyi-MT-zhs" secondAttribute="trailing" constant="20" symbolic="YES" id="TfX-ZW-319"/>
                             <constraint firstItem="GYN-LE-Hjq" firstAttribute="top" secondItem="rzf-t8-xF7" secondAttribute="bottom" constant="8" id="aBQ-31-tnG"/>
                             <constraint firstItem="uSW-R9-cTj" firstAttribute="top" secondItem="1F3-1s-Dry" secondAttribute="bottom" constant="26" id="aSz-ib-tEc"/>
                             <constraint firstItem="jgN-XG-0Fs" firstAttribute="trailing" secondItem="Rf9-DC-d3F" secondAttribute="trailing" id="b7Q-Ad-cQw"/>
@@ -154,10 +155,12 @@
                         <outlet property="buttonNameInput" destination="jgN-XG-0Fs" id="8Vb-Eq-x7s"/>
                         <outlet property="buttonReset" destination="Rf9-DC-d3F" id="qXv-U5-cB4"/>
                         <outlet property="buttonSave" destination="yhA-EY-Cdy" id="xIs-K5-miu"/>
+                        <outlet property="image_tankobumochio" destination="Oyi-MT-zhs" id="x0q-lx-vGb"/>
                         <outlet property="labelNowUnLockedTime" destination="1F3-1s-Dry" id="mHx-yf-p6Q"/>
                         <outlet property="labelTodayLockNum" destination="GYN-LE-Hjq" id="pbD-5P-HSw"/>
                         <outlet property="labelTodayUnLockedTime" destination="EL6-Kj-w6C" id="Nmr-j6-g2w"/>
                         <outlet property="labelTotalTime" destination="1F3-1s-Dry" id="KDx-sl-wGd"/>
+                        <outlet property="labelUtterance" destination="vGw-Zc-vMT" id="AER-GG-uVG"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
@@ -239,6 +242,6 @@
         </scene>
     </scenes>
     <resources>
-        <image name="cheerpon_penguin" width="800" height="800"/>
+        <image name="normal" width="312" height="231"/>
     </resources>
 </document>

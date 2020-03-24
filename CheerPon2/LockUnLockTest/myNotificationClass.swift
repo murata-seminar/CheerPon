@@ -31,6 +31,12 @@ class myNotificationClass{
         //identifierを作る
         //UNIXタイムを使う
         let current = "\(Date().timeIntervalSince1970)"
+        let current_image = "\(Date().timeIntervalSince1970)"
+        
+        //画像の処理
+        if let imageurl = Bundle.main.url(forResource: "normal", withExtension: "png"), let imageAttachment = try? UNNotificationAttachment(identifier: current_image, url: imageurl, options: nil){
+            content.attachments.append(imageAttachment)
+        }
         
         //通知スタイルを指定
         let request = UNNotificationRequest(identifier: current, content: content, trigger: trigger)

@@ -38,7 +38,12 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
     @IBOutlet weak var buttonLoad: UIButton!
     @IBOutlet weak var buttonNameInput: UIButton!
     @IBOutlet weak var buttonReset: UIButton!
-    
+    @IBOutlet weak var labelUtterance: UILabel!
+    let image_normal = UIImage(named: "normal")
+    let image_cheer = UIImage(named: "cheer")
+    let image_emptiness = UIImage(named: "emptiness")
+    let image_praise = UIImage(named: "praise")
+    @IBOutlet weak var image_tankobumochio: UIImageView!
     
     
     var lockcounter: Int = 0
@@ -367,6 +372,13 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
         //基準日時を作成する
         mtcc.standardtime = mtcc.getStandardTime(sdate: mtcc.starttime)
         
+        //名前が設定されている場合はボタンを消す
+        if(username != "no name"){
+            buttonNameInput.isEnabled = false
+            buttonNameInput.isHidden = true
+            print("username was set as " + username)
+        }
+        
         // *************************************
         //  BackgroundTask (using GPS) start
 
@@ -457,6 +469,8 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
                     mnc.title = "\((mtcc.timer_counter / 60))分間使ってるよ！"
                     mnc.body = "そんなに使ったら電池減っちゃうよ😣使わないように頑張って！"
                     mnc.sendMessage()
+                    labelUtterance.text = mnc.body
+                    image_tankobumochio.image = image_cheer
                     
                     addDataToFirestore(deviceid: deviceid, messageid: 4, message: mnc.body)
                 }
@@ -479,6 +493,8 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
                     mnc.title = "\(mtcc.timer_counter / 60)分も経ったぞ！"
                     mnc.body = message
                     mnc.sendMessage()
+                    labelUtterance.text = mnc.body
+                    image_tankobumochio.image = image_emptiness
                     
                     addDataToFirestore(deviceid: deviceid, messageid: 5, message: mnc.body)
                 }
@@ -501,6 +517,8 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
                     self.mnc.title = "今日は\(self.mtcc.unlockedcounter)回開いてるよ😵"
                     self.mnc.body = message
                     self.mnc.sendMessage()
+                    self.labelUtterance.text = mnc.body
+                    image_tankobumochio.image = image_cheer
                     
                     addDataToFirestore(deviceid: deviceid, messageid: 2, message: mnc.body)
                     
@@ -520,6 +538,8 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
                     self.mnc.title = "これでもう\(self.mtcc.unlockedcounter)回目だぞ！"
                     self.mnc.body = message
                     self.mnc.sendMessage()
+                    labelUtterance.text = mnc.body
+                    image_tankobumochio.image = image_emptiness
                     
                     addDataToFirestore(deviceid: deviceid, messageid: 3, message: mnc.body)
                 }
@@ -536,6 +556,8 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
             mnc.title = NSString.localizedUserNotificationString(forKey: "おはよう☀️今日も1日頑張ろう！", arguments: nil)
             mnc.body = NSString.localizedUserNotificationString(forKey: message, arguments: nil)
             mnc.sendMessage()
+            labelUtterance.text = mnc.body
+            image_tankobumochio.image = image_normal
             
             addDataToFirestore(deviceid: deviceid, messageid: 1, message: mnc.body)
         }
@@ -549,6 +571,8 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
             mnc.title = NSString.localizedUserNotificationString(forKey: "お昼の時間だね🕛", arguments: nil)
             mnc.body = NSString.localizedUserNotificationString(forKey: message, arguments: nil)
             mnc.sendMessage()
+            labelUtterance.text = mnc.body
+            image_tankobumochio.image = image_normal
             
             addDataToFirestore(deviceid: deviceid, messageid: 1, message: mnc.body)
         }
@@ -562,6 +586,8 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
             mnc.title = NSString.localizedUserNotificationString(forKey: "もうこんな時間💦", arguments: nil)
             mnc.body = NSString.localizedUserNotificationString(forKey: message, arguments: nil)
             mnc.sendMessage()
+            labelUtterance.text = mnc.body
+            image_tankobumochio.image = image_normal
             
             addDataToFirestore(deviceid: deviceid, messageid: 1, message: mnc.body)
         }
