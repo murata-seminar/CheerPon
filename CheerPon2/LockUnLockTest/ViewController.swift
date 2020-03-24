@@ -129,6 +129,7 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
                     self.username = "no name"
                 }else{
                     self.username = text
+                    self.mtcc.setUserName(name: text)
                     self.buttonNameInput.isEnabled = false
                     self.buttonNameInput.isHidden = true
                 }
@@ -468,6 +469,7 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
                 if mtcc.timer_counter % 900 == 0 {
                     mnc.title = "\((mtcc.timer_counter / 60))分間使ってるよ！"
                     mnc.body = "そんなに使ったら電池減っちゃうよ😣使わないように頑張って！"
+                    mnc.setImage(status: "cheer")
                     mnc.sendMessage()
                     labelUtterance.text = mnc.body
                     image_tankobumochio.image = image_cheer
@@ -492,6 +494,7 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
                     }
                     mnc.title = "\(mtcc.timer_counter / 60)分も経ったぞ！"
                     mnc.body = message
+                    mnc.setImage(status: "emptiness")
                     mnc.sendMessage()
                     labelUtterance.text = mnc.body
                     image_tankobumochio.image = image_emptiness
@@ -516,6 +519,7 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
                     }
                     self.mnc.title = "今日は\(self.mtcc.unlockedcounter)回開いてるよ😵"
                     self.mnc.body = message
+                    self.mnc.setImage(status: "cheer")
                     self.mnc.sendMessage()
                     self.labelUtterance.text = mnc.body
                     image_tankobumochio.image = image_cheer
@@ -537,6 +541,7 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
                     }
                     self.mnc.title = "これでもう\(self.mtcc.unlockedcounter)回目だぞ！"
                     self.mnc.body = message
+                    self.mnc.setImage(status: "emptiness")
                     self.mnc.sendMessage()
                     labelUtterance.text = mnc.body
                     image_tankobumochio.image = image_emptiness
@@ -555,6 +560,7 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
             let message = mnm.getCommnet(comments: mnm.cheerpon_Morning)
             mnc.title = NSString.localizedUserNotificationString(forKey: "おはよう☀️今日も1日頑張ろう！", arguments: nil)
             mnc.body = NSString.localizedUserNotificationString(forKey: message, arguments: nil)
+            mnc.setImage(status: "normal")
             mnc.sendMessage()
             labelUtterance.text = mnc.body
             image_tankobumochio.image = image_normal
@@ -570,6 +576,7 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
             let message = mnm.getCommnet(comments: mnm.cheerpon_AfterNoon)
             mnc.title = NSString.localizedUserNotificationString(forKey: "お昼の時間だね🕛", arguments: nil)
             mnc.body = NSString.localizedUserNotificationString(forKey: message, arguments: nil)
+            mnc.setImage(status: "normal")
             mnc.sendMessage()
             labelUtterance.text = mnc.body
             image_tankobumochio.image = image_normal
@@ -585,6 +592,7 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
             let message = mnm.getCommnet(comments: mnm.cheerpon_Night)
             mnc.title = NSString.localizedUserNotificationString(forKey: "もうこんな時間💦", arguments: nil)
             mnc.body = NSString.localizedUserNotificationString(forKey: message, arguments: nil)
+            mnc.setImage(status: "normal")
             mnc.sendMessage()
             labelUtterance.text = mnc.body
             image_tankobumochio.image = image_normal

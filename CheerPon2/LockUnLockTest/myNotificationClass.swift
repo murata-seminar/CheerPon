@@ -15,6 +15,7 @@ class myNotificationClass{
     var body: String  = "本文"
     var sound: UNNotificationSound = UNNotificationSound.default
     var timer: TimeInterval = 0.1 //0はダメらしい
+    var imagename: String = "normal"
     
     //通知処理
     func sendMessage(){
@@ -34,8 +35,9 @@ class myNotificationClass{
         let current_image = "\(Date().timeIntervalSince1970)"
         
         //画像の処理
-        if let imageurl = Bundle.main.url(forResource: "normal", withExtension: "png"), let imageAttachment = try? UNNotificationAttachment(identifier: current_image, url: imageurl, options: nil){
+        if let imageurl = Bundle.main.url(forResource: imagename, withExtension: "jpg"), let imageAttachment = try? UNNotificationAttachment(identifier: current_image, url: imageurl, options: nil){
             content.attachments.append(imageAttachment)
+            print("iamge icon was created.")
         }
         
         //通知スタイルを指定
@@ -46,7 +48,10 @@ class myNotificationClass{
         print("送信:" + current)
     }
     
-    
+    //画像の処理
+    func setImage(status: String){
+        imagename = status
+    }
     
     //24時に通知
     //    func sendMessage24h(){
