@@ -54,8 +54,9 @@ class myTimeCalculationClass: NSObject, NSSecureCoding {
     //シリアライズ用
     required init?(coder: NSCoder) {
         //デコードするときはそれぞれ型専用のデコードメソッドを使う
+        //print("starttime at unseroalizing: \(starttime)")
 
-        starttime = (coder.decodeObject(forKey: "starttime") as? Date)!
+        //starttime = (coder.decodeObject(forKey: "starttime") as? Date)!
         nowtime = (coder.decodeObject(forKey: "nowtime") as? Date)!
         time_unlocked = (coder.decodeObject(forKey: "time_unlocked") as? Date)!
         time_locked = (coder.decodeObject(forKey: "time_locked") as? Date)!
@@ -76,7 +77,10 @@ class myTimeCalculationClass: NSObject, NSSecureCoding {
     }
     
     func encode(with coder: NSCoder) {
-        coder.encode(starttime, forKey: "starttime")
+        
+        //print("starttime at seroalizing: \(starttime)")
+        
+        //coder.encode(starttime, forKey: "starttime")
         coder.encode(nowtime, forKey: "nowtime")
         coder.encode(time_unlocked, forKey: "time_unlocked")
         coder.encode(time_locked, forKey: "time_locked")
@@ -116,6 +120,8 @@ class myTimeCalculationClass: NSObject, NSSecureCoding {
         //引数の時間と基準時刻を比較して、86400より大きい場合、次の日（もしくはそれ以上）になったとみなす
         //時間差を計算
         var elapsedtime = now.timeIntervalSince(standardtime)
+        print("standardtime = \(standardtime)")
+        print("elapsedtime = \(elapsedtime)")
         //時間差が86400以上であればリセット（24時間）
         if(elapsedtime >= 86400){
             unlockedcounter = 0       //ロック回数

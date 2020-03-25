@@ -149,12 +149,18 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
         // https://watchcontents.com/swift-appdelegate-method/
         let appDelegate: AppDelegate = UIApplication.shared.delegate as! AppDelegate
         appDelegate.viewController = self
+
+        //print("startdate = \(mtcc.starttime)")
         
         // unserialize mtcc if exist.
         unserializeMTCC()
+
+        //print("startdate = \(mtcc.starttime)")
         
         // initialize variables
         initSettings()
+        
+        //print("startdate = \(mtcc.starttime)")
         
         //ボタンの処理
         buttonSave.isEnabled = false
@@ -325,18 +331,33 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
         }
         userDefaultsData.set(archiveData, forKey: "mtcc_data")
         userDefaultsData.synchronize()
+        
+        
+        //print("serealizing process was done.")
+        //print(mtcc.unlockedcounter)
     }
     
     func unserializeMTCC(){
         if let storedData = userDefaultsData.object(forKey: "mtcc_data") as? Data{
             if let unarchivedData = try! NSKeyedUnarchiver.unarchiveTopLevelObjectWithData(storedData) as? myTimeCalculationClass {
                 mtcc = unarchivedData
+                
+                username = mtcc.username
+                if(username != "no name"){
+                    buttonNameInput.isEnabled = false
+                    buttonNameInput.isHidden = true
+                }
+                //print("unserealizing was succeeded.")
+                //print(mtcc.unlockedcounter)
             }
             
             //if let unarchivedData = try? NSKeyedUnarchiver.unarchivedObject(ofClass: myTimeCalculationClass.self, from: storedData){
             //    mtcc = unarchivedData
             //}
+            
         }
+        
+        //print("unserealizing process was done.")
     }
     
     //----------------------------------------------------------------
