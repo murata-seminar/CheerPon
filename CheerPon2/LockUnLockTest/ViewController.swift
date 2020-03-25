@@ -38,7 +38,12 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
     @IBOutlet weak var buttonLoad: UIButton!
     @IBOutlet weak var buttonNameInput: UIButton!
     @IBOutlet weak var buttonReset: UIButton!
-    
+    @IBOutlet weak var labelUtterance: UILabel!
+    let image_normal = UIImage(named: "normal")
+    let image_cheer = UIImage(named: "cheer")
+    let image_emptiness = UIImage(named: "emptiness")
+    let image_praise = UIImage(named: "praise")
+    @IBOutlet weak var image_tankobumochio: UIImageView!
     
     
     var lockcounter: Int = 0
@@ -124,6 +129,7 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
                     self.username = "no name"
                 }else{
                     self.username = text
+                    self.mtcc.setUserName(name: text)
                     self.buttonNameInput.isEnabled = false
                     self.buttonNameInput.isHidden = true
                 }
@@ -143,12 +149,18 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
         // https://watchcontents.com/swift-appdelegate-method/
         let appDelegate: AppDelegate = UIApplication.shared.delegate as! AppDelegate
         appDelegate.viewController = self
+
+        //print("startdate = \(mtcc.starttime)")
         
         // unserialize mtcc if exist.
         unserializeMTCC()
+
+        //print("startdate = \(mtcc.starttime)")
         
         // initialize variables
         initSettings()
+        
+        //print("startdate = \(mtcc.starttime)")
         
         //ボタンの処理
         buttonSave.isEnabled = false
@@ -319,18 +331,33 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
         }
         userDefaultsData.set(archiveData, forKey: "mtcc_data")
         userDefaultsData.synchronize()
+        
+        
+        //print("serealizing process was done.")
+        //print(mtcc.unlockedcounter)
     }
     
     func unserializeMTCC(){
         if let storedData = userDefaultsData.object(forKey: "mtcc_data") as? Data{
             if let unarchivedData = try! NSKeyedUnarchiver.unarchiveTopLevelObjectWithData(storedData) as? myTimeCalculationClass {
                 mtcc = unarchivedData
+                
+                username = mtcc.username
+                if(username != "no name"){
+                    buttonNameInput.isEnabled = false
+                    buttonNameInput.isHidden = true
+                }
+                //print("unserealizing was succeeded.")
+                //print(mtcc.unlockedcounter)
             }
             
             //if let unarchivedData = try? NSKeyedUnarchiver.unarchivedObject(ofClass: myTimeCalculationClass.self, from: storedData){
             //    mtcc = unarchivedData
             //}
+            
         }
+        
+        //print("unserealizing process was done.")
     }
     
     //----------------------------------------------------------------
@@ -366,6 +393,13 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
         
         //基準日時を作成する
         mtcc.standardtime = mtcc.getStandardTime(sdate: mtcc.starttime)
+        
+        //名前が設定されている場合はボタンを消す
+        if(username != "no name"){
+            buttonNameInput.isEnabled = false
+            buttonNameInput.isHidden = true
+            print("username was set as " + username)
+        }
         
         // *************************************
         //  BackgroundTask (using GPS) start
@@ -456,7 +490,10 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
                 if mtcc.timer_counter % 900 == 0 {
                     mnc.title = "\((mtcc.timer_counter / 60))分間使ってるよ！"
                     mnc.body = "そんなに使ったら電池減っちゃうよ😣使わないように頑張って！"
+                    mnc.setImage(status: "cheer")
                     mnc.sendMessage()
+                    labelUtterance.text = mnc.body
+                    image_tankobumochio.image = image_cheer
                     
                     addDataToFirestore(deviceid: deviceid, messageid: 4, message: mnc.body)
                 }
@@ -478,7 +515,10 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
                     }
                     mnc.title = "\(mtcc.timer_counter / 60)分も経ったぞ！"
                     mnc.body = message
+                    mnc.setImage(status: "emptiness")
                     mnc.sendMessage()
+                    labelUtterance.text = mnc.body
+                    image_tankobumochio.image = image_emptiness
                     
                     addDataToFirestore(deviceid: deviceid, messageid: 5, message: mnc.body)
                 }
@@ -500,7 +540,10 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
                     }
                     self.mnc.title = "今日は\(self.mtcc.unlockedcounter)回開いてるよ😵"
                     self.mnc.body = message
+                    self.mnc.setImage(status: "cheer")
                     self.mnc.sendMessage()
+                    self.labelUtterance.text = mnc.body
+                    image_tankobumochio.image = image_cheer
                     
                     addDataToFirestore(deviceid: deviceid, messageid: 2, message: mnc.body)
                     
@@ -519,7 +562,10 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
                     }
                     self.mnc.title = "これでもう\(self.mtcc.unlockedcounter)回目だぞ！"
                     self.mnc.body = message
+                    self.mnc.setImage(status: "emptiness")
                     self.mnc.sendMessage()
+                    labelUtterance.text = mnc.body
+                    image_tankobumochio.image = image_emptiness
                     
                     addDataToFirestore(deviceid: deviceid, messageid: 3, message: mnc.body)
                 }
@@ -535,7 +581,10 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
             let message = mnm.getCommnet(comments: mnm.cheerpon_Morning)
             mnc.title = NSString.localizedUserNotificationString(forKey: "おはよう☀️今日も1日頑張ろう！", arguments: nil)
             mnc.body = NSString.localizedUserNotificationString(forKey: message, arguments: nil)
+            mnc.setImage(status: "normal")
             mnc.sendMessage()
+            labelUtterance.text = mnc.body
+            image_tankobumochio.image = image_normal
             
             addDataToFirestore(deviceid: deviceid, messageid: 1, message: mnc.body)
         }
@@ -548,7 +597,10 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
             let message = mnm.getCommnet(comments: mnm.cheerpon_AfterNoon)
             mnc.title = NSString.localizedUserNotificationString(forKey: "お昼の時間だね🕛", arguments: nil)
             mnc.body = NSString.localizedUserNotificationString(forKey: message, arguments: nil)
+            mnc.setImage(status: "normal")
             mnc.sendMessage()
+            labelUtterance.text = mnc.body
+            image_tankobumochio.image = image_normal
             
             addDataToFirestore(deviceid: deviceid, messageid: 1, message: mnc.body)
         }
@@ -561,7 +613,10 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
             let message = mnm.getCommnet(comments: mnm.cheerpon_Night)
             mnc.title = NSString.localizedUserNotificationString(forKey: "もうこんな時間💦", arguments: nil)
             mnc.body = NSString.localizedUserNotificationString(forKey: message, arguments: nil)
+            mnc.setImage(status: "normal")
             mnc.sendMessage()
+            labelUtterance.text = mnc.body
+            image_tankobumochio.image = image_normal
             
             addDataToFirestore(deviceid: deviceid, messageid: 1, message: mnc.body)
         }
