@@ -238,7 +238,7 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
         }
         
         db.collection("cheerpontest").document(documentname).setData([
-            "username": username,
+            "username": username + ".defaultPon",
             "deviceid": deviceid,
             "messagetype": messagetype,
             "message": message,
