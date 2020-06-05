@@ -393,7 +393,8 @@
 			baseConfigurationReference = 915C216B3BF6053BD06BFF3C /* Pods-LockUnLockTest.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_STYLE = Automatic;
+				CODE_SIGN_IDENTITY = "iPhone Distribution";
+				CODE_SIGN_STYLE = Manual;
 				DEVELOPMENT_TEAM = 2U9LZ8D5R8;
 				INFOPLIST_FILE = LockUnLockTest/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -402,6 +403,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.seminar.kmurata.LockUnLockTest;
 				PRODUCT_NAME = "あおりぽん";
+				PROVISIONING_PROFILE_SPECIFIER = airiponAdhoc;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -412,7 +414,8 @@
 			baseConfigurationReference = A62382199128738397D3BD12 /* Pods-LockUnLockTest.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_STYLE = Automatic;
+				CODE_SIGN_IDENTITY = "iPhone Distribution";
+				CODE_SIGN_STYLE = Manual;
 				DEVELOPMENT_TEAM = 2U9LZ8D5R8;
 				INFOPLIST_FILE = LockUnLockTest/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -421,6 +424,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.seminar.kmurata.LockUnLockTest;
 				PRODUCT_NAME = "あおりぽん";
+				PROVISIONING_PROFILE_SPECIFIER = airiponAdhoc;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
