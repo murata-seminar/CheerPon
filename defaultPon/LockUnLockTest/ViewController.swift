@@ -604,7 +604,7 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
             mnc.setImage(status: "normal")
             mnc.sendMessage()
             labelUtterance.text = mnc.body
-            image_tankobumochio.image = image_normal
+            image_tankobumochio.image = image_cheer
             
             addDataToFirestore(deviceid: deviceid, messageid: 1, message: mnc.body)
         }
@@ -620,7 +620,7 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
             mnc.setImage(status: "normal")
             mnc.sendMessage()
             labelUtterance.text = mnc.body
-            image_tankobumochio.image = image_normal
+            image_tankobumochio.image = image_cheer
             
             addDataToFirestore(deviceid: deviceid, messageid: 1, message: mnc.body)
         }
@@ -636,7 +636,7 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
             mnc.setImage(status: "normal")
             mnc.sendMessage()
             labelUtterance.text = mnc.body
-            image_tankobumochio.image = image_normal
+            image_tankobumochio.image = image_cheer
             
             addDataToFirestore(deviceid: deviceid, messageid: 1, message: mnc.body)
         }
