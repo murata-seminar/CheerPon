@@ -28,7 +28,7 @@
 
 /* Begin PBXFileReference section */
 		751FC9A9241B5680005E1FCB /* NameInputViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NameInputViewController.swift; sourceTree = "<group>"; };
-		75298B3023EBDD490071407E /* ちあぽんD.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "ちあぽんD.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		75298B3023EBDD490071407E /* ちあぽんN.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "ちあぽんN.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		75298B3323EBDD490071407E /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		75298B3523EBDD490071407E /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
 		75298B3723EBDD490071407E /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -92,7 +92,7 @@
 		75298B3123EBDD490071407E /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				75298B3023EBDD490071407E /* ちあぽんD.app */,
+				75298B3023EBDD490071407E /* ちあぽんN.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -140,7 +140,7 @@
 			);
 			name = LockUnLockTest;
 			productName = LockUnLockTest;
-			productReference = 75298B3023EBDD490071407E /* ちあぽんD.app */;
+			productReference = 75298B3023EBDD490071407E /* ちあぽんN.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -402,8 +402,8 @@
 					"@executable_path/Frameworks",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.seminar.kmurata.LockUnLockTest;
-				PRODUCT_NAME = "ちあぽんD";
-				PROVISIONING_PROFILE_SPECIFIER = airiponAdhoc;
+				PRODUCT_NAME = "ちあぽんN";
+				PROVISIONING_PROFILE_SPECIFIER = mbp4adhoc;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -423,8 +423,8 @@
 					"@executable_path/Frameworks",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.seminar.kmurata.LockUnLockTest;
-				PRODUCT_NAME = "ちあぽんD";
-				PROVISIONING_PROFILE_SPECIFIER = airiponAdhoc;
+				PRODUCT_NAME = "ちあぽんN";
+				PROVISIONING_PROFILE_SPECIFIER = mbp4adhoc;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
