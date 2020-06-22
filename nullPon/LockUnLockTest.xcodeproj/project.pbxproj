@@ -403,7 +403,11 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.seminar.kmurata.LockUnLockTest;
 				PRODUCT_NAME = "ちあぽんN";
+<<<<<<< HEAD
 				PROVISIONING_PROFILE_SPECIFIER = airiponAdhoc;
+=======
+				PROVISIONING_PROFILE_SPECIFIER = mbp4adhoc;
+>>>>>>> 8f82e52292441972702d2230b7257b0c8cae3432
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -424,7 +428,11 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.seminar.kmurata.LockUnLockTest;
 				PRODUCT_NAME = "ちあぽんN";
+<<<<<<< HEAD
 				PROVISIONING_PROFILE_SPECIFIER = airiponAdhoc;
+=======
+				PROVISIONING_PROFILE_SPECIFIER = mbp4adhoc;
+>>>>>>> 8f82e52292441972702d2230b7257b0c8cae3432
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
