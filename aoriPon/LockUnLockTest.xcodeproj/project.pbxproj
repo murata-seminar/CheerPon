@@ -404,11 +404,7 @@
 				ONLY_ACTIVE_ARCH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = com.seminar.kmurata.LockUnLockTest;
 				PRODUCT_NAME = "ちあぽんA";
-<<<<<<< HEAD
-				PROVISIONING_PROFILE_SPECIFIER = cheerpon_agari_20200622_25;
-=======
 				PROVISIONING_PROFILE_SPECIFIER = "cheerponmbp4-20200621";
->>>>>>> 5c29e3e157801f477fdffc674660d46d16e962bf
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -430,11 +426,7 @@
 				ONLY_ACTIVE_ARCH = NO;
 				PRODUCT_BUNDLE_IDENTIFIER = com.seminar.kmurata.LockUnLockTest;
 				PRODUCT_NAME = "ちあぽんA";
-<<<<<<< HEAD
-				PROVISIONING_PROFILE_SPECIFIER = cheerpon_agari_20200622_25;
-=======
 				PROVISIONING_PROFILE_SPECIFIER = "cheerponmbp4-20200621";
->>>>>>> 5c29e3e157801f477fdffc674660d46d16e962bf
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
