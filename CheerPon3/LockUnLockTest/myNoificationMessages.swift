@@ -40,7 +40,7 @@ class myNotificationMessages{
     
     //コメント取得
     //配列名を指定するとランダムで要素を返してくれる
-    func getCommnet(comments: [String]) -> String {
+    func getComment(comments: [String]) -> String {
         let random = (Int)(arc4random_uniform(UInt32(comments.count)))
         return comments[random]
     }

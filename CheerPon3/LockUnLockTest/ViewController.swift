@@ -237,6 +237,8 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
             messagetype = ""
         }
         
+        // とりあえずfirestoreに投げない
+        /*
         db.collection("cheerpontest").document(documentname).setData([
             "username": username + ".aoriPon",
             "deviceid": deviceid,
@@ -257,11 +259,14 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
                 //print("Firestoreのエラー Document added ")
             }
         }
+         */
         
     }
     
     
     private func loadDataFromFirestore(){
+        // とりあえずfirestoreに投げない
+        /*
         db.collection("cheerpontest").getDocuments(){ (QuerySnapshot, err) in
             if let err = err{
                 print("Firestoreのエラー Error getting documents: \(err)")
@@ -271,6 +276,7 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
                 }
             }
         }
+         */
     }
     
     //----------------------------------------------------------------
@@ -484,6 +490,8 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
             //表示
             showDisplayStrings()
             
+            //ロック解除時間による処理をなくす
+            /*
             //30分以内であれば15分ごとにちあポン通知
             if mtcc.timer_counter <= 1800 {
                 //15分ごとに通知
@@ -491,15 +499,15 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
                     //コメント生成
                     var message: String = ""
                     if mtcc.checkTime(from: 5, to: 11) {    //午前
-                        message = mnm.getCommnet(comments: mnm.aori_Morning)
+                        message = mnm.getComment(comments: mnm.aori_Morning)
                     }else if mtcc.checkTime(from: 11, to: 13){  //お昼
-                        message = mnm.getCommnet(comments: mnm.aori_Noon)
+                        message = mnm.getComment(comments: mnm.aori_Noon)
                     }else if mtcc.checkTime(from: 13, to: 18){  //午後
-                        message = mnm.getCommnet(comments: mnm.aori_AfterNoon)
+                        message = mnm.getComment(comments: mnm.aori_AfterNoon)
                     }else if mtcc.checkTime(from: 18, to: 23){  //夜
-                        message = mnm.getCommnet(comments: mnm.aori_Night)
+                        message = mnm.getComment(comments: mnm.aori_Night)
                     }else{  //深夜（上記以外）
-                        message = mnm.getCommnet(comments: mnm.aori_MidNight)
+                        message = mnm.getComment(comments: mnm.aori_MidNight)
                     }
                     mnc.title = "\(mtcc.timer_counter / 60)分も経ったぞ！"
                     //mnc.body = "そんなに使ったら電池減っちゃうよ😣使わないように頑張って！"
@@ -517,15 +525,15 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
                     //コメント生成
                     var message: String = ""
                     if mtcc.checkTime(from: 5, to: 11) {    //午前
-                        message = mnm.getCommnet(comments: mnm.aori_Morning)
+                        message = mnm.getComment(comments: mnm.aori_Morning)
                     }else if mtcc.checkTime(from: 11, to: 13){  //お昼
-                        message = mnm.getCommnet(comments: mnm.aori_Noon)
+                        message = mnm.getComment(comments: mnm.aori_Noon)
                     }else if mtcc.checkTime(from: 13, to: 18){  //午後
-                        message = mnm.getCommnet(comments: mnm.aori_AfterNoon)
+                        message = mnm.getComment(comments: mnm.aori_AfterNoon)
                     }else if mtcc.checkTime(from: 18, to: 23){  //夜
-                        message = mnm.getCommnet(comments: mnm.aori_Night)
+                        message = mnm.getComment(comments: mnm.aori_Night)
                     }else{  //深夜（上記以外）
-                        message = mnm.getCommnet(comments: mnm.aori_MidNight)
+                        message = mnm.getComment(comments: mnm.aori_MidNight)
                     }
                     mnc.title = "\(mtcc.timer_counter / 60)分も経ったぞ！"
                     //mnc.title = "\((mtcc.timer_counter / 60))分間使ってるよ！"
@@ -539,6 +547,7 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
                     addDataToFirestore(deviceid: deviceid, messageid: 5, message: mnc.body)
                 }
             }
+             */
             
             //回数による処理
             //アンロック時ではうまくいかないので、アンロックした後1秒経過後に出す（多分確実に見るタイミング）
@@ -548,15 +557,15 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
                 if self.mtcc.unlockedcounter != 0 && self.mtcc.unlockedcounter % 10 == 0 && self.mtcc.unlockedcounter <= 50 {
                     var message: String = ""
                     if self.mtcc.checkTime(from: 5, to: 11) {    //午前
-                        message = self.mnm.getCommnet(comments: self.mnm.aori_Morning)
+                        message = self.mnm.getComment(comments: self.mnm.aori_Morning)
                     }else if self.mtcc.checkTime(from: 11, to: 13){  //お昼
-                        message = self.mnm.getCommnet(comments: self.mnm.aori_Noon)
+                        message = self.mnm.getComment(comments: self.mnm.aori_Noon)
                     }else if self.mtcc.checkTime(from: 13, to: 18){  //午後
-                        message = self.mnm.getCommnet(comments: self.mnm.aori_AfterNoon)
+                        message = self.mnm.getComment(comments: self.mnm.aori_AfterNoon)
                     }else if self.mtcc.checkTime(from: 18, to: 23){  //夜
-                        message = self.mnm.getCommnet(comments: self.mnm.aori_Night)
+                        message = self.mnm.getComment(comments: self.mnm.aori_Night)
                     }else{  //深夜（上記以外）
-                        message = self.mnm.getCommnet(comments: self.mnm.aori_MidNight)
+                        message = self.mnm.getComment(comments: self.mnm.aori_MidNight)
                     }
                     self.mnc.title = "これでもう\(self.mtcc.unlockedcounter)回目だぞ！"
                     self.mnc.body = message
@@ -570,15 +579,15 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
                 } else if self.mtcc.unlockedcounter % 5 == 0 && self.mtcc.unlockedcounter > 50 {
                     var message: String = ""
                     if self.mtcc.checkTime(from: 5, to: 11) {    //午前
-                        message = self.mnm.getCommnet(comments: self.mnm.aori_Morning)
+                        message = self.mnm.getComment(comments: self.mnm.aori_Morning)
                     }else if self.mtcc.checkTime(from: 11, to: 13){  //お昼
-                        message = self.mnm.getCommnet(comments: self.mnm.aori_Noon)
+                        message = self.mnm.getComment(comments: self.mnm.aori_Noon)
                     }else if self.mtcc.checkTime(from: 13, to: 18){  //午後
-                        message = self.mnm.getCommnet(comments: self.mnm.aori_AfterNoon)
+                        message = self.mnm.getComment(comments: self.mnm.aori_AfterNoon)
                     }else if self.mtcc.checkTime(from: 18, to: 23){  //夜
-                        message = self.mnm.getCommnet(comments: self.mnm.aori_Night)
+                        message = self.mnm.getComment(comments: self.mnm.aori_Night)
                     }else{  //深夜（上記以外）
-                        message = self.mnm.getCommnet(comments: self.mnm.aori_MidNight)
+                        message = self.mnm.getComment(comments: self.mnm.aori_MidNight)
                     }
                     self.mnc.title = "これでもう\(self.mtcc.unlockedcounter)回目だぞ！"
                     self.mnc.body = message
@@ -598,7 +607,7 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
             //バッジ表示
             UIApplication.shared.applicationIconBadgeNumber = 1
             //通知メッセージのセット
-            let message = mnm.getCommnet(comments: mnm.cheerpon_Morning)
+            let message = mnm.getComment(comments: mnm.cheerpon_Morning)
             mnc.title = NSString.localizedUserNotificationString(forKey: "おはよう☀️今日も1日頑張ろう！", arguments: nil)
             mnc.body = NSString.localizedUserNotificationString(forKey: message, arguments: nil)
             mnc.setImage(status: "normal")
@@ -614,7 +623,7 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
             //バッジ表示
             UIApplication.shared.applicationIconBadgeNumber = 1
             //通知メッセージのセット
-            let message = mnm.getCommnet(comments: mnm.cheerpon_AfterNoon)
+            let message = mnm.getComment(comments: mnm.cheerpon_AfterNoon)
             mnc.title = NSString.localizedUserNotificationString(forKey: "お昼の時間だね🕛", arguments: nil)
             mnc.body = NSString.localizedUserNotificationString(forKey: message, arguments: nil)
             mnc.setImage(status: "normal")
@@ -630,7 +639,7 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
             //バッジ表示
             UIApplication.shared.applicationIconBadgeNumber = 1
             //通知メッセージのセット
-            let message = mnm.getCommnet(comments: mnm.cheerpon_Night)
+            let message = mnm.getComment(comments: mnm.cheerpon_Night)
             mnc.title = NSString.localizedUserNotificationString(forKey: "もうこんな時間💦", arguments: nil)
             mnc.body = NSString.localizedUserNotificationString(forKey: message, arguments: nil)
             mnc.setImage(status: "normal")
