@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="16096" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="16097" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="16087"/>
@@ -10,7 +10,7 @@
         <!--View Controller-->
         <scene sceneID="tne-QT-ifu">
             <objects>
-                <viewController id="BYZ-38-t0r" customClass="ViewController" customModule="あおりぽん" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="BYZ-38-t0r" customClass="ViewController" customModule="CheerPon3" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -112,6 +112,18 @@
                                     <constraint firstAttribute="height" constant="207" id="XUl-yg-cf4"/>
                                 </constraints>
                             </imageView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="どれだけ使っていなかったか" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="6FJ-k1-ARl">
+                                <rect key="frame" x="51" y="304" width="226" height="21"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="lockedduration" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="PiR-Ny-gUd">
+                                <rect key="frame" x="51" y="340" width="363" height="21"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <constraints>
@@ -125,10 +137,12 @@
                             <constraint firstItem="1F3-1s-Dry" firstAttribute="top" secondItem="4dm-1h-fMK" secondAttribute="bottom" constant="8" id="Ctx-St-2do"/>
                             <constraint firstItem="yhA-EY-Cdy" firstAttribute="top" secondItem="jgN-XG-0Fs" secondAttribute="bottom" constant="10" id="FBG-AP-lpT"/>
                             <constraint firstItem="vGw-Zc-vMT" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="108" id="Ii7-4R-Vqr"/>
+                            <constraint firstItem="PiR-Ny-gUd" firstAttribute="top" secondItem="6FJ-k1-ARl" secondAttribute="bottom" constant="15" id="J7V-yv-irb"/>
                             <constraint firstItem="Oyi-MT-zhs" firstAttribute="bottom" secondItem="6Tk-OE-BBY" secondAttribute="bottom" id="MYe-Lk-1iR"/>
                             <constraint firstItem="yhA-EY-Cdy" firstAttribute="trailing" secondItem="I0U-48-MZo" secondAttribute="trailing" id="NCl-za-DmQ"/>
                             <constraint firstAttribute="trailingMargin" secondItem="Oyi-MT-zhs" secondAttribute="trailing" constant="-73" id="PKh-ur-VJV"/>
                             <constraint firstItem="4dm-1h-fMK" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="51" id="QsI-8V-GwG"/>
+                            <constraint firstItem="PiR-Ny-gUd" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="51" id="RyE-Y9-MH7"/>
                             <constraint firstItem="Oyi-MT-zhs" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="133" id="SRt-gQ-aXA"/>
                             <constraint firstItem="uSW-R9-cTj" firstAttribute="leading" secondItem="EL6-Kj-w6C" secondAttribute="leading" id="SSW-w5-xPT"/>
                             <constraint firstItem="1F3-1s-Dry" firstAttribute="trailing" secondItem="6Tk-OE-BBY" secondAttribute="trailing" id="T0z-ri-SPW"/>
@@ -138,8 +152,10 @@
                             <constraint firstItem="jgN-XG-0Fs" firstAttribute="trailing" secondItem="Rf9-DC-d3F" secondAttribute="trailing" id="b7Q-Ad-cQw"/>
                             <constraint firstItem="Rf9-DC-d3F" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="250" id="eV2-84-Fo0"/>
                             <constraint firstItem="EL6-Kj-w6C" firstAttribute="top" secondItem="uSW-R9-cTj" secondAttribute="bottom" constant="8" id="gYH-c1-1tI"/>
+                            <constraint firstItem="6FJ-k1-ARl" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="51" id="h7T-kS-p1O"/>
                             <constraint firstItem="I0U-48-MZo" firstAttribute="trailing" secondItem="vGw-Zc-vMT" secondAttribute="trailing" id="ilp-ev-cf2"/>
                             <constraint firstItem="jgN-XG-0Fs" firstAttribute="trailing" secondItem="8bC-Xf-vdC" secondAttribute="trailingMargin" id="mBG-ZA-p9H"/>
+                            <constraint firstItem="6FJ-k1-ARl" firstAttribute="top" secondItem="GYN-LE-Hjq" secondAttribute="bottom" constant="23" id="n95-oG-Izn"/>
                             <constraint firstItem="yhA-EY-Cdy" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="290" id="nvc-Bc-DBV"/>
                             <constraint firstItem="Rf9-DC-d3F" firstAttribute="top" secondItem="I0U-48-MZo" secondAttribute="bottom" constant="8" id="ocq-YW-qNt"/>
                             <constraint firstItem="Oyi-MT-zhs" firstAttribute="top" secondItem="vGw-Zc-vMT" secondAttribute="bottom" constant="14" id="p5u-Zb-q01"/>
@@ -156,6 +172,7 @@
                         <outlet property="buttonReset" destination="Rf9-DC-d3F" id="qXv-U5-cB4"/>
                         <outlet property="buttonSave" destination="yhA-EY-Cdy" id="xIs-K5-miu"/>
                         <outlet property="image_tankobumochio" destination="Oyi-MT-zhs" id="x0q-lx-vGb"/>
+                        <outlet property="labelLockedDuration" destination="PiR-Ny-gUd" id="PkB-GX-opd"/>
                         <outlet property="labelNowUnLockedTime" destination="1F3-1s-Dry" id="mHx-yf-p6Q"/>
                         <outlet property="labelTodayLockNum" destination="GYN-LE-Hjq" id="pbD-5P-HSw"/>
                         <outlet property="labelTodayUnLockedTime" destination="EL6-Kj-w6C" id="Nmr-j6-g2w"/>
@@ -165,12 +182,12 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="132" y="138.98050974512745"/>
+            <point key="canvasLocation" x="131.8840579710145" y="138.61607142857142"/>
         </scene>
         <!--Name Input View Controller-->
         <scene sceneID="3Yh-Dx-VXl">
             <objects>
-                <viewController id="B1F-we-ZTJ" customClass="NameInputViewController" customModule="あおりぽん" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="B1F-we-ZTJ" customClass="NameInputViewController" customModule="CheerPon3" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="s92-ou-4b5">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="842"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>

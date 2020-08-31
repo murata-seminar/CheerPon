@@ -14,6 +14,10 @@ import FirebaseFirestore
 
 class ViewController: UIViewController, CLLocationManagerDelegate {
 
+    //ちあぽんのタイプを決める
+    //0: hompon, 1: aoripon, 2: cheerpon
+    let cheerpontype = 1
+    
     //デバイスのID(UUID)
     let deviceid = UIDevice.current.identifierForVendor!.uuidString
     
@@ -55,6 +59,7 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
     //@IBOutlet weak var labelTodayLockedTime: UILabel!
     @IBOutlet weak var labelTodayUnLockedTime: UILabel!
     @IBOutlet weak var labelNowUnLockedTime: UILabel!
+    @IBOutlet weak var labelLockedDuration: UILabel!
     
     //制御用
     var flag_unlocked: Bool = true
@@ -469,6 +474,7 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
         //labelTodayLockedTime.text = mtcc.getTodayLockedTime()
         labelTodayUnLockedTime.text = mtcc.getTodayUnLockedTime()
         labelNowUnLockedTime.text = mtcc.formatSecToTime(seconds: Double(mtcc.timer_counter))
+        labelLockedDuration.text = mtcc.getLockedDuration()
     }
     
     //----------------------------------------------------------------
@@ -552,6 +558,46 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
             //回数による処理
             //アンロック時ではうまくいかないので、アンロックした後1秒経過後に出す（多分確実に見るタイミング）
             if mtcc.timer_counter == 2 {
+                //前回からの時間に応じた対応
+                //ほめぽん
+                if cheerpontype == 0 {
+                    //mtcc.lockeddurationはdoubleで秒数を返す
+                    
+                    //メッセージを送信
+                    if mtcc.lockedduration >= 10 {
+                        let intlockedduration : Int = Int(mtcc.lockedduration)
+                        self.mnc.title = "すごい！"
+                        self.mnc.body = "\(intlockedduration)秒も我慢できてるね！"
+                        self.mnc.setImage(status: "normal")
+                        self.mnc.sendMessage()
+                        self.labelUtterance.text = mnc.body
+                        image_tankobumochio.image = image_normal
+                    }
+                    
+                }
+                
+                //あおりぽん
+                if cheerpontype == 1 {
+                    //mtcc.lockeddurationはdoubleで秒数を返す
+                    
+                    //メッセージを送信
+                    if mtcc.lockedduration <= 10 {
+                        let intlockedduration : Int = Int(mtcc.lockedduration)
+                        self.mnc.title = "やれやれ・・・"
+                        self.mnc.body = "\(intlockedduration)秒しか我慢できないのかよ"
+                        self.mnc.setImage(status: "emptiness")
+                        self.mnc.sendMessage()
+                        self.labelUtterance.text = mnc.body
+                        image_tankobumochio.image = image_emptiness
+                    }
+                    
+                }
+                
+                //全体の利用時間に応じた対応
+                
+                //回数に応じた対等
+                
+                
                 //回数メッセージの送信：５０回が平均？（ロック解除は２３回）
                 //https://www.countand1.com/2017/05/smartphone-usage-48-and-apps-usage-90-per-day.html
                 if self.mtcc.unlockedcounter != 0 && self.mtcc.unlockedcounter % 10 == 0 && self.mtcc.unlockedcounter <= 50 {
@@ -842,6 +888,7 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
                 self.mtcc.setUnLocked()
                 self.flag_unlocked = true
                 
+                //直近のアンロックされていた時間を出す
                 
             })
             return

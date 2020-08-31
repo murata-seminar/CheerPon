@@ -285,6 +285,12 @@ class myTimeCalculationClass: NSObject, NSSecureCoding {
         return formatSecToTime(seconds: today_locked)
     }
     
+    //直近のロックしていた時間（どれくらいの間使わなかったか）を返す
+    func getLockedDuration() -> String{
+        return formatSecToTime(seconds: lockedduration)
+    }
+    
+    
     //時刻形式を整える
     func formatDate(seconds: Date) -> String {
         //フォーマット形式を設定
