@@ -566,11 +566,12 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
                 // タイトル：19文字、本文：39文字←使用中メッセージ
                 
                 
-                //if mtcc.unlockedcounter >= 25 && mtcc.lockedduration <= 40 * 60{
-                if mtcc.unlockedcounter >= 3 && mtcc.lockedduration <= 5{
+                //if mtcc.unlockedcounter >= 40 && mtcc.lockedduration <= 24 * 60{
+                if mtcc.unlockedcounter >= 3 {
                     let intlockedduration: Int = Int(mtcc.lockedduration / 60)
-                    //あおりぽん
-                    if cheerpontype == 1 {
+                    //平均インターバルより多い＝あおりぽん
+                    //if cheerpontype == 1 {
+                    if mtcc.getLockedDurationSeconds() <= 24 * 60 {
                         //タイトルを作る
                         let titlestring: String = mnm.getComment(comments: mnm.title_aori_pre) + "\(intlockedduration)" + mnm.getComment(comments: mnm.title_aori_post)
                         
@@ -600,8 +601,10 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
                         image_tankobumochio.image = image_emptiness
                     }
                     
-                    //ちあぽん
-                    if cheerpontype == 2 {
+                    //平均インターバルより多い＝ちあぽん
+                    //if cheerpontype == 1 {
+                    //if cheerpontype == 2 {
+                    if mtcc.getLockedDurationSeconds() > 24 * 60 {
                         //タイトルを作る
                         let titlestring: String = mnm.getComment(comments: mnm.title_cheerpon_pre) + "\(intlockedduration)" + mnm.getComment(comments: mnm.title_cheerpon_post)
                         
@@ -625,10 +628,10 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
                         self.mnc.body = bodystring
                         //self.mnc.title = "アイウエオかきくけこサシスセソたちつてとナニヌネノはひふへほマミムメモややゆゆよラリルレロわわわわをアイウエオかきくけこサシスセソたちつてとナニヌネノはひふへほマミムメモややゆゆよラリルレロわわわわを"
                         //self.mnc.body = "アイウエオかきくけこサシスセソたちつてとナニヌネノはひふへほマミムメモややゆゆよラリルレロわわわわをアイウエオかきくけこサシスセソたちつてとナニヌネノはひふへほマミムメモややゆゆよラリルレロわわわわをアイウエオかきくけこサシスセソたちつてとナニヌネノはひふへほマミムメモややゆゆよラリルレロわわわわを"
-                        self.mnc.setImage(status: "emptiness")
+                        self.mnc.setImage(status: "praise")
                         self.mnc.sendMessage()
                         self.labelUtterance.text = mnc.body
-                        image_tankobumochio.image = image_emptiness
+                        image_tankobumochio.image = image_praise
                     }
                 }
                 

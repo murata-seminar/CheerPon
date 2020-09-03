@@ -289,6 +289,10 @@ class myTimeCalculationClass: NSObject, NSSecureCoding {
     func getLockedDuration() -> String{
         return formatSecToTime(seconds: lockedduration)
     }
+    //秒数で返す
+    func getLockedDurationSeconds() -> Double{
+        return lockedduration
+    }
     
     
     //時刻形式を整える
