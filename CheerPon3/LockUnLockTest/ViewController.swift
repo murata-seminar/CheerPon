@@ -16,7 +16,7 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
 
     //ちあぽんのタイプを決める
     //0: hompon, 1: aoripon, 2: cheerpon
-    let cheerpontype = 2
+    //let cheerpontype = 2
     
     //デバイスのID(UUID)
     let deviceid = UIDevice.current.identifierForVendor!.uuidString
@@ -566,28 +566,30 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
                 // タイトル：19文字、本文：39文字←使用中メッセージ
                 
                 
-                //if mtcc.unlockedcounter >= 40 && mtcc.lockedduration <= 24 * 60{
-                if mtcc.unlockedcounter >= 3 {
+                if mtcc.unlockedcounter >= 40{
+                //if mtcc.unlockedcounter >= 3 {
                     let intlockedduration: Int = Int(mtcc.lockedduration / 60)
                     //平均インターバルより多い＝あおりぽん
                     //if cheerpontype == 1 {
-                    if mtcc.getLockedDurationSeconds() <= 24 * 60 {
+                    if intlockedduration <= 24 {
+                    //if mtcc.getLockedDurationSeconds() <= 24 * 60 {
+                    //if mtcc.getLockedDurationSeconds() <= 5 {
                         //タイトルを作る
-                        let titlestring: String = mnm.getComment(comments: mnm.title_aori_pre) + "\(intlockedduration)" + mnm.getComment(comments: mnm.title_aori_post)
-                        
+                        //let titlestring: String = mnm.getComment(comments: mnm.title_aori_pre) + "\(intlockedduration)" + mnm.getComment(comments: mnm.title_aori_post)
+                        let titlestring: String = mnm.getTitleUnlocked(cheerpontype: "aori", intlockedduration: intlockedduration)
                         //本文を作る
-                        var bodystring: String = ""
-                        if self.mtcc.checkTime(from: 5, to: 11) {    //午前
-                            bodystring = self.mnm.getComment(comments: self.mnm.aori_Counter_Morning)
-                        }else if self.mtcc.checkTime(from: 11, to: 13){  //お昼
-                            bodystring = self.mnm.getComment(comments: self.mnm.aori_Counter_Noon)
-                        }else if self.mtcc.checkTime(from: 13, to: 18){  //午後
-                            bodystring = self.mnm.getComment(comments: self.mnm.aori_Counter_AfterNoon)
-                        }else if self.mtcc.checkTime(from: 18, to: 23){  //夜
-                            bodystring = self.mnm.getComment(comments: self.mnm.aori_Counter_Night)
-                        }else{  //深夜（上記以外）
-                            bodystring = self.mnm.getComment(comments: self.mnm.aori_Counter_MidNight)
-                        }
+                        let bodystring: String = mnm.getBodyUnlocked(cheerpontype: "aori")
+                        //if self.mtcc.checkTime(from: 5, to: 11) {    //午前
+                        //    bodystring = self.mnm.getComment(comments: self.mnm.aori_Counter_Morning)
+                        //}else if self.mtcc.checkTime(from: 11, to: 13){  //お昼
+                        //    bodystring = self.mnm.getComment(comments: self.mnm.aori_Counter_Noon)
+                        //}else if self.mtcc.checkTime(from: 13, to: 18){  //午後
+                        //    bodystring = self.mnm.getComment(comments: self.mnm.aori_Counter_Afternoon)
+                        //}else if self.mtcc.checkTime(from: 18, to: 23){  //夜
+                        //    bodystring = self.mnm.getComment(comments: self.mnm.aori_Counter_Night)
+                        //}else{  //深夜（上記以外）
+                        //    bodystring = self.mnm.getComment(comments: self.mnm.aori_Counter_MidNight)
+                        //}
                         
                         
                         
@@ -604,23 +606,26 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
                     //平均インターバルより多い＝ちあぽん
                     //if cheerpontype == 1 {
                     //if cheerpontype == 2 {
-                    if mtcc.getLockedDurationSeconds() > 24 * 60 {
+                    if intlockedduration > 24 {
+                    //if mtcc.getLockedDurationSeconds() > 24 * 60 {
+                    //if mtcc.getLockedDurationSeconds() > 5 {
                         //タイトルを作る
-                        let titlestring: String = mnm.getComment(comments: mnm.title_cheerpon_pre) + "\(intlockedduration)" + mnm.getComment(comments: mnm.title_cheerpon_post)
+                        //let titlestring: String = mnm.getComment(comments: mnm.title_cheerpon_pre) + "\(intlockedduration)" + mnm.getComment(comments: mnm.title_cheerpon_post)
+                        let titlestring: String = mnm.getTitleUnlocked(cheerpontype: "cheerpon", intlockedduration: intlockedduration)
                         
                         //本文を作る
-                        var bodystring: String = ""
-                        if self.mtcc.checkTime(from: 5, to: 11) {    //午前
-                            bodystring = self.mnm.getComment(comments: self.mnm.cheerpon_Counter_Morning)
-                        }else if self.mtcc.checkTime(from: 11, to: 13){  //お昼
-                            bodystring = self.mnm.getComment(comments: self.mnm.cheerpon_Counter_Noon)
-                        }else if self.mtcc.checkTime(from: 13, to: 18){  //午後
-                            bodystring = self.mnm.getComment(comments: self.mnm.cheerpon_Counter_Afternoon)
-                        }else if self.mtcc.checkTime(from: 18, to: 23){  //夜
-                            bodystring = self.mnm.getComment(comments: self.mnm.cheerpon_Counter_Night)
-                        }else{  //深夜（上記以外）
-                            bodystring = self.mnm.getComment(comments: self.mnm.cheerpon_Counter_MidNight)
-                        }
+                        let bodystring: String = mnm.getBodyUnlocked(cheerpontype: "cheerpon")
+                        //if self.mtcc.checkTime(from: 5, to: 11) {    //午前
+                        //    bodystring = self.mnm.getComment(comments: self.mnm.cheerpon_Counter_Morning)
+                        //}else if self.mtcc.checkTime(from: 11, to: 13){  //お昼
+                        //    bodystring = self.mnm.getComment(comments: self.mnm.cheerpon_Counter_Noon)
+                        //}else if self.mtcc.checkTime(from: 13, to: 18){  //午後
+                        //    bodystring = self.mnm.getComment(comments: self.mnm.cheerpon_Counter_Afternoon)
+                        //}else if self.mtcc.checkTime(from: 18, to: 23){  //夜
+                        //    bodystring = self.mnm.getComment(comments: self.mnm.cheerpon_Counter_Night)
+                        //}else{  //深夜（上記以外）
+                        //    bodystring = self.mnm.getComment(comments: self.mnm.cheerpon_Counter_MidNight)
+                        //}
                         
                         
                         
@@ -684,6 +689,7 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
                 //回数に応じた対等
                 
                 
+                /*
                 //回数メッセージの送信：５０回が平均？（ロック解除は２３回）
                 //https://www.countand1.com/2017/05/smartphone-usage-48-and-apps-usage-90-per-day.html
                 if self.mtcc.unlockedcounter != 0 && self.mtcc.unlockedcounter % 10 == 0 && self.mtcc.unlockedcounter <= 50 {
@@ -693,7 +699,7 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
                     }else if self.mtcc.checkTime(from: 11, to: 13){  //お昼
                         message = self.mnm.getComment(comments: self.mnm.aori_Counter_Noon)
                     }else if self.mtcc.checkTime(from: 13, to: 18){  //午後
-                        message = self.mnm.getComment(comments: self.mnm.aori_Counter_AfterNoon)
+                        message = self.mnm.getComment(comments: self.mnm.aori_Counter_Afternoon)
                     }else if self.mtcc.checkTime(from: 18, to: 23){  //夜
                         message = self.mnm.getComment(comments: self.mnm.aori_Counter_Night)
                     }else{  //深夜（上記以外）
@@ -715,7 +721,7 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
                     }else if self.mtcc.checkTime(from: 11, to: 13){  //お昼
                         message = self.mnm.getComment(comments: self.mnm.aori_Counter_Noon)
                     }else if self.mtcc.checkTime(from: 13, to: 18){  //午後
-                        message = self.mnm.getComment(comments: self.mnm.aori_Counter_AfterNoon)
+                        message = self.mnm.getComment(comments: self.mnm.aori_Counter_Afternoon)
                     }else if self.mtcc.checkTime(from: 18, to: 23){  //夜
                         message = self.mnm.getComment(comments: self.mnm.aori_Counter_Night)
                     }else{  //深夜（上記以外）
@@ -730,6 +736,7 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
                     
                     addDataToFirestore(deviceid: deviceid, messageid: 3, message: mnc.body)
                 }
+                */
             }
         }
         

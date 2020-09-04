@@ -38,7 +38,7 @@ class myNotificationMessages{
     var aori_Counter_Noon : [String] = ["その集中力逆にすごいね！！","How stupid can you get?","逆にずっとスマホ使っていれば頭良くなるんじゃない？w","スマホを使わない休憩の仕方はないのか？w","今日絶対1日充電持たねえよw"]
 
     //(13:00~18:00)
-    var aori_Counter_AfterNoon : [String] = ["集中力ありすぎて草","スマホいじってる時間は有益？w","将来失明するんじゃねえのww","やることあるんじゃなかったのかw","今日はずっとだらだら？あっ・・・(察し)"]
+    var aori_Counter_Afternoon : [String] = ["集中力ありすぎて草","スマホいじってる時間は有益？w","将来失明するんじゃねえのww","やることあるんじゃなかったのかw","今日はずっとだらだら？あっ・・・(察し)"]
        
     //(18:00~23:00)
     var aori_Counter_Night : [String] = ["お前の将来が不安だなw","ま〜たいじってるよw","そんなに周りの人の事気になる？w","知ってる？スマホを長時間使うと脳内物質のバランスが崩れて神経細胞が死滅するんだよw","どうせ寝るまでずっとスマホ見てるんだろw"]
@@ -57,5 +57,72 @@ class myNotificationMessages{
     func getComment(comments: [String]) -> String {
         let random = (Int)(arc4random_uniform(UInt32(comments.count)))
         return comments[random]
+    }
+    
+    /* アンロック時の通知を生成 */
+    //タイトル生成
+    func getTitleUnlocked(cheerpontype: String, intlockedduration: Int) -> String{
+        var title: String = "がんばれ"
+        
+        if cheerpontype == "aori" {
+            title = getComment(comments: title_aori_pre) + "\(intlockedduration)" + getComment(comments: title_aori_post)
+        }
+        
+        if cheerpontype == "cheerpon" {
+            title = getComment(comments: title_cheerpon_pre) + "\(intlockedduration)" + getComment(comments: title_cheerpon_post)
+        }
+        
+        return title
+    }
+    
+    
+    //本文生成
+    func getBodyUnlocked(cheerpontype: String) -> String {
+        var bodystring: String = "スマホ使わないようにね！"
+        
+        if cheerpontype == "aori" {
+            if checkTime(from: 5, to: 11) {    //午前
+                bodystring = getComment(comments: aori_Counter_Morning)
+            }else if checkTime(from: 11, to: 13){  //お昼
+                bodystring = getComment(comments: aori_Counter_Noon)
+            }else if checkTime(from: 13, to: 18){  //午後
+                bodystring = getComment(comments: aori_Counter_Afternoon)
+            }else if checkTime(from: 18, to: 23){  //夜
+                bodystring = getComment(comments: aori_Counter_Night)
+            }else{  //深夜（上記以外）
+                bodystring = getComment(comments: aori_Counter_MidNight)
+            }
+        }
+        
+        if cheerpontype == "cheerpon" {
+            if checkTime(from: 5, to: 11) {    //午前
+                bodystring = getComment(comments: cheerpon_Counter_Morning)
+            }else if checkTime(from: 11, to: 13){  //お昼
+                bodystring = getComment(comments: cheerpon_Counter_Noon)
+            }else if checkTime(from: 13, to: 18){  //午後
+                bodystring = getComment(comments: cheerpon_Counter_Afternoon)
+            }else if checkTime(from: 18, to: 23){  //夜
+                bodystring = getComment(comments: cheerpon_Counter_Night)
+            }else{  //深夜（上記以外）
+                bodystring = getComment(comments: cheerpon_Counter_MidNight)
+            }
+        }
+        
+        return bodystring
+    }
+    
+    
+    /* 時間のチェック */
+    //現在時刻がfromからtoであれば true, それ以外であればfalseを返す
+    func checkTime(from: Int, to: Int) -> Bool {
+        let now = Date()
+        let calendar = Calendar.current
+        let hour:Int = calendar.component(.hour, from: now)
+        
+        if(hour >= from && hour < to){
+            return true
+        }else{
+            return false
+        }
     }
 }
