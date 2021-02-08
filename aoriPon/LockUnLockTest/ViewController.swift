@@ -8,7 +8,7 @@
 
 import UIKit
 import CoreLocation // for GPS
-import RealmSwift //Realm
+//import RealmSwift //Realm
 import FirebaseCore
 import FirebaseFirestore
 
@@ -64,8 +64,8 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
     var userDefaultsData = UserDefaults.standard
     
     //realm用
-    private var realmInstance: Realm? = nil
-    var usageDataInstance: Results<UsageModel>? = nil
+    //private var realmInstance: Realm? = nil
+    //var usageDataInstance: Results<UsageModel>? = nil
     
     //FireStore用
     var db: Firestore!
@@ -276,7 +276,9 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
     //----------------------------------------------------------------
     // Realm関係のためのコード
     //----------------------------------------------------------------
+    
     func addDataToRealm(){
+        /*
         // mtccから各種データを取り出して保存
         // createDate: これは実行タイミングの日時
         // unlocked_num
@@ -299,9 +301,11 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
         try! realmInstance?.write{
             realmInstance?.add(usageModel)
         }
+         */
     }
     
     func loadDataFromRealm(){
+        /*
         //Realmからデータをロードする
         realmInstance = try! Realm()
         usageDataInstance = realmInstance?.objects(UsageModel.self)
@@ -312,14 +316,17 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
             tmpstr += item.createDate + "," + String(item.unlocked_num) + "," + String(item.total_unlocked_num) + "," + String(item.unlocked_time) + "," + String(item.total_unlocked_time) + "\n"
         }
         print(tmpstr)
+         */
     }
     
     func initRelam(){
+        /*
         //初期化
         realmInstance = try! Realm()
         try! realmInstance?.write{
             realmInstance?.deleteAll()
         }
+        */
     }
     
     //----------------------------------------------------------------

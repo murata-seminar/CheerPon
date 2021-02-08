@@ -7,7 +7,7 @@
 //
 
 import UIKit
-import RealmSwift
+//import RealmSwift
 import Firebase
 
 @UIApplicationMain
@@ -48,15 +48,15 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         }
         
         //Realmのマイグレーション処理
-        let config = Realm.Configuration(
-            schemaVersion: 1,
-            migrationBlock: { migration, oldschemaVersion in
-                if(oldschemaVersion < 1){
-                    
-                }
-        })
-        Realm.Configuration.defaultConfiguration = config
-        let realm = try! Realm()
+        //let config = Realm.Configuration(
+        //    schemaVersion: 1,
+        //    migrationBlock: { migration, oldschemaVersion in
+        //        if(oldschemaVersion < 1){
+        //
+        //        }
+        //})
+        //Realm.Configuration.defaultConfiguration = config
+        //let realm = try! Realm()
         
         //Firebase
         FirebaseApp.configure()
