@@ -408,6 +408,8 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
             print("username was set as " + username)
         }
         
+        mtcc.unlock_queue.setmax(num: 3)
+        
         // *************************************
         //  BackgroundTask (using GPS) start
 
@@ -491,110 +493,69 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
             //表示
             showDisplayStrings()
             
-            //30分以内であれば15分ごとにちあポン通知
-            if mtcc.timer_counter <= 1800 {
-                //15分ごとに通知
-                if mtcc.timer_counter % 900 == 0 {
-                    //コメント生成
-                    var message: String = ""
-                    if mtcc.checkTime(from: 5, to: 11) {    //午前
-                        message = mnm.getCommnet(comments: mnm.aori_Morning)
-                    }else if mtcc.checkTime(from: 11, to: 13){  //お昼
-                        message = mnm.getCommnet(comments: mnm.aori_Noon)
-                    }else if mtcc.checkTime(from: 13, to: 18){  //午後
-                        message = mnm.getCommnet(comments: mnm.aori_AfterNoon)
-                    }else if mtcc.checkTime(from: 18, to: 23){  //夜
-                        message = mnm.getCommnet(comments: mnm.aori_Night)
-                    }else{  //深夜（上記以外）
-                        message = mnm.getCommnet(comments: mnm.aori_MidNight)
-                    }
-                    mnc.title = "\(mtcc.timer_counter / 60)分も経ったぞ！"
-                    //mnc.body = "そんなに使ったら電池減っちゃうよ😣使わないように頑張って！"
-                    mnc.body = message
-                    mnc.setImage(status: "emptiness")
-                    mnc.sendMessage()
-                    labelUtterance.text = mnc.body
-                    image_tankobumochio.image = image_emptiness
-                    
-                    addDataToFirestore(deviceid: deviceid, messageid: 4, message: mnc.body)
+            //30分ごとに通知
+            if mtcc.timer_counter % 1800 == 0 {
+                //コメント生成
+                var message: String = ""
+                if mtcc.checkTime(from: 5, to: 11) {    //午前
+                    message = mnm.getCommnet(comments: mnm.aori_Morning)
+                }else if mtcc.checkTime(from: 11, to: 13){  //お昼
+                    message = mnm.getCommnet(comments: mnm.aori_Noon)
+                }else if mtcc.checkTime(from: 13, to: 18){  //午後
+                    message = mnm.getCommnet(comments: mnm.aori_AfterNoon)
+                }else if mtcc.checkTime(from: 18, to: 23){  //夜
+                    message = mnm.getCommnet(comments: mnm.aori_Night)
+                }else{  //深夜（上記以外）
+                    message = mnm.getCommnet(comments: mnm.aori_MidNight)
                 }
-            }else{
-                //5分ごとに通知
-                if mtcc.timer_counter % 300 == 0 {
-                    //コメント生成
-                    var message: String = ""
-                    if mtcc.checkTime(from: 5, to: 11) {    //午前
-                        message = mnm.getCommnet(comments: mnm.aori_Morning)
-                    }else if mtcc.checkTime(from: 11, to: 13){  //お昼
-                        message = mnm.getCommnet(comments: mnm.aori_Noon)
-                    }else if mtcc.checkTime(from: 13, to: 18){  //午後
-                        message = mnm.getCommnet(comments: mnm.aori_AfterNoon)
-                    }else if mtcc.checkTime(from: 18, to: 23){  //夜
-                        message = mnm.getCommnet(comments: mnm.aori_Night)
-                    }else{  //深夜（上記以外）
-                        message = mnm.getCommnet(comments: mnm.aori_MidNight)
-                    }
-                    mnc.title = "\(mtcc.timer_counter / 60)分も経ったぞ！"
-                    //mnc.title = "\((mtcc.timer_counter / 60))分間使ってるよ！"
-                    mnc.body = message
-                    mnc.setImage(status: "emptiness")
-                    //mnc.setImage(status: "cheer")
-                    mnc.sendMessage()
-                    labelUtterance.text = mnc.body
-                    image_tankobumochio.image = image_emptiness
-                    
-                    addDataToFirestore(deviceid: deviceid, messageid: 5, message: mnc.body)
-                }
+                mnc.title = "\(mtcc.timer_counter / 60)分も経ったぞ！"
+                //mnc.body = "そんなに使ったら電池減っちゃうよ😣使わないように頑張って！"
+                mnc.body = message
+                mnc.setImage(status: "emptiness")
+                mnc.sendMessage()
+                labelUtterance.text = mnc.body
+                image_tankobumochio.image = image_emptiness
+                
+                addDataToFirestore(deviceid: deviceid, messageid: 4, message: mnc.body)
             }
             
             //回数による処理
-            //アンロック時ではうまくいかないので、アンロックした後1秒経過後に出す（多分確実に見るタイミング）
+            //アンロック時ではうまくいかないので、アンロックした後2秒経過後に出す（多分確実に見るタイミング）
             if mtcc.timer_counter == 2 {
-                //回数メッセージの送信：５０回が平均？（ロック解除は２３回）
+                //回数メッセージの送信：５０回が平均？（ロック解除は２３回）１時
                 //https://www.countand1.com/2017/05/smartphone-usage-48-and-apps-usage-90-per-day.html
-                if self.mtcc.unlockedcounter != 0 && self.mtcc.unlockedcounter % 10 == 0 && self.mtcc.unlockedcounter <= 50 {
-                    var message: String = ""
-                    if self.mtcc.checkTime(from: 5, to: 11) {    //午前
-                        message = self.mnm.getCommnet(comments: self.mnm.aori_Morning)
-                    }else if self.mtcc.checkTime(from: 11, to: 13){  //お昼
-                        message = self.mnm.getCommnet(comments: self.mnm.aori_Noon)
-                    }else if self.mtcc.checkTime(from: 13, to: 18){  //午後
-                        message = self.mnm.getCommnet(comments: self.mnm.aori_AfterNoon)
-                    }else if self.mtcc.checkTime(from: 18, to: 23){  //夜
-                        message = self.mnm.getCommnet(comments: self.mnm.aori_Night)
-                    }else{  //深夜（上記以外）
-                        message = self.mnm.getCommnet(comments: self.mnm.aori_MidNight)
+                //if self.mtcc.unlockedcounter != 0 && self.mtcc.unlockedcounter % 10 == 0 && self.mtcc.unlockedcounter <= 50 {
+                //1時間に3回がヘビーユーザと定義、3回前のアンロックが１時間以内にあれば出す
+                if !mtcc.unlock_queue.isEmpty && mtcc.unlock_queue.count >= 3{
+                    var diff = 3601.0
+                    //queueの先頭の時刻と現在時刻との差を算出する
+                    if !mtcc.unlock_queue.isEmpty {
+                        diff = mtcc.getNowSeconds() - mtcc.unlock_queue.front!
                     }
-                    self.mnc.title = "これでもう\(self.mtcc.unlockedcounter)回目だぞ！"
-                    self.mnc.body = message
-                    self.mnc.setImage(status: "emptiness")
-                    self.mnc.sendMessage()
-                    self.labelUtterance.text = mnc.body
-                    image_tankobumochio.image = image_emptiness
-                    
-                    addDataToFirestore(deviceid: deviceid, messageid: 2, message: mnc.body)
-                    
-                } else if self.mtcc.unlockedcounter % 5 == 0 && self.mtcc.unlockedcounter > 50 {
-                    var message: String = ""
-                    if self.mtcc.checkTime(from: 5, to: 11) {    //午前
-                        message = self.mnm.getCommnet(comments: self.mnm.aori_Morning)
-                    }else if self.mtcc.checkTime(from: 11, to: 13){  //お昼
-                        message = self.mnm.getCommnet(comments: self.mnm.aori_Noon)
-                    }else if self.mtcc.checkTime(from: 13, to: 18){  //午後
-                        message = self.mnm.getCommnet(comments: self.mnm.aori_AfterNoon)
-                    }else if self.mtcc.checkTime(from: 18, to: 23){  //夜
-                        message = self.mnm.getCommnet(comments: self.mnm.aori_Night)
-                    }else{  //深夜（上記以外）
-                        message = self.mnm.getCommnet(comments: self.mnm.aori_MidNight)
+                    //差が１時間＝60*60秒＝3600秒未満であればメッセージを出す
+                    if diff <= 3600 {
+                        
+                        var message: String = ""
+                        if self.mtcc.checkTime(from: 5, to: 11) {    //午前
+                            message = self.mnm.getCommnet(comments: self.mnm.aori_Morning)
+                        }else if self.mtcc.checkTime(from: 11, to: 13){  //お昼
+                            message = self.mnm.getCommnet(comments: self.mnm.aori_Noon)
+                        }else if self.mtcc.checkTime(from: 13, to: 18){  //午後
+                            message = self.mnm.getCommnet(comments: self.mnm.aori_AfterNoon)
+                        }else if self.mtcc.checkTime(from: 18, to: 23){  //夜
+                            message = self.mnm.getCommnet(comments: self.mnm.aori_Night)
+                        }else{  //深夜（上記以外）
+                            message = self.mnm.getCommnet(comments: self.mnm.aori_MidNight)
+                        }
+                        self.mnc.title = "これでもう\(self.mtcc.unlockedcounter)回目だぞ！"
+                        self.mnc.body = message
+                        self.mnc.setImage(status: "emptiness")
+                        self.mnc.sendMessage()
+                        self.labelUtterance.text = mnc.body
+                        image_tankobumochio.image = image_emptiness
+                        
+                        addDataToFirestore(deviceid: deviceid, messageid: 2, message: mnc.body)
                     }
-                    self.mnc.title = "これでもう\(self.mtcc.unlockedcounter)回目だぞ！"
-                    self.mnc.body = message
-                    self.mnc.setImage(status: "emptiness")
-                    self.mnc.sendMessage()
-                    labelUtterance.text = mnc.body
-                    image_tankobumochio.image = image_emptiness
-                    
-                    addDataToFirestore(deviceid: deviceid, messageid: 3, message: mnc.body)
                 }
             }
         }

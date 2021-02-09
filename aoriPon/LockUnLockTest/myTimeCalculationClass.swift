@@ -33,6 +33,9 @@ class myTimeCalculationClass: NSObject, NSSecureCoding {
     var total_lockedcounter:Int = 0     //前日までの累積ロック回数
     var timer_counter: Int = 0
     
+    //過去3回分のアンロック時刻を保存するキュー
+    var unlock_queue = Queue<Double>()
+    
     //ユーザ名保存用
     var username: String = "no name"
 
@@ -234,6 +237,13 @@ class myTimeCalculationClass: NSObject, NSSecureCoding {
         //リセットのチェック
         self.resetCheck(now: time_unlocked)
         
+        //アンロックされた時刻をキューに入れる
+        unlock_queue.enqueue(lockedtimeseconds)
+        //print(unlock_queue.count)
+        //print(unlock_queue.front ?? nil)
+        //print(unlock_queue.end)
+        //var diff = Double(unlock_queue.end!) - Double(unlock_queue.front!)
+        //print(diff)
     }
     
     //ロックされた時刻をセット

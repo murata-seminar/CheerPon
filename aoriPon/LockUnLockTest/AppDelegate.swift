@@ -21,14 +21,16 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
-        
         //通知許可を求める
         if #available(iOS 10.0, *){
             //iOS10.0以上の場合
+            print("AppDelegate: application: higher than 10.0")
             //UNUsernotificationCenterを使うには UserNotificationsをimportする必要がある
             let center = UNUserNotificationCenter.current()
             center.requestAuthorization(options: [.badge, .sound, .alert], completionHandler: {(granted, error) in
                 if error != nil{
+                    print("AppDelegate: application: requesrAuthorization failed")
+                    print(error)
                     return
                 }
                 
@@ -43,6 +45,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             })
         }else{
             //iOS9以下
+            print("AppDelegate: application: lower than 10.0")
             let settings = UIUserNotificationSettings(types: [.badge, .sound, .alert], categories: nil)
             UIApplication.shared.registerUserNotificationSettings(settings)
         }

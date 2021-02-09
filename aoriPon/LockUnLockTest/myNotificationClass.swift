@@ -45,7 +45,7 @@ class myNotificationClass{
         print("設定")
         //通知をセット
         UNUserNotificationCenter.current().add(request, withCompletionHandler: nil)
-        print("送信:" + current)
+        print("送信:" + current + ": " + content.body)
     }
     
     //画像の処理
