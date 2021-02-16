@@ -7,6 +7,11 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		7505AF2A25DB5ADF00DCC111 /* myNotificationClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7505AF2925DB5ADF00DCC111 /* myNotificationClass.swift */; };
+		7505AF3525DB896400DCC111 /* normal.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 7505AF3425DB896400DCC111 /* normal.jpg */; };
+		7505AF3C25DB89AD00DCC111 /* cheer.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 7505AF3925DB89AD00DCC111 /* cheer.jpg */; };
+		7505AF3D25DB89AD00DCC111 /* emptiness.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 7505AF3A25DB89AD00DCC111 /* emptiness.jpg */; };
+		7505AF3E25DB89AD00DCC111 /* praise.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 7505AF3B25DB89AD00DCC111 /* praise.jpg */; };
 		755D5D9825D9FB050030884E /* CHIAPON3App.swift in Sources */ = {isa = PBXBuildFile; fileRef = 755D5D9725D9FB050030884E /* CHIAPON3App.swift */; };
 		755D5D9A25D9FB050030884E /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 755D5D9925D9FB050030884E /* ContentView.swift */; };
 		755D5D9C25D9FB060030884E /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 755D5D9B25D9FB060030884E /* Assets.xcassets */; };
@@ -34,6 +39,11 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		7505AF2925DB5ADF00DCC111 /* myNotificationClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = myNotificationClass.swift; sourceTree = "<group>"; };
+		7505AF3425DB896400DCC111 /* normal.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; name = normal.jpg; path = "../../たんこぶもちお/normal.jpg"; sourceTree = "<group>"; };
+		7505AF3925DB89AD00DCC111 /* cheer.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; name = cheer.jpg; path = "../../たんこぶもちお/cheer.jpg"; sourceTree = "<group>"; };
+		7505AF3A25DB89AD00DCC111 /* emptiness.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; name = emptiness.jpg; path = "../../たんこぶもちお/emptiness.jpg"; sourceTree = "<group>"; };
+		7505AF3B25DB89AD00DCC111 /* praise.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; name = praise.jpg; path = "../../たんこぶもちお/praise.jpg"; sourceTree = "<group>"; };
 		755D5D9425D9FB050030884E /* CHIAPON3.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CHIAPON3.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		755D5D9725D9FB050030884E /* CHIAPON3App.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CHIAPON3App.swift; sourceTree = "<group>"; };
 		755D5D9925D9FB050030884E /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -101,6 +111,11 @@
 			children = (
 				755D5D9725D9FB050030884E /* CHIAPON3App.swift */,
 				755D5D9925D9FB050030884E /* ContentView.swift */,
+				7505AF3925DB89AD00DCC111 /* cheer.jpg */,
+				7505AF3A25DB89AD00DCC111 /* emptiness.jpg */,
+				7505AF3B25DB89AD00DCC111 /* praise.jpg */,
+				7505AF3425DB896400DCC111 /* normal.jpg */,
+				7505AF2925DB5ADF00DCC111 /* myNotificationClass.swift */,
 				755D5D9B25D9FB060030884E /* Assets.xcassets */,
 				755D5DA025D9FB060030884E /* Info.plist */,
 				755D5D9D25D9FB060030884E /* Preview Content */,
@@ -247,6 +262,10 @@
 			files = (
 				755D5D9F25D9FB060030884E /* Preview Assets.xcassets in Resources */,
 				755D5D9C25D9FB060030884E /* Assets.xcassets in Resources */,
+				7505AF3525DB896400DCC111 /* normal.jpg in Resources */,
+				7505AF3D25DB89AD00DCC111 /* emptiness.jpg in Resources */,
+				7505AF3C25DB89AD00DCC111 /* cheer.jpg in Resources */,
+				7505AF3E25DB89AD00DCC111 /* praise.jpg in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -271,6 +290,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				7505AF2A25DB5ADF00DCC111 /* myNotificationClass.swift in Sources */,
 				755D5D9A25D9FB050030884E /* ContentView.swift in Sources */,
 				755D5D9825D9FB050030884E /* CHIAPON3App.swift in Sources */,
 			);
