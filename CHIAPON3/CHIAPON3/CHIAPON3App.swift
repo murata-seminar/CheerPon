@@ -9,6 +9,7 @@ import SwiftUI
 import CoreLocation //CoreLocationを利用
 import UserNotifications //ローカル通知用
 
+
 @main
 struct CHIAPON3App: App {
     
@@ -23,6 +24,7 @@ struct CHIAPON3App: App {
 }
 
 class AppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelegate{
+//class AppDelegate: UIResponder, UIApplicationDelegate {
     var locationManager : CLLocationManager?    //位置情報取得用
     
     //アプリ起動時
@@ -30,6 +32,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelegate
         /* ------------------------------------------------------ */
         /*  for location management                               */
         /* ------------------------------------------------------ */
+        
         locationManager = CLLocationManager()
         locationManager!.delegate = self
         locationManager!.requestAlwaysAuthorization()
@@ -41,6 +44,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelegate
             locationManager!.pausesLocationUpdatesAutomatically = false //ポーズしても位置取得を続ける
             locationManager!.startUpdatingLocation()
         }
+        
         
         /* ------------------------------------------------------ */
         /*  for massage management                                */
@@ -69,6 +73,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelegate
         let location: CLLocationCoordinate2D = CLLocationCoordinate2DMake(newLocation.coordinate.latitude, newLocation.coordinate.longitude)
         print("緯度: ", location.latitude, "経度: ", location.longitude)
     }
+ 
 }
 
 /* ------------------------------------------------------ */

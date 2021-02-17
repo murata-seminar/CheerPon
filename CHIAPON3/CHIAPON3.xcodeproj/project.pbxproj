@@ -12,6 +12,8 @@
 		7505AF3C25DB89AD00DCC111 /* cheer.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 7505AF3925DB89AD00DCC111 /* cheer.jpg */; };
 		7505AF3D25DB89AD00DCC111 /* emptiness.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 7505AF3A25DB89AD00DCC111 /* emptiness.jpg */; };
 		7505AF3E25DB89AD00DCC111 /* praise.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 7505AF3B25DB89AD00DCC111 /* praise.jpg */; };
+		7505AF8825DCB13E00DCC111 /* myTimeCalculationClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7505AF8725DCB13E00DCC111 /* myTimeCalculationClass.swift */; };
+		7505AFA025DCD05B00DCC111 /* myNotificationMessages.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7505AF9F25DCD05B00DCC111 /* myNotificationMessages.swift */; };
 		755D5D9825D9FB050030884E /* CHIAPON3App.swift in Sources */ = {isa = PBXBuildFile; fileRef = 755D5D9725D9FB050030884E /* CHIAPON3App.swift */; };
 		755D5D9A25D9FB050030884E /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 755D5D9925D9FB050030884E /* ContentView.swift */; };
 		755D5D9C25D9FB060030884E /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 755D5D9B25D9FB060030884E /* Assets.xcassets */; };
@@ -44,6 +46,8 @@
 		7505AF3925DB89AD00DCC111 /* cheer.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; name = cheer.jpg; path = "../../たんこぶもちお/cheer.jpg"; sourceTree = "<group>"; };
 		7505AF3A25DB89AD00DCC111 /* emptiness.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; name = emptiness.jpg; path = "../../たんこぶもちお/emptiness.jpg"; sourceTree = "<group>"; };
 		7505AF3B25DB89AD00DCC111 /* praise.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; name = praise.jpg; path = "../../たんこぶもちお/praise.jpg"; sourceTree = "<group>"; };
+		7505AF8725DCB13E00DCC111 /* myTimeCalculationClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = myTimeCalculationClass.swift; sourceTree = "<group>"; };
+		7505AF9F25DCD05B00DCC111 /* myNotificationMessages.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = myNotificationMessages.swift; sourceTree = "<group>"; };
 		755D5D9425D9FB050030884E /* CHIAPON3.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CHIAPON3.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		755D5D9725D9FB050030884E /* CHIAPON3App.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CHIAPON3App.swift; sourceTree = "<group>"; };
 		755D5D9925D9FB050030884E /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -111,6 +115,8 @@
 			children = (
 				755D5D9725D9FB050030884E /* CHIAPON3App.swift */,
 				755D5D9925D9FB050030884E /* ContentView.swift */,
+				7505AF9F25DCD05B00DCC111 /* myNotificationMessages.swift */,
+				7505AF8725DCB13E00DCC111 /* myTimeCalculationClass.swift */,
 				7505AF3925DB89AD00DCC111 /* cheer.jpg */,
 				7505AF3A25DB89AD00DCC111 /* emptiness.jpg */,
 				7505AF3B25DB89AD00DCC111 /* praise.jpg */,
@@ -291,7 +297,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				7505AF2A25DB5ADF00DCC111 /* myNotificationClass.swift in Sources */,
+				7505AFA025DCD05B00DCC111 /* myNotificationMessages.swift in Sources */,
 				755D5D9A25D9FB050030884E /* ContentView.swift in Sources */,
+				7505AF8825DCB13E00DCC111 /* myTimeCalculationClass.swift in Sources */,
 				755D5D9825D9FB050030884E /* CHIAPON3App.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
