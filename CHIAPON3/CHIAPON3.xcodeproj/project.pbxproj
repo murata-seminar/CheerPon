@@ -21,6 +21,9 @@
 		755D5DAA25D9FB060030884E /* CHIAPON3Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 755D5DA925D9FB060030884E /* CHIAPON3Tests.swift */; };
 		755D5DB525D9FB060030884E /* CHIAPON3UITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 755D5DB425D9FB060030884E /* CHIAPON3UITests.swift */; };
 		755D5DC725D9FEE20030884E /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 755D5DC625D9FEE20030884E /* CoreLocation.framework */; };
+		75F6211B25DE18010007AC09 /* SettingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75F6211A25DE18010007AC09 /* SettingView.swift */; };
+		75F6212325DE22640007AC09 /* NameSettingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75F6212225DE22640007AC09 /* NameSettingView.swift */; };
+		75F6212825DE32260007AC09 /* mySettingClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75F6212725DE32260007AC09 /* mySettingClass.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -61,6 +64,9 @@
 		755D5DB425D9FB060030884E /* CHIAPON3UITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CHIAPON3UITests.swift; sourceTree = "<group>"; };
 		755D5DB625D9FB060030884E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		755D5DC625D9FEE20030884E /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
+		75F6211A25DE18010007AC09 /* SettingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingView.swift; sourceTree = "<group>"; };
+		75F6212225DE22640007AC09 /* NameSettingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NameSettingView.swift; sourceTree = "<group>"; };
+		75F6212725DE32260007AC09 /* mySettingClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = mySettingClass.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -114,7 +120,10 @@
 			isa = PBXGroup;
 			children = (
 				755D5D9725D9FB050030884E /* CHIAPON3App.swift */,
+				75F6212725DE32260007AC09 /* mySettingClass.swift */,
 				755D5D9925D9FB050030884E /* ContentView.swift */,
+				75F6211A25DE18010007AC09 /* SettingView.swift */,
+				75F6212225DE22640007AC09 /* NameSettingView.swift */,
 				7505AF9F25DCD05B00DCC111 /* myNotificationMessages.swift */,
 				7505AF8725DCB13E00DCC111 /* myTimeCalculationClass.swift */,
 				7505AF3925DB89AD00DCC111 /* cheer.jpg */,
@@ -297,10 +306,13 @@
 			buildActionMask = 2147483647;
 			files = (
 				7505AF2A25DB5ADF00DCC111 /* myNotificationClass.swift in Sources */,
+				75F6212825DE32260007AC09 /* mySettingClass.swift in Sources */,
 				7505AFA025DCD05B00DCC111 /* myNotificationMessages.swift in Sources */,
 				755D5D9A25D9FB050030884E /* ContentView.swift in Sources */,
+				75F6211B25DE18010007AC09 /* SettingView.swift in Sources */,
 				7505AF8825DCB13E00DCC111 /* myTimeCalculationClass.swift in Sources */,
 				755D5D9825D9FB050030884E /* CHIAPON3App.swift in Sources */,
+				75F6212325DE22640007AC09 /* NameSettingView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

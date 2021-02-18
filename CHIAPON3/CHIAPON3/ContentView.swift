@@ -19,7 +19,7 @@ struct ContentView: View {
     @State var afternoon: String = "120000"
     @State var night: String = "220000"
     //ユーザ名
-    var username: String = "no name"
+    //@State var username: String = "no name"
     
     //@ObservedObject var location: LocationManager
     
@@ -44,6 +44,11 @@ struct ContentView: View {
     let pub_locked = NotificationCenter.default.publisher(for: UIApplication.protectedDataWillBecomeUnavailableNotification)
     let pub_discard = NotificationCenter.default.publisher(for: UIScene.didDisconnectNotification)
     
+    //各種設定用クラス
+    @ObservedObject var msc = mySettingClass()
+    //設定画面の表示
+    @State private var showSettingView: Bool = false
+    
     //イニシャライザ
     init(){
         //位置情報取得に関する設定
@@ -54,6 +59,22 @@ struct ContentView: View {
     
     var body: some View {
         VStack {
+            VStack(alignment:.trailing) {
+                Button(action: {
+                    self.showSettingView = true
+                }, label: {
+                    Text("設定")
+                        .frame(width: 100, height: 30)
+                        .foregroundColor(.black)
+                        .background(Color.orange)
+                        .cornerRadius(15, antialiased: true)
+                })
+                .frame(maxWidth: .infinity, alignment: .trailing)
+                .padding(.trailing, 10.0)
+                .sheet(isPresented: self.$showSettingView, content: {
+                    SettingView().environmentObject(msc)
+                })
+            }
             Spacer()
             VStack {
                 Text("今回の使用時間")
@@ -186,8 +207,8 @@ struct ContentView: View {
             if let unarchivedData = try! NSKeyedUnarchiver.unarchiveTopLevelObjectWithData(storedData) as? myTimeCalculationClass {
                 mtcc = unarchivedData
                 
-                username = mtcc.username
-                if(username != "no name"){
+                msc.username = mtcc.username
+                if(msc.username != "no name"){
                     //buttonNameInput.isEnabled = false
                     //buttonNameInput.isHidden = true
                 }
@@ -248,15 +269,20 @@ struct ContentView: View {
                 //回数メッセージの送信：５０回が平均？（ロック解除は２３回）１時
                 //https://www.countand1.com/2017/05/smartphone-usage-48-and-apps-usage-90-per-day.html
                 //if self.mtcc.unlockedcounter != 0 && self.mtcc.unlockedcounter % 10 == 0 && self.mtcc.unlockedcounter <= 50 {
-                //1時間に3回がヘビーユーザと定義、3回前のアンロックが１時間以内にあれば出す
-                if !mtcc.unlock_queue.isEmpty && mtcc.unlock_queue.count >= 3{
-                    var diff = 3601.0
+                //1時間に3回がヘビーユーザと定義、4回前のアンロックが１時間以内かつ最新が20分以内にあれば出す
+                if !mtcc.unlock_queue.isEmpty && mtcc.unlock_queue.count >= 4{
+                    var diff_front = 3601.0
+                    var diff_last = 3601.0
                     //queueの先頭の時刻と現在時刻との差を算出する
                     if !mtcc.unlock_queue.isEmpty {
-                        diff = mtcc.getNowSeconds() - mtcc.unlock_queue.front!
+                        diff_front = mtcc.getNowSeconds() - mtcc.unlock_queue.front!
                     }
+                    if !mtcc.unlock_queue.isEmpty{
+                        diff_last = mtcc.getNowSeconds() - mtcc.unlock_queue.last!
+                    }
+                    //qqueueの最後尾から2個目（前回起動）の時刻と現在時刻との差を算出する
                     //差が１時間＝60*60秒＝3600秒未満であればメッセージを出す
-                    if diff <= 3600 {
+                    if diff_front <= 3600  && diff_last <= 1200 {
                         
                         var message: String = ""
                         if self.mtcc.checkTime(from: 5, to: 11) {    //午前

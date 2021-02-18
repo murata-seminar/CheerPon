@@ -352,6 +352,10 @@ class myTimeCalculationClass: NSObject, NSSecureCoding {
         public var end: T?{
             return array.last
         }
+        
+        public var last: T?{
+            return array[max - 2]
+        }
     }
 
     
