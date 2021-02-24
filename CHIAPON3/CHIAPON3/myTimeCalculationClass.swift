@@ -224,9 +224,13 @@ class myTimeCalculationClass: NSObject, NSSecureCoding {
     func setUnLocked(){
         time_unlocked = Date()
         //今使っていなかった時間（ロックされていた時間＝直近のロックされた時間から何秒たったか）を計算する
-        lockedtimeseconds = time_unlocked.timeIntervalSince1970
-        unlockedtimeseconds = time_locked.timeIntervalSince1970
-        lockedduration = lockedtimeseconds - unlockedtimeseconds
+        //lockedtimeseconds = time_unlocked.timeIntervalSince1970
+        //unlockedtimeseconds = time_locked.timeIntervalSince1970
+        //lockedduration = lockedtimeseconds - unlockedtimeseconds
+        
+        unlockedtimeseconds = time_unlocked.timeIntervalSince1970
+        lockedtimeseconds = time_locked.timeIntervalSince1970
+        lockedduration = unlockedtimeseconds - lockedtimeseconds
         //ロックされていた時間を累積ロック時間に追加
         total_locked = total_locked + lockedduration
         today_locked = today_locked + lockedduration
@@ -237,7 +241,7 @@ class myTimeCalculationClass: NSObject, NSSecureCoding {
         self.resetCheck(now: time_unlocked)
         
         //アンロックされた時刻をキューに入れる
-        unlock_queue.enqueue(lockedtimeseconds)
+        unlock_queue.enqueue(unlockedtimeseconds)
         //print(unlock_queue.count)
         //print(unlock_queue.front ?? nil)
         //print(unlock_queue.end)

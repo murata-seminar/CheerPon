@@ -9,7 +9,6 @@ import SwiftUI
 import CoreLocation //CoreLocationを利用
 import UserNotifications //ローカル通知用
 
-
 @main
 struct CHIAPON3App: App {
     

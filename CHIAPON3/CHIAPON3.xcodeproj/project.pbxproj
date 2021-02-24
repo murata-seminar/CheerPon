@@ -3,10 +3,11 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 50;
+	objectVersion = 52;
 	objects = {
 
 /* Begin PBXBuildFile section */
+		750501F925E1047C0001B4F2 /* OnGoingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 750501F825E1047C0001B4F2 /* OnGoingView.swift */; };
 		7505AF2A25DB5ADF00DCC111 /* myNotificationClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7505AF2925DB5ADF00DCC111 /* myNotificationClass.swift */; };
 		7505AF3525DB896400DCC111 /* normal.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 7505AF3425DB896400DCC111 /* normal.jpg */; };
 		7505AF3C25DB89AD00DCC111 /* cheer.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 7505AF3925DB89AD00DCC111 /* cheer.jpg */; };
@@ -21,6 +22,9 @@
 		755D5DAA25D9FB060030884E /* CHIAPON3Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 755D5DA925D9FB060030884E /* CHIAPON3Tests.swift */; };
 		755D5DB525D9FB060030884E /* CHIAPON3UITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 755D5DB425D9FB060030884E /* CHIAPON3UITests.swift */; };
 		755D5DC725D9FEE20030884E /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 755D5DC625D9FEE20030884E /* CoreLocation.framework */; };
+		7584B0A625DF6A970045886D /* Realm in Frameworks */ = {isa = PBXBuildFile; productRef = 7584B0A525DF6A970045886D /* Realm */; };
+		7584B0A825DF6A970045886D /* RealmSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 7584B0A725DF6A970045886D /* RealmSwift */; };
+		7584B0AD25DF6AFF0045886D /* LogDB.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7584B0AC25DF6AFF0045886D /* LogDB.swift */; };
 		75F6211B25DE18010007AC09 /* SettingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75F6211A25DE18010007AC09 /* SettingView.swift */; };
 		75F6212325DE22640007AC09 /* NameSettingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75F6212225DE22640007AC09 /* NameSettingView.swift */; };
 		75F6212825DE32260007AC09 /* mySettingClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75F6212725DE32260007AC09 /* mySettingClass.swift */; };
@@ -44,6 +48,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		750501F825E1047C0001B4F2 /* OnGoingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnGoingView.swift; sourceTree = "<group>"; };
 		7505AF2925DB5ADF00DCC111 /* myNotificationClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = myNotificationClass.swift; sourceTree = "<group>"; };
 		7505AF3425DB896400DCC111 /* normal.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; name = normal.jpg; path = "../../たんこぶもちお/normal.jpg"; sourceTree = "<group>"; };
 		7505AF3925DB89AD00DCC111 /* cheer.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; name = cheer.jpg; path = "../../たんこぶもちお/cheer.jpg"; sourceTree = "<group>"; };
@@ -64,6 +69,7 @@
 		755D5DB425D9FB060030884E /* CHIAPON3UITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CHIAPON3UITests.swift; sourceTree = "<group>"; };
 		755D5DB625D9FB060030884E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		755D5DC625D9FEE20030884E /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
+		7584B0AC25DF6AFF0045886D /* LogDB.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogDB.swift; sourceTree = "<group>"; };
 		75F6211A25DE18010007AC09 /* SettingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingView.swift; sourceTree = "<group>"; };
 		75F6212225DE22640007AC09 /* NameSettingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NameSettingView.swift; sourceTree = "<group>"; };
 		75F6212725DE32260007AC09 /* mySettingClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = mySettingClass.swift; sourceTree = "<group>"; };
@@ -74,6 +80,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				7584B0A825DF6A970045886D /* RealmSwift in Frameworks */,
+				7584B0A625DF6A970045886D /* Realm in Frameworks */,
 				755D5DC725D9FEE20030884E /* CoreLocation.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -121,8 +129,10 @@
 			children = (
 				755D5D9725D9FB050030884E /* CHIAPON3App.swift */,
 				75F6212725DE32260007AC09 /* mySettingClass.swift */,
+				7584B0AC25DF6AFF0045886D /* LogDB.swift */,
 				755D5D9925D9FB050030884E /* ContentView.swift */,
 				75F6211A25DE18010007AC09 /* SettingView.swift */,
+				750501F825E1047C0001B4F2 /* OnGoingView.swift */,
 				75F6212225DE22640007AC09 /* NameSettingView.swift */,
 				7505AF9F25DCD05B00DCC111 /* myNotificationMessages.swift */,
 				7505AF8725DCB13E00DCC111 /* myTimeCalculationClass.swift */,
@@ -188,6 +198,10 @@
 			dependencies = (
 			);
 			name = CHIAPON3;
+			packageProductDependencies = (
+				7584B0A525DF6A970045886D /* Realm */,
+				7584B0A725DF6A970045886D /* RealmSwift */,
+			);
 			productName = CHIAPON3;
 			productReference = 755D5D9425D9FB050030884E /* CHIAPON3.app */;
 			productType = "com.apple.product-type.application";
@@ -259,6 +273,9 @@
 				Base,
 			);
 			mainGroup = 755D5D8B25D9FB050030884E;
+			packageReferences = (
+				7584B0A425DF6A970045886D /* XCRemoteSwiftPackageReference "realm-cocoa" */,
+			);
 			productRefGroup = 755D5D9525D9FB050030884E /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -311,7 +328,9 @@
 				755D5D9A25D9FB050030884E /* ContentView.swift in Sources */,
 				75F6211B25DE18010007AC09 /* SettingView.swift in Sources */,
 				7505AF8825DCB13E00DCC111 /* myTimeCalculationClass.swift in Sources */,
+				750501F925E1047C0001B4F2 /* OnGoingView.swift in Sources */,
 				755D5D9825D9FB050030884E /* CHIAPON3App.swift in Sources */,
+				7584B0AD25DF6AFF0045886D /* LogDB.swift in Sources */,
 				75F6212325DE22640007AC09 /* NameSettingView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -632,6 +651,30 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		7584B0A425DF6A970045886D /* XCRemoteSwiftPackageReference "realm-cocoa" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/realm/realm-cocoa.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 10.6.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		7584B0A525DF6A970045886D /* Realm */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 7584B0A425DF6A970045886D /* XCRemoteSwiftPackageReference "realm-cocoa" */;
+			productName = Realm;
+		};
+		7584B0A725DF6A970045886D /* RealmSwift */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 7584B0A425DF6A970045886D /* XCRemoteSwiftPackageReference "realm-cocoa" */;
+			productName = RealmSwift;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 755D5D8C25D9FB050030884E /* Project object */;
 }

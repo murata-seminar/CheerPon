@@ -7,6 +7,7 @@
 
 import SwiftUI
 import CoreLocation
+import RealmSwift
 
 struct ContentView: View {
     
@@ -14,12 +15,14 @@ struct ContentView: View {
     var mtcc: myTimeCalculationClass = myTimeCalculationClass()
     var mnm: myNotificationMessages = myNotificationMessages()
     
+    //Realmの処理
+    @StateObject var logData: LogViewModel = LogViewModel()
+    
     //定時メッセージ表示時刻
     @State var morning: String = "070000"
     @State var afternoon: String = "120000"
     @State var night: String = "220000"
-    //ユーザ名
-    //@State var username: String = "no name"
+
     
     //@ObservedObject var location: LocationManager
     
@@ -31,7 +34,11 @@ struct ContentView: View {
     @State var counter_unlocked: Int = 0
     @State var counter_locked: Int = 0
     
-    @State var image_name: String = "cheer"
+    @State var image_name: String = "normal"
+    
+    //var userid: String = ""
+    //var chiapon: String = "normal"
+    //var type: String = "chiapon"
     
     //@State var counter: Int = 0
     
@@ -53,8 +60,18 @@ struct ContentView: View {
     init(){
         //位置情報取得に関する設定
         //self.location = LocationManager(accuracy: kCLLocationAccuracyThreeKilometers)
+        
+        //ちあぽんのモードをあおりにしておく
+        msc.chiapon = "aori"
+        
         //その他の一般的な初期設定
         initialSettings()
+        
+        //if logData.logs.isEmpty{
+        //    print("Realm Chack: no datum")
+        //}else{
+        //    print("Realm check: \(logData.logs)")
+        //}
     }
     
     var body: some View {
@@ -70,6 +87,77 @@ struct ContentView: View {
                         .cornerRadius(15, antialiased: true)
                 })
                 .frame(maxWidth: .infinity, alignment: .trailing)
+                .padding(.trailing, 10.0)
+                .sheet(isPresented: self.$showSettingView, content: {
+                    SettingView().environmentObject(msc)
+                })
+            }
+            //DBのデバッグ用
+            HStack{
+                Button(action: {
+                    /*
+                    let tmplog: Log = Log()
+                    tmplog.id = Int(Date().timeIntervalSince1970 * 1000)
+                    tmplog.timestamp = Date().timeIntervalSince1970
+                    tmplog.message = chiapon_message
+                    tmplog.userid = msc.userid
+                    tmplog.username = msc.username
+                    tmplog.chiapon = msc.chiapon
+                    tmplog.type = msc.type
+                    logData.addData(addlog: tmplog)
+                    */
+                    addLog(message: chiapon_message, locked: true, unlocked: true, current_usagetime: 0.1)
+                }, label: {
+                    Text("追加")
+                        .frame(width: 100, height: 30)
+                        .foregroundColor(.black)
+                        .background(Color.orange)
+                        .cornerRadius(15, antialiased: true)
+                })
+                .frame(maxWidth: .infinity, alignment: .leading)
+                .padding(.trailing, 10.0)
+                .sheet(isPresented: self.$showSettingView, content: {
+                    SettingView().environmentObject(msc)
+                })
+                Button(action: {
+                    logData.fetchData()
+                    print("current logs: \(logData.logs)")
+                }, label: {
+                    Text("確認")
+                        .frame(width: 100, height: 30)
+                        .foregroundColor(.black)
+                        .background(Color.orange)
+                        .cornerRadius(15, antialiased: true)
+                })
+                .frame(maxWidth: .infinity, alignment: .leading)
+                .padding(.trailing, 10.0)
+                .sheet(isPresented: self.$showSettingView, content: {
+                    SettingView().environmentObject(msc)
+                })
+                Button(action: {
+                    logData.deleteAll()
+                }, label: {
+                    Text("削除")
+                        .frame(width: 100, height: 30)
+                        .foregroundColor(.black)
+                        .background(Color.orange)
+                        .cornerRadius(15, antialiased: true)
+                })
+                .frame(maxWidth: .infinity, alignment: .leading)
+                .padding(.trailing, 10.0)
+                .sheet(isPresented: self.$showSettingView, content: {
+                    SettingView().environmentObject(msc)
+                })
+                Button(action: {
+                    logData.removeDB()
+                }, label: {
+                    Text("初期化")
+                        .frame(width: 100, height: 30)
+                        .foregroundColor(.black)
+                        .background(Color.orange)
+                        .cornerRadius(15, antialiased: true)
+                })
+                .frame(maxWidth: .infinity, alignment: .leading)
                 .padding(.trailing, 10.0)
                 .sheet(isPresented: self.$showSettingView, content: {
                     SettingView().environmentObject(msc)
@@ -148,6 +236,19 @@ struct ContentView: View {
             //self.counter_locked = self.counter_locked + 1
             //label_locked = "Locked: \(counter_locked)"
         })
+        //画面が生成表示されたタイミング実行される
+        //@StateObjectはここで実行しないとワーニングが出る
+        .onAppear(){
+            logData.fetchData()
+            if logData.logs.count > 0 {
+                msc.userid = logData.logs[0].userid
+                print("in logData userid chedk - true")
+            }else{
+                print("in logData userid chedk - false")
+                msc.userid = UUID().uuidString
+            }
+            print("userid was identified as \(msc.userid)")
+        }
     }
     
     /* ------------------------------------------------------ */
@@ -161,6 +262,10 @@ struct ContentView: View {
         mtcc.standardtime = mtcc.getStandardTime(sdate: mtcc.starttime)
         //キューの設定(過去何回分をチェックするか: とりあえず4回)
         mtcc.unlock_queue.setmax(num: 4)
+        //ユーザIDの設定
+        
+
+        
     }
     
     /* ------------------------------------------------------ */
@@ -196,8 +301,6 @@ struct ContentView: View {
         }
         userDefaultsData.set(archiveData, forKey: "mtcc_data")
         userDefaultsData.synchronize()
-        
-        
         //print("serealizing process was done.")
         //print(mtcc.unlockedcounter)
     }
@@ -224,6 +327,34 @@ struct ContentView: View {
         
         //print("unserealizing process was done.")
     }
+    
+    /* ------------------------------------------------------ */
+    /*  Realmに追加                                            */
+    /* ------------------------------------------------------ */
+    func addLog(message: String = "", locked: Bool = false, unlocked: Bool = false, current_usagetime: Double = 0.0){
+        //日時の生成
+        let f = DateFormatter()
+        //f.dateStyle = .short
+        //f.timeStyle = .medium
+        f.dateFormat = "yyyyMMddHHmmss"
+        let now: Date = Date()
+        //Relamに追加
+        let tmplog: Log = Log()
+        tmplog.id = Int(now.timeIntervalSince1970 * 1000)
+        tmplog.timestamp = now.timeIntervalSince1970
+        tmplog.day = f.string(from: now)
+        tmplog.userid = msc.userid
+        tmplog.username = msc.username
+        tmplog.locked = locked
+        tmplog.unlocked = unlocked
+        //ロック時には利用時間、アンロック時には利用しなかった時間
+        tmplog.current_usagetime = current_usagetime
+        tmplog.message = message
+        tmplog.chiapon = msc.chiapon
+        tmplog.type = msc.type
+        logData.addData(addlog: tmplog)
+    }
+    
     
     /* ------------------------------------------------------ */
     /*  1秒毎に繰り返されるループ                                  */
@@ -259,6 +390,9 @@ struct ContentView: View {
                 mnc.sendMessage()
                 chiapon_message = message
                 image_name = "emptiness"
+                
+                //Realmに追加
+                addLog(message: chiapon_message)
                 
                 //addDataToFirestore(deviceid: deviceid, messageid: 4, message: mnc.body)
             }
@@ -303,6 +437,9 @@ struct ContentView: View {
                         chiapon_message = message
                         image_name = "emptiness"
                         
+                        //Realmに追加
+                        addLog(message: chiapon_message)
+                        
                         //addDataToFirestore(deviceid: deviceid, messageid: 2, message: mnc.body)
                     }
                 }
@@ -323,6 +460,9 @@ struct ContentView: View {
             chiapon_message = message
             image_name = "normal"
             
+            //Realmに追加
+            addLog(message: chiapon_message)
+            
             //addDataToFirestore(deviceid: deviceid, messageid: 1, message: mnc.body)
         }
         
@@ -339,6 +479,9 @@ struct ContentView: View {
             chiapon_message = message
             image_name = "normal"
             
+            //Realmに追加
+            addLog(message: chiapon_message)
+            
             //addDataToFirestore(deviceid: deviceid, messageid: 1, message: mnc.body)
         }
         
@@ -354,6 +497,9 @@ struct ContentView: View {
             mnc.sendMessage()
             chiapon_message = message
             image_name = "emptiness"
+            
+            //Realmに追加
+            addLog(message: chiapon_message)
             
             //addDataToFirestore(deviceid: deviceid, messageid: 1, message: mnc.body)
         }
@@ -420,10 +566,12 @@ struct ContentView: View {
         if unlocked {
             //ロック解除された時の処理
             mtcc.setUnLocked()
+            addLog(unlocked: true, current_usagetime: mtcc.lockedduration)
         }else{
             //ロックされた時の処理
             mtcc.setLocked()
             mtcc.timer_counter = 0
+            addLog(locked: true, current_usagetime: mtcc.unlockedduration)
         }
         
         flag_unlocked = unlocked

@@ -20,7 +20,11 @@ struct SettingView: View {
                     label: {
                         Text("キャラクタ名の設定：\(msc.username)")
                     })
-                Text("実験用（記録）: ")
+                NavigationLink(
+                    destination: OnGoingView(),
+                    label: {
+                        Text("実験用（記録）: ")
+                    })
                 Text("アンケート回答（外部サイトへ")
             }.navigationTitle("設定")
         }
