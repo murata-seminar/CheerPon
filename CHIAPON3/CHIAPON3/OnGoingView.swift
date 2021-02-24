@@ -43,9 +43,9 @@ struct OnGoingView: View {
             let date = Int(now[..<now.index(now.startIndex, offsetBy: 8)])
             //作った日付をもとに、構造体のリスト（入れ物）を作成
             makeUsageStatusData(date: date ?? 0)
-            //ログデータから１日あたりのアンロック回数を取得して計算してリストに入力
+            //ログデータから１日あたりの使用状況を取得して計算してリストに入力
             getUnlockData()
-            //getData(locked: true)
+            getLockData()
             //ログデータから１日あたりの使用時間を計算してリストに入力
             //リスト表示
         })
@@ -71,19 +71,46 @@ struct OnGoingView: View {
     func makeUsageStatusData(date: Int){
         var usagestatusdatum: UsageStatusData
         for i in 0 ... 7{
-            usagestatusdatum = UsageStatusData(date: (date - i), usagetime:0.0, usagecount: 0)
+            usagestatusdatum = UsageStatusData(date: (date - i), usedtime:0.0, unusedtime: 0.0, unlockedcount: 0, lockedcount: 0)
             usagestatusdata.append(usagestatusdatum)
         }
         print("makeUsageStatusData: \(usagestatusdata)")
     }
     
-    //１日あたりのアンロック回数を取得して計算
+    //１日あたりのアンロック回数と利用時間を取得して計算
     func getUnlockData(){
         let tmpdata = getData(locked: false, unlocked: true)
         for data in tmpdata {
             for i in 0...7 {
-                if Int(data.day[..<data.day.index(data.day.startIndex, offsetBy: 8)]) == usagestatusdata[i].date {
-                    usagestatusdata[i].usagecount = usagestatusdata[i].usagecount + 1
+                //日にちが一緒で、アンロックのフラグが立っているデータのみ処理
+                if Int(data.day[..<data.day.index(data.day.startIndex, offsetBy: 8)]) == usagestatusdata[i].date && data.unlocked {
+                    //アンロック回数を入れる
+                    usagestatusdata[i].unlockedcount = usagestatusdata[i].unlockedcount + 1
+                    //利用していなかった時間
+                    // lockedの時のusage_timeは、unlockedduration
+                    // unlockedの時のusage_timeは、lockedduration
+                    usagestatusdata[i].unusedtime = usagestatusdata[i].unusedtime + data.current_usagetime
+                }else{
+                    //print("miss: \(data)")
+                }
+            }
+        }
+        print("getUnlockData: \(usagestatusdata)")
+    }
+    
+    //１日あたりのロック回数と利用時間を取得して計算
+    func getLockData(){
+        let tmpdata = getData(locked: true, unlocked: false)
+        for data in tmpdata {
+            for i in 0...7 {
+                //日にちが一緒で、アンロックのフラグが立っているデータのみ処理
+                if Int(data.day[..<data.day.index(data.day.startIndex, offsetBy: 8)]) == usagestatusdata[i].date && data.locked {
+                    //ロック回数を入れる
+                    usagestatusdata[i].lockedcount = usagestatusdata[i].lockedcount + 1
+                    //利用していなかった時間
+                    // lockedの時のusage_timeは、unlockedduration
+                    // unlockedの時のusage_timeは、lockedduration
+                    usagestatusdata[i].usedtime = usagestatusdata[i].usedtime + data.current_usagetime
                 }else{
                     //print("miss: \(data)")
                 }

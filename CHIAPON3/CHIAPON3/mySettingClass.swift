@@ -16,12 +16,17 @@ class mySettingClass: ObservableObject{
 
 struct UsageStatusData {
     var date: Int = 0
-    var usagetime: Double = 0.0
-    var usagecount: Int = 0
+    var usedtime: Double = 0.0
+    var unusedtime: Double = 0.0
+    var unlockedcount: Int = 0
+    var lockedcount: Int = 0
     
-    init(date: Int, usagetime: Double, usagecount: Int){
+    init(date: Int, usedtime: Double, unusedtime: Double, unlockedcount: Int, lockedcount: Int){
         self.date = date
-        self.usagetime = usagetime
-        self.usagecount = usagecount
+        self.usedtime = usedtime
+        self.unusedtime = unusedtime
+        self.unlockedcount = unlockedcount
+        self.lockedcount = lockedcount
+        
     }
 }
