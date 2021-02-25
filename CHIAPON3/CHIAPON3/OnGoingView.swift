@@ -36,17 +36,17 @@ struct OnGoingView: View {
             
             //過去７日間の日付を作る
             //現在日時の生成
-            let f = DateFormatter()
-            f.dateFormat = "yyyyMMddHHmmss"
-            let now = f.string(from: Date())
+            let day = Date()
+            //let f = DateFormatter()
+            //f.dateFormat = "yyyyMMddHHmmss"
+            //let now = f.string(from: Date())
             //年月日部分を切り出してIntにキャスト
-            let date = Int(now[..<now.index(now.startIndex, offsetBy: 8)])
+            //let date = Int(now[..<now.index(now.startIndex, offsetBy: 8)])
             //作った日付をもとに、構造体のリスト（入れ物）を作成
-            makeUsageStatusData(date: date ?? 0)
+            makeUsageStatusData(date: day)
             //ログデータから１日あたりの使用状況を取得して計算してリストに入力
             getUnlockData()
             getLockData()
-            //ログデータから１日あたりの使用時間を計算してリストに入力
             //リスト表示
         })
     }
@@ -67,11 +67,23 @@ struct OnGoingView: View {
         return tmplogs
     }
     
+    //日付取り出し
+    func dateExtractor(date: Date) -> String {
+        let f = DateFormatter()
+        f.dateFormat = "yyyyMMddHHmmss"
+        //f.dateStyle = .long
+        //f.timeStyle = .none
+        return f.string(from: date)
+    }
+    
     //表示用構造体の生成
-    func makeUsageStatusData(date: Int){
+    func makeUsageStatusData(date: Date){
         var usagestatusdatum: UsageStatusData
         for i in 0 ... 7{
-            usagestatusdatum = UsageStatusData(date: (date - i), usedtime:0.0, unusedtime: 0.0, unlockedcount: 0, lockedcount: 0)
+            let tmpdate = Calendar.current.date(byAdding: .day, value: (i) * -1, to: date)!
+            var tmpdatestring = dateExtractor(date: tmpdate)
+            tmpdatestring = String(tmpdatestring[..<tmpdatestring.index(tmpdatestring.startIndex, offsetBy: 8)])
+            usagestatusdatum = UsageStatusData(date: tmpdatestring, usedtime:0.0, unusedtime: 0.0, unlockedcount: 0, lockedcount: 0)
             usagestatusdata.append(usagestatusdatum)
         }
         print("makeUsageStatusData: \(usagestatusdata)")
@@ -80,19 +92,30 @@ struct OnGoingView: View {
     //１日あたりのアンロック回数と利用時間を取得して計算
     func getUnlockData(){
         let tmpdata = getData(locked: false, unlocked: true)
-        for data in tmpdata {
-            for i in 0...7 {
+        //利用時間の平均値と分散を求めるための配列を作成する
+        var usagearray: [Double] = []
+        
+        for i in 0...7 {
+            usagearray = []
+            for data in tmpdata {
                 //日にちが一緒で、アンロックのフラグが立っているデータのみ処理
-                if Int(data.day[..<data.day.index(data.day.startIndex, offsetBy: 8)]) == usagestatusdata[i].date && data.unlocked {
+                if data.day[..<data.day.index(data.day.startIndex, offsetBy: 8)] == usagestatusdata[i].date && data.unlocked {
                     //アンロック回数を入れる
                     usagestatusdata[i].unlockedcount = usagestatusdata[i].unlockedcount + 1
                     //利用していなかった時間
                     // lockedの時のusage_timeは、unlockedduration
                     // unlockedの時のusage_timeは、lockedduration
                     usagestatusdata[i].unusedtime = usagestatusdata[i].unusedtime + data.current_usagetime
+                    //さらに平均値と分散用の配列の処理
+                    usagearray.append(data.current_usagetime)
                 }else{
                     //print("miss: \(data)")
                 }
+            }
+            //さらに分散と平均値を追加
+            if usagearray.count >= 2 {
+                usagestatusdata[i].unusedave = usagearray.average(usagearray)
+                usagestatusdata[i].unusedvar = usagearray.variance(usagearray)
             }
         }
         print("getUnlockData: \(usagestatusdata)")
@@ -101,22 +124,34 @@ struct OnGoingView: View {
     //１日あたりのロック回数と利用時間を取得して計算
     func getLockData(){
         let tmpdata = getData(locked: true, unlocked: false)
-        for data in tmpdata {
-            for i in 0...7 {
+        //利用時間の平均値と分散を求めるための配列を作成する
+        var usagearray: [Double] = []
+        
+        for i in 0...7 {
+            usagearray = []
+            print(usagearray)
+            for data in tmpdata {
                 //日にちが一緒で、アンロックのフラグが立っているデータのみ処理
-                if Int(data.day[..<data.day.index(data.day.startIndex, offsetBy: 8)]) == usagestatusdata[i].date && data.locked {
+                if data.day[..<data.day.index(data.day.startIndex, offsetBy: 8)] == usagestatusdata[i].date && data.locked {
                     //ロック回数を入れる
                     usagestatusdata[i].lockedcount = usagestatusdata[i].lockedcount + 1
-                    //利用していなかった時間
+                    //利用していた時間
                     // lockedの時のusage_timeは、unlockedduration
                     // unlockedの時のusage_timeは、lockedduration
                     usagestatusdata[i].usedtime = usagestatusdata[i].usedtime + data.current_usagetime
+                    //さらに平均値と分散用の配列の処理
+                    usagearray.append(data.current_usagetime)
                 }else{
                     //print("miss: \(data)")
                 }
+                //さらに分散と平均値を追加
+                if usagearray.count >= 2 {
+                    usagestatusdata[i].usedave = usagearray.average(usagearray)
+                    usagestatusdata[i].usedvar = usagearray.variance(usagearray)
+                }
             }
         }
-        print("getUnlockData: \(usagestatusdata)")
+        print("get LockData: \(usagestatusdata)")
     }
 }
 
