@@ -14,7 +14,8 @@ class mySettingClass: ObservableObject{
     @Published var type: String = "scheduled"
 }
 
-struct UsageStatusData {
+struct UsageStatusData: Identifiable{
+    var id: Int = Int.random(in: 0...10000)
     var date: String = ""
     var usedtime: Double = 0.0
     var usedave: Double = 0.0
@@ -25,7 +26,8 @@ struct UsageStatusData {
     var unlockedcount: Int = 0
     var lockedcount: Int = 0
     
-    init(date: String = "", usedtime: Double = 0.0, usedave: Double = 0.0, usedvar: Double = 0.0, unusedtime: Double = 0.0, unusedave: Double = 0.0, unusedvar: Double = 0.0, unlockedcount: Int = 0, lockedcount: Int = 0){
+    init(id: Int = Int.random(in: 0...10000), date: String = "", usedtime: Double = 0.0, usedave: Double = 0.0, usedvar: Double = 0.0, unusedtime: Double = 0.0, unusedave: Double = 0.0, unusedvar: Double = 0.0, unlockedcount: Int = 0, lockedcount: Int = 0){
+        self.id = id
         self.date = date
         self.usedtime = usedtime
         self.usedave = usedave

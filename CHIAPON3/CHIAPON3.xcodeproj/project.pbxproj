@@ -25,6 +25,7 @@
 		7584B0A625DF6A970045886D /* Realm in Frameworks */ = {isa = PBXBuildFile; productRef = 7584B0A525DF6A970045886D /* Realm */; };
 		7584B0A825DF6A970045886D /* RealmSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 7584B0A725DF6A970045886D /* RealmSwift */; };
 		7584B0AD25DF6AFF0045886D /* LogDB.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7584B0AC25DF6AFF0045886D /* LogDB.swift */; };
+		75893BB025E7D81F009C3A60 /* SimpleRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75893BAF25E7D81F009C3A60 /* SimpleRow.swift */; };
 		75F6211B25DE18010007AC09 /* SettingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75F6211A25DE18010007AC09 /* SettingView.swift */; };
 		75F6212325DE22640007AC09 /* NameSettingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75F6212225DE22640007AC09 /* NameSettingView.swift */; };
 		75F6212825DE32260007AC09 /* mySettingClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75F6212725DE32260007AC09 /* mySettingClass.swift */; };
@@ -70,6 +71,7 @@
 		755D5DB625D9FB060030884E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		755D5DC625D9FEE20030884E /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
 		7584B0AC25DF6AFF0045886D /* LogDB.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogDB.swift; sourceTree = "<group>"; };
+		75893BAF25E7D81F009C3A60 /* SimpleRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SimpleRow.swift; sourceTree = "<group>"; };
 		75F6211A25DE18010007AC09 /* SettingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingView.swift; sourceTree = "<group>"; };
 		75F6212225DE22640007AC09 /* NameSettingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NameSettingView.swift; sourceTree = "<group>"; };
 		75F6212725DE32260007AC09 /* mySettingClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = mySettingClass.swift; sourceTree = "<group>"; };
@@ -133,6 +135,7 @@
 				755D5D9925D9FB050030884E /* ContentView.swift */,
 				75F6211A25DE18010007AC09 /* SettingView.swift */,
 				750501F825E1047C0001B4F2 /* OnGoingView.swift */,
+				75893BAF25E7D81F009C3A60 /* SimpleRow.swift */,
 				75F6212225DE22640007AC09 /* NameSettingView.swift */,
 				7505AF9F25DCD05B00DCC111 /* myNotificationMessages.swift */,
 				7505AF8725DCB13E00DCC111 /* myTimeCalculationClass.swift */,
@@ -330,6 +333,7 @@
 				7505AF8825DCB13E00DCC111 /* myTimeCalculationClass.swift in Sources */,
 				750501F925E1047C0001B4F2 /* OnGoingView.swift in Sources */,
 				755D5D9825D9FB050030884E /* CHIAPON3App.swift in Sources */,
+				75893BB025E7D81F009C3A60 /* SimpleRow.swift in Sources */,
 				7584B0AD25DF6AFF0045886D /* LogDB.swift in Sources */,
 				75F6212325DE22640007AC09 /* NameSettingView.swift in Sources */,
 			);
