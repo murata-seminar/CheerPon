@@ -8,6 +8,7 @@
 import SwiftUI
 import CoreLocation //CoreLocationを利用
 import UserNotifications //ローカル通知用
+import Firebase  //Firebase用
 
 @main
 struct CHIAPON3App: App {
@@ -59,6 +60,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelegate
                 print("requestAuthorization was denyed.")
             }
         })
+        
+        /* ------------------------------------------------------ */
+        /*  for firestore                                         */
+        /* ------------------------------------------------------ */
+        FirebaseApp.configure()
         
         return true
     }

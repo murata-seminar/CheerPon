@@ -19,19 +19,23 @@ struct OnGoingView: View {
     @State var usagestatusdata: [UsageStatusData] = []
     
     var body: some View {
-        List(usagestatusdata){ data in
-            VStack {
-                Text("YYYYMMdd: " + data.date).frame(maxWidth: .infinity, alignment: .leading)
-                HStack {
-                    Text("回数: " + String(data.unlockedcount))
-                    Spacer()
-                    Text("使用: " + String(round(data.usedave)))
-                    Spacer()
-                    Text("未使用: " + String(round(data.unusedave)))
+        List {
+            Section(header: Text("日付\n回数　平均使用時間　平均未使用時間")){
+                ForEach(usagestatusdata){ data in
+                    VStack {
+                        Text("日付: " + data.date).frame(maxWidth: .infinity, alignment: .leading)
+                        HStack {
+                            Text("回数: " + String(data.unlockedcount))
+                            Spacer()
+                            Text("使用: " + String(round(data.usedave*100)/100))
+                            Spacer()
+                            Text("未使用: " + String(round(data.unusedave*100)/100))
+                        }
+                    }
+
                 }
             }
         }
-        
         .onAppear(perform: {
             //ここに、View表示時の処理を書く
             text1 = "msc.userid: \(msc.userid)"
@@ -92,7 +96,7 @@ struct OnGoingView: View {
             var tmpdatestring = dateExtractor(date: tmpdate)
             tmpdatestring = String(tmpdatestring[..<tmpdatestring.index(tmpdatestring.startIndex, offsetBy: 8)])
             print(i)
-            usagestatusdatum = UsageStatusData(id: i, date: tmpdatestring, usedtime: 0.0, usedave: 0.0, usedvar: 0.0, unusedtime: 0.0, unusedave: 0.0, unusedvar: 0.0, unlockedcount: 0, lockedcount: 0)
+            usagestatusdatum = UsageStatusData(date: tmpdatestring, usedtime: 0.0, usedave: 0.0, usedvar: 0.0, unusedtime: 0.0, unusedave: 0.0, unusedvar: 0.0, unlockedcount: 0, lockedcount: 0)
             usagestatusdata.append(usagestatusdatum)
         }
         print("makeUsageStatusData: \(usagestatusdata)")

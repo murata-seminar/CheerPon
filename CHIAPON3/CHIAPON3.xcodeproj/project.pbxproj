@@ -26,6 +26,8 @@
 		7584B0A825DF6A970045886D /* RealmSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 7584B0A725DF6A970045886D /* RealmSwift */; };
 		7584B0AD25DF6AFF0045886D /* LogDB.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7584B0AC25DF6AFF0045886D /* LogDB.swift */; };
 		75893BB025E7D81F009C3A60 /* SimpleRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75893BAF25E7D81F009C3A60 /* SimpleRow.swift */; };
+		75E365DA25EE045A002DBDAD /* FirebaseFirestore in Frameworks */ = {isa = PBXBuildFile; productRef = 75E365D925EE045A002DBDAD /* FirebaseFirestore */; };
+		75E365DF25EE04FA002DBDAD /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 75E365DE25EE04FA002DBDAD /* GoogleService-Info.plist */; };
 		75F6211B25DE18010007AC09 /* SettingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75F6211A25DE18010007AC09 /* SettingView.swift */; };
 		75F6212325DE22640007AC09 /* NameSettingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75F6212225DE22640007AC09 /* NameSettingView.swift */; };
 		75F6212825DE32260007AC09 /* mySettingClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75F6212725DE32260007AC09 /* mySettingClass.swift */; };
@@ -72,6 +74,7 @@
 		755D5DC625D9FEE20030884E /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
 		7584B0AC25DF6AFF0045886D /* LogDB.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogDB.swift; sourceTree = "<group>"; };
 		75893BAF25E7D81F009C3A60 /* SimpleRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SimpleRow.swift; sourceTree = "<group>"; };
+		75E365DE25EE04FA002DBDAD /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		75F6211A25DE18010007AC09 /* SettingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingView.swift; sourceTree = "<group>"; };
 		75F6212225DE22640007AC09 /* NameSettingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NameSettingView.swift; sourceTree = "<group>"; };
 		75F6212725DE32260007AC09 /* mySettingClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = mySettingClass.swift; sourceTree = "<group>"; };
@@ -83,6 +86,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				7584B0A825DF6A970045886D /* RealmSwift in Frameworks */,
+				75E365DA25EE045A002DBDAD /* FirebaseFirestore in Frameworks */,
 				7584B0A625DF6A970045886D /* Realm in Frameworks */,
 				755D5DC725D9FEE20030884E /* CoreLocation.framework in Frameworks */,
 			);
@@ -141,6 +145,7 @@
 				7505AF8725DCB13E00DCC111 /* myTimeCalculationClass.swift */,
 				7505AF3925DB89AD00DCC111 /* cheer.jpg */,
 				7505AF3A25DB89AD00DCC111 /* emptiness.jpg */,
+				75E365DE25EE04FA002DBDAD /* GoogleService-Info.plist */,
 				7505AF3B25DB89AD00DCC111 /* praise.jpg */,
 				7505AF3425DB896400DCC111 /* normal.jpg */,
 				7505AF2925DB5ADF00DCC111 /* myNotificationClass.swift */,
@@ -204,6 +209,7 @@
 			packageProductDependencies = (
 				7584B0A525DF6A970045886D /* Realm */,
 				7584B0A725DF6A970045886D /* RealmSwift */,
+				75E365D925EE045A002DBDAD /* FirebaseFirestore */,
 			);
 			productName = CHIAPON3;
 			productReference = 755D5D9425D9FB050030884E /* CHIAPON3.app */;
@@ -278,6 +284,7 @@
 			mainGroup = 755D5D8B25D9FB050030884E;
 			packageReferences = (
 				7584B0A425DF6A970045886D /* XCRemoteSwiftPackageReference "realm-cocoa" */,
+				75E365D825EE045A002DBDAD /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
 			);
 			productRefGroup = 755D5D9525D9FB050030884E /* Products */;
 			projectDirPath = "";
@@ -301,6 +308,7 @@
 				7505AF3D25DB89AD00DCC111 /* emptiness.jpg in Resources */,
 				7505AF3C25DB89AD00DCC111 /* cheer.jpg in Resources */,
 				7505AF3E25DB89AD00DCC111 /* praise.jpg in Resources */,
+				75E365DF25EE04FA002DBDAD /* GoogleService-Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -665,6 +673,14 @@
 				minimumVersion = 10.6.0;
 			};
 		};
+		75E365D825EE045A002DBDAD /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/firebase/firebase-ios-sdk.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 7.7.0;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -677,6 +693,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 7584B0A425DF6A970045886D /* XCRemoteSwiftPackageReference "realm-cocoa" */;
 			productName = RealmSwift;
+		};
+		75E365D925EE045A002DBDAD /* FirebaseFirestore */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 75E365D825EE045A002DBDAD /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseFirestore;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

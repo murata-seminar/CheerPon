@@ -15,6 +15,8 @@ struct ContentView: View {
     var mtcc: myTimeCalculationClass = myTimeCalculationClass()
     var mnm: myNotificationMessages = myNotificationMessages()
     
+    //Firestore用
+    
     //Realmの処理
     @StateObject var logData: LogViewModel = LogViewModel()
     
@@ -107,6 +109,8 @@ struct ContentView: View {
                     logData.addData(addlog: tmplog)
                     */
                     addLog(message: chiapon_message, locked: true, unlocked: true, current_usagetime: 0.1)
+                    //firestore
+                    addLogFirestore(message: chiapon_message, locked: true, unlocked: true, current_usagetime: 0.1)
                 }, label: {
                     Text("追加")
                         .frame(width: 100, height: 30)
@@ -355,6 +359,32 @@ struct ContentView: View {
         logData.addData(addlog: tmplog)
     }
     
+    /* ------------------------------------------------------ */
+    /*  firestoreに追加                                        */
+    /* ------------------------------------------------------ */
+    func addLogFirestore(message: String = "", locked: Bool = false, unlocked: Bool = false, current_usagetime: Double = 0.0){
+        //日時の生成
+        let f = DateFormatter()
+        //f.dateStyle = .short
+        //f.timeStyle = .medium
+        f.dateFormat = "yyyyMMddHHmmss"
+        let now: Date = Date()
+        //Firestoreに追加
+        let tmplog: Log = Log()
+        tmplog.id = Int(now.timeIntervalSince1970 * 1000)
+        tmplog.timestamp = now.timeIntervalSince1970
+        tmplog.day = f.string(from: now)
+        tmplog.userid = msc.userid
+        tmplog.username = msc.username
+        tmplog.locked = locked
+        tmplog.unlocked = unlocked
+        //ロック時には利用時間、アンロック時には利用しなかった時間
+        tmplog.current_usagetime = current_usagetime
+        tmplog.message = message
+        tmplog.chiapon = msc.chiapon
+        tmplog.type = msc.type
+        logData.addFirestore(addlog: tmplog)
+    }
     
     /* ------------------------------------------------------ */
     /*  1秒毎に繰り返されるループ                                  */
@@ -393,6 +423,7 @@ struct ContentView: View {
                 
                 //Realmに追加
                 addLog(message: chiapon_message)
+                addLogFirestore(message: chiapon_message)
                 
                 //addDataToFirestore(deviceid: deviceid, messageid: 4, message: mnc.body)
             }
@@ -439,6 +470,7 @@ struct ContentView: View {
                         
                         //Realmに追加
                         addLog(message: chiapon_message)
+                        addLogFirestore(message: chiapon_message)
                         
                         //addDataToFirestore(deviceid: deviceid, messageid: 2, message: mnc.body)
                     }
@@ -462,6 +494,7 @@ struct ContentView: View {
             
             //Realmに追加
             addLog(message: chiapon_message)
+            addLogFirestore(message: chiapon_message)
             
             //addDataToFirestore(deviceid: deviceid, messageid: 1, message: mnc.body)
         }
@@ -481,6 +514,7 @@ struct ContentView: View {
             
             //Realmに追加
             addLog(message: chiapon_message)
+            addLogFirestore(message: chiapon_message)
             
             //addDataToFirestore(deviceid: deviceid, messageid: 1, message: mnc.body)
         }
@@ -500,6 +534,7 @@ struct ContentView: View {
             
             //Realmに追加
             addLog(message: chiapon_message)
+            addLogFirestore(message: chiapon_message)
             
             //addDataToFirestore(deviceid: deviceid, messageid: 1, message: mnc.body)
         }
@@ -567,11 +602,14 @@ struct ContentView: View {
             //ロック解除された時の処理
             mtcc.setUnLocked()
             addLog(unlocked: true, current_usagetime: mtcc.lockedduration)
+            addLogFirestore(unlocked: true, current_usagetime: mtcc.lockedduration)
         }else{
             //ロックされた時の処理
             mtcc.setLocked()
             mtcc.timer_counter = 0
             addLog(locked: true, current_usagetime: mtcc.unlockedduration)
+            addLogFirestore(locked: true, current_usagetime: mtcc.unlockedduration)
+            
         }
         
         flag_unlocked = unlocked

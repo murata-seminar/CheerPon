@@ -7,6 +7,7 @@
 
 import Foundation
 import RealmSwift
+import Firebase
 
 //Swift2.0っぽい書き方でやってみる
 //https://note.com/dngri/n/na87140a78f2f
@@ -31,12 +32,19 @@ class Log: Object, Identifiable{
 }
 
 class LogViewModel: ObservableObject{
+    //Firestore
+    private let db = Firestore.firestore()
+    
     @Published var logs: [Log] = []
+    
     
     init(){
         fetchData()
     }
     
+    /* ------------------------------------------------------ */
+    /*  for realm   management                                */
+    /* ------------------------------------------------------ */
     func fetchData() {
         guard let dbRef = try? Realm() else {
             print("realm fetch fatel error")
@@ -86,6 +94,49 @@ class LogViewModel: ObservableObject{
             print("realm remove db error on add: \(error.localizedDescription)")
         }
     }
+    
+    /* ------------------------------------------------------ */
+    /*  for firestore management                              */
+    /* ------------------------------------------------------ */
+    func addFirestore(addlog: Log){
+        /*
+         @objc dynamic var id = 0
+         @objc dynamic var timestamp = 0.0
+         @objc dynamic var day = ""
+         @objc dynamic var userid = "0"
+         @objc dynamic var username = "no_name"
+         @objc dynamic var locked = false
+         @objc dynamic var unlocked = false
+         @objc dynamic var current_usagetime = 0.0
+         //メッセージ送信をする場合, しない場合はmessageが""とする
+         @objc dynamic var message = ""
+         @objc dynamic var chiapon = "normal"   //cheer, aori
+         @objc dynamic var type = "scheduled"    //scheduled, unlocked, continued
+         
+         */
+        //追加するデータの生成
+        let data: [String: Any] = ["id": addlog.id,
+                                   "timestamp": addlog.timestamp,
+                                   "day": addlog.day,
+                                   "userid": addlog.userid,
+                                   "username": addlog.username,
+                                   "locked": addlog.locked,
+                                   "unlocked": addlog.unlocked,
+                                   "current_usagetime": addlog.current_usagetime,
+                                   "message": addlog.message,
+                                   "chiapon": addlog.chiapon,
+                                   "type": addlog.type]
+        //ドキュメント名を生成
+        let documentname = addlog.userid + String(addlog.timestamp)
+        //DBに追加
+        db.collection("CHIAPON3").document(documentname).setData(data){ error in
+            if let error = error {
+                print("addFirestore: " + error.localizedDescription)
+                return
+            }
+        }
+    }
+    
 }
 
 /*
