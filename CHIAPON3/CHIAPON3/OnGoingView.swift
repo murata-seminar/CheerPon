@@ -29,11 +29,13 @@ struct OnGoingView: View {
                 //最初にデータをポスト
                 postData()
                 //そのあとアンケートサイトを開く
+                /*
                 if let url = URL(string: "https://muratalab.si.aoyama.ac.jp/dev/chiapon3/receive.php"){
                     UIApplication.shared.open(url, completionHandler: {completed in
                         print(completed)
                     })
                 }
+                 */
             }) {
                 Text("アンケート回答（外部サイトへ進む）")
             }.frame(width: 300, height: 30)
@@ -140,7 +142,7 @@ struct OnGoingView: View {
             let tmpdate = Calendar.current.date(byAdding: .day, value: (i) * -1, to: date)!
             var tmpdatestring = dateExtractor(date: tmpdate)
             tmpdatestring = String(tmpdatestring[..<tmpdatestring.index(tmpdatestring.startIndex, offsetBy: 8)])
-            print(i)
+            //print(i)
             usagestatusdatum = UsageStatusData(date: tmpdatestring, usedtime: 0.0, usedave: 0.0, usedvar: 0.0, unusedtime: 0.0, unusedave: 0.0, unusedvar: 0.0, unlockedcount: 0, lockedcount: 0)
             usagestatusdata.append(usagestatusdatum)
         }
@@ -215,7 +217,20 @@ struct OnGoingView: View {
     //データポスト用関数
     func postData(){
         
-        print(usagestatusdata) //ポストするデータの元
+        //フェッチ
+        logData.fetchData()
+        var tmplogs = logData.logs
+        //print(usagestatusdata) //ポストするデータの元
+        //ここでJSONへの返還を試みる
+        let encoder = JSONEncoder()
+        //encoder.outputFormatting = .prettyPrinted
+        guard let jsonValue = try? encoder.encode(usagestatusdata) else {
+        //guard let jsonValue = try? encoder.encode(tmplogs) else {
+            fatalError("Failed to encode to JSON")
+        }
+        print("****** json data was created. ******")
+        //print(jsonValue)
+        //print(String(bytes: jsonValue, encoding: .utf8)!)
 
         
         let urlString = "https://muratalab.si.aoyama.ac.jp/dev/chiapon3/receive.php"
@@ -223,6 +238,7 @@ struct OnGoingView: View {
         request.httpMethod = "POST"
         request.addValue("aplication/json", forHTTPHeaderField: "Content-Type")
         
+        /*
         let params:[String:Any] = [
             "foo": "bar",
             "baz":[
@@ -230,14 +246,20 @@ struct OnGoingView: View {
                 "b": 2,
                 "c": 3]
         ]
+         */
+         
         
         do{
-            request.httpBody = try JSONSerialization.data(withJSONObject: params, options: .prettyPrinted)
-            
+            //request.httpBody = try JSONSerialization.data(withJSONObject: params, options: .prettyPrinted)
+            request.httpBody = jsonValue
+
             let task:URLSessionTask = URLSession.shared.dataTask(with: request as URLRequest, completionHandler: {(data, response, error) -> Void in
-                let resultData = String(data: data!, encoding: .utf8)!
-                //print("result:\(resultData)")
-                //print("response:\(response)")
+                var resultData: String = "no response."
+                if data != nil {
+                    resultData = String(data: data!, encoding: .utf8)!
+                }
+                print("result:\(resultData)")
+                //print("response:\(String(describing: response))")
             })
             task.resume()
         }catch{

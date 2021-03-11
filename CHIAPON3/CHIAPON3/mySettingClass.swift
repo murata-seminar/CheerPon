@@ -14,7 +14,7 @@ class mySettingClass: ObservableObject{
     @Published var type: String = "scheduled"
 }
 
-struct UsageStatusData: Identifiable{
+struct UsageStatusData: Identifiable, Codable{
     var id = UUID()
     var date: String = ""
     var usedtime: Double = 0.0

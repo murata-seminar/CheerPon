@@ -12,7 +12,7 @@ import Firebase
 //Swift2.0っぽい書き方でやってみる
 //https://note.com/dngri/n/na87140a78f2f
 //https://www.youtube.com/watch?v=lx6C6pcL-0M&amp%3Bfeature=emb_logo
-class Log: Object, Identifiable{
+class Log: Object, Identifiable, Codable{
     @objc dynamic var id = 0
     @objc dynamic var timestamp = 0.0
     @objc dynamic var day = ""
