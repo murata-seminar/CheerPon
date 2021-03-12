@@ -422,6 +422,7 @@ struct ContentView: View {
                 image_name = "emptiness"
                 
                 //Realmに追加
+                msc.type = "continued"
                 addLog(message: chiapon_message)
                 addLogFirestore(message: chiapon_message)
                 
@@ -469,6 +470,7 @@ struct ContentView: View {
                         image_name = "emptiness"
                         
                         //Realmに追加
+                        msc.type = "unlocked"
                         addLog(message: chiapon_message)
                         addLogFirestore(message: chiapon_message)
                         
@@ -479,6 +481,7 @@ struct ContentView: View {
         }
         
         //定時コメントの処理
+        msc.type = "scheduled"  //scheduledに戻しておく
         //7:00
         if(mtcc.getNowTime() == morning){
             //バッジ表示

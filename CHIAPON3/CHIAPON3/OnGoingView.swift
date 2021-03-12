@@ -224,8 +224,8 @@ struct OnGoingView: View {
         //ここでJSONへの返還を試みる
         let encoder = JSONEncoder()
         //encoder.outputFormatting = .prettyPrinted
-        guard let jsonValue = try? encoder.encode(usagestatusdata) else {
-        //guard let jsonValue = try? encoder.encode(tmplogs) else {
+        //guard let jsonValue = try? encoder.encode(usagestatusdata) else {
+        guard let jsonValue = try? encoder.encode(tmplogs) else {
             fatalError("Failed to encode to JSON")
         }
         print("****** json data was created. ******")
