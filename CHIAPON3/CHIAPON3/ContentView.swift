@@ -95,7 +95,7 @@ struct ContentView: View {
                 })
             }
             //DBのデバッグ用
-            HStack{
+/*            HStack{
                 Button(action: {
                     /*
                     let tmplog: Log = Log()
@@ -166,7 +166,7 @@ struct ContentView: View {
                 .sheet(isPresented: self.$showSettingView, content: {
                     SettingView().environmentObject(msc)
                 })
-            }
+            }*/
             Spacer()
             VStack {
                 Text("今回の使用時間")
